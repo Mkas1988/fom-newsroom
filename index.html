@@ -1323,6 +1323,7 @@
     </style>
 </head>
 <body>
+    <script src="auth.js"></script>
 
     <!-- Top Accent Bar -->
     <div class="top-bar"></div>
@@ -1336,7 +1337,7 @@
             </a>
             <nav id="mainNav">
                 <a href="#" class="active">Aktuelles</a>
-                <a href="#mediaSection">Medien &amp; Downloads</a>
+                <a href="medien.html">Medien &amp; Downloads</a>
                 <a href="https://www.fom.de" class="nav-cta">fom.de &rarr;</a>
             </nav>
             <button class="menu-toggle" onclick="document.getElementById('mainNav').style.display = document.getElementById('mainNav').style.display === 'flex' ? 'none' : 'flex'">
@@ -1419,31 +1420,6 @@
         <button class="load-more" id="loadMore" style="display:none" onclick="loadMore()">Weitere Beitr&auml;ge laden</button>
     </main>
 
-    <!-- Medien / Downloads -->
-    <section class="media-section" id="mediaSection">
-        <div class="media-inner">
-            <div class="section-header">
-                <h2 class="section-title">Medien &amp; Downloads</h2>
-                <span class="section-count" id="mediaCount"></span>
-            </div>
-            <p class="media-intro">Pressebilder und Medien zum Download. Klicken Sie auf ein Bild f&uuml;r die Vollansicht und den Download.</p>
-            <div class="media-grid" id="mediaGrid">
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <p>Lade Medien...</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Lightbox -->
-    <div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLightbox()">
-        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-        <div class="lightbox-content">
-            <img id="lightboxImg" src="" alt="">
-            <div class="lightbox-info" id="lightboxInfo"></div>
-        </div>
-    </div>
 
     <!-- Admin FAB -->
     <button class="admin-fab" onclick="openAdmin()" title="Header-Meldungen verwalten">
@@ -1488,7 +1464,7 @@
                 <h4>Newsroom</h4>
                 <a href="#" onclick="filterBy('pressrelease'); return false;">Pressemitteilungen</a>
                 <a href="#" onclick="filterBy('news'); return false;">News</a>
-                <a href="#mediaSection">Medien &amp; Downloads</a>
+                <a href="medien.html">Medien &amp; Downloads</a>
             </div>
             <div class="footer-links">
                 <h4>Kontakt</h4>
@@ -2080,7 +2056,6 @@
             }
 
             loadContent('artikel');
-            loadMedia();
         })();
     </script>
 </body>
