@@ -1697,9 +1697,17 @@
             document.getElementById('headerSearchOverlay').classList.remove('open');
             document.getElementById('headerSearchInput').value = '';
         }
+        let headerSearchTimeout;
         function handleHeaderSearch(e) {
             if (e.key === 'Escape') { closeHeaderSearch(); return; }
+            clearTimeout(headerSearchTimeout);
+            headerSearchTimeout = setTimeout(() => {
+                const q = document.getElementById('headerSearchInput').value.trim();
+                document.getElementById('searchInput').value = q;
+                loadContent(currentFilter);
+            }, 300);
             if (e.key === 'Enter') {
+                clearTimeout(headerSearchTimeout);
                 const q = document.getElementById('headerSearchInput').value.trim();
                 document.getElementById('searchInput').value = q;
                 closeHeaderSearch();
@@ -1813,15 +1821,14 @@
                 filtered = filtered.filter(i => i.type_of_media === type);
             }
 
-            // Client-side search
+            // Client-side search (strip HTML tags for clean matching)
             if (query) {
                 const q = query.toLowerCase();
+                const strip = html => (html || '').replace(/<[^>]*>/g, ' ').toLowerCase();
                 filtered = filtered.filter(i => {
-                    const title = (i.header || '').toLowerCase();
-                    const summary = (i.summary || '').toLowerCase();
-                    const body = (i.body || '').toLowerCase();
+                    const text = strip(i.header) + ' ' + strip(i.summary) + ' ' + strip(i.body);
                     const tags = (i.tags || []).map(t => (t.name || t || '').toLowerCase()).join(' ');
-                    return title.includes(q) || summary.includes(q) || body.includes(q) || tags.includes(q);
+                    return text.includes(q) || tags.includes(q);
                 });
             }
 
@@ -1853,7 +1860,7 @@
                 grid.innerHTML = html;
             }
 
-            btn.style.display = items.length >= LIMIT ? 'block' : 'none';
+            btn.style.display = (items.length >= LIMIT && !document.getElementById('searchInput').value.trim()) ? 'block' : 'none';
         }
 
         async function loadContent(type = 'all', reset = true) {
