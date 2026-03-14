@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artikel – FOM Newsroom</title>
+    <style>
+        @font-face {
+            font-family: 'Neue-Haas-Grotesk-Text-Pro';
+            src: url('fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-55-Regular.woff2') format('woff2'),
+                 url('fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-55-Regular.woff') format('woff');
+            font-weight: 400; font-style: normal; font-display: swap;
+        }
+        @font-face {
+            font-family: 'Neue-Haas-Grotesk-Text-Pro';
+            src: url('fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-75-Bold.woff2') format('woff2'),
+                 url('fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-75-Bold.woff') format('woff');
+            font-weight: 700; font-style: normal; font-display: swap;
+        }
+        @font-face {
+            font-family: 'Neue-Haas-Grotesk-Display-Pro';
+            src: url('fonts/Neue-Haas-Grotesk-Display-Pro/Neue-Haas-Grotesk-Display-Pro-75-Bold.woff2') format('woff2'),
+                 url('fonts/Neue-Haas-Grotesk-Display-Pro/Neue-Haas-Grotesk-Display-Pro-75-Bold.woff') format('woff');
+            font-weight: 700; font-style: normal; font-display: swap;
+        }
+
+        :root {
+            --fom-teal: #00c6b2;
+            --fom-teal-dark: #009f8f;
+            --fom-teal-light: #e5f9f7;
+            --fom-black: #121212;
+            --fom-white: #ffffff;
+            --fom-bg: #ffffff;
+            --fom-bg-alt: #f7f7f7;
+            --fom-gray: #6d6d6d;
+            --fom-gray-light: #e6e6e6;
+            --fom-text: #202020;
+            --fom-text-light: #6d6d6d;
+            --radius: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Neue-Haas-Grotesk-Text-Pro', Helvetica, Arial, sans-serif;
+            color: var(--fom-text);
+            background: var(--fom-bg);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Header ── */
+        header {
+            background: var(--fom-white);
+            border-bottom: 1px solid var(--fom-gray-light);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            text-decoration: none;
+            color: var(--fom-black);
+        }
+
+        .logo-img {
+            height: 36px;
+            width: auto;
+        }
+
+        .logo-divider {
+            width: 1px;
+            height: 32px;
+            background: var(--fom-gray-light);
+        }
+
+        .logo-text {
+            font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--fom-black);
+            line-height: 1.2;
+        }
+
+        nav { display: flex; gap: 4px; align-items: center; }
+
+        nav a {
+            color: var(--fom-text);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 8px;
+            transition: all .2s;
+        }
+
+        nav a:hover { background: var(--fom-bg-alt); }
+
+        .nav-cta {
+            background: var(--fom-teal) !important;
+            color: white !important;
+            border-radius: 24px !important;
+            padding: 10px 24px !important;
+        }
+
+        .nav-cta:hover { background: var(--fom-teal-dark) !important; }
+
+        /* ── Article Hero ── */
+        .article-hero {
+            background: var(--fom-bg-alt);
+            border-bottom: 1px solid var(--fom-gray-light);
+            padding: 40px 32px 48px;
+        }
+
+        .article-hero-inner {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            color: var(--fom-gray);
+            margin-bottom: 28px;
+        }
+
+        .breadcrumb a {
+            color: var(--fom-teal);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .breadcrumb a:hover { text-decoration: underline; }
+        .breadcrumb span { margin: 0 6px; }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .article-type {
+            color: var(--fom-teal);
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .article-date {
+            font-size: 14px;
+            color: var(--fom-gray);
+        }
+
+        .article-hero h1 {
+            font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--fom-black);
+            line-height: 1.15;
+            letter-spacing: -0.5px;
+            margin-bottom: 16px;
+        }
+
+        .article-summary {
+            font-size: 20px;
+            color: var(--fom-text-light);
+            line-height: 1.6;
+            max-width: 700px;
+        }
+
+        /* ── Article Image ── */
+        .article-image-wrap {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 32px 0;
+        }
+
+        .article-image {
+            width: 100%;
+            border-radius: var(--radius);
+            display: block;
+        }
+
+        .article-image-caption {
+            font-size: 13px;
+            color: var(--fom-gray);
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* ── Article Body ── */
+        .article-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 32px 0;
+        }
+
+        .article-body {
+            font-size: 17px;
+            line-height: 1.85;
+            color: var(--fom-text);
+        }
+
+        .article-body p {
+            margin-bottom: 20px;
+        }
+
+        .article-body h2, .article-body h3 {
+            font-weight: 900;
+            color: var(--fom-black);
+            margin-top: 36px;
+            margin-bottom: 14px;
+        }
+
+        .article-body h2 { font-size: 26px; }
+        .article-body h3 { font-size: 20px; }
+
+        .article-body a {
+            color: var(--fom-teal);
+            text-decoration: underline;
+            text-decoration-color: rgba(0, 198, 178, .4);
+            text-underline-offset: 2px;
+            transition: text-decoration-color .2s;
+        }
+
+        .article-body a:hover {
+            text-decoration-color: var(--fom-teal);
+        }
+
+        .article-body ul, .article-body ol {
+            margin: 16px 0 20px 24px;
+        }
+
+        .article-body li {
+            margin-bottom: 8px;
+        }
+
+        .article-body blockquote {
+            border-left: 4px solid var(--fom-teal);
+            padding: 16px 24px;
+            margin: 24px 0;
+            background: var(--fom-bg-alt);
+            border-radius: 0 var(--radius) var(--radius) 0;
+            font-style: italic;
+            color: var(--fom-text-light);
+        }
+
+        .article-body img {
+            max-width: 100%;
+            border-radius: var(--radius);
+            margin: 24px 0;
+        }
+
+        /* ── Tags ── */
+        .article-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+            padding-top: 28px;
+            border-top: 1px solid var(--fom-gray-light);
+        }
+
+        .article-tag {
+            font-size: 13px;
+            color: var(--fom-teal-dark);
+            background: var(--fom-teal-light);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background .2s;
+        }
+
+        .article-tag:hover {
+            background: rgba(0, 198, 178, .15);
+        }
+
+        /* ── Boilerplate ── */
+        .article-boilerplate {
+            max-width: 800px;
+            margin: 48px auto 0;
+            padding: 32px;
+            background: var(--fom-bg-alt);
+            border: 1px solid var(--fom-gray-light);
+            border-radius: var(--radius);
+        }
+
+        .boilerplate-title {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--fom-gray);
+            margin-bottom: 12px;
+        }
+
+        .boilerplate-text {
+            font-size: 15px;
+            color: var(--fom-text-light);
+            line-height: 1.7;
+        }
+
+        /* ── Contact People ── */
+        .article-contacts {
+            max-width: 800px;
+            margin: 32px auto 0;
+            padding: 0 32px;
+        }
+
+        .contacts-title {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--fom-gray);
+            margin-bottom: 16px;
+        }
+
+        .contact-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 24px;
+            background: white;
+            border: 1px solid var(--fom-gray-light);
+            border-radius: var(--radius);
+            margin-bottom: 12px;
+        }
+
+        .contact-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: var(--fom-bg-alt);
+            flex-shrink: 0;
+        }
+
+        .contact-avatar-placeholder {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--fom-teal);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .contact-info { flex: 1; }
+
+        .contact-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--fom-black);
+        }
+
+        .contact-role {
+            font-size: 14px;
+            color: var(--fom-gray);
+            margin-top: 2px;
+        }
+
+        .contact-details {
+            display: flex;
+            gap: 16px;
+            margin-top: 6px;
+        }
+
+        .contact-details a {
+            font-size: 13px;
+            color: var(--fom-teal);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-details a:hover { text-decoration: underline; }
+
+        /* ── Related Articles ── */
+        .related-section {
+            max-width: 1200px;
+            margin: 80px auto 0;
+            padding: 0 32px;
+        }
+
+        .related-title {
+            font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--fom-black);
+            margin-bottom: 28px;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .related-card {
+            background: white;
+            border: 1px solid var(--fom-gray-light);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: border-color .25s, transform .25s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .related-card:hover {
+            border-color: var(--fom-teal);
+            transform: translateY(-2px);
+        }
+
+        .related-card-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: var(--fom-bg-alt);
+        }
+
+        .related-card-body {
+            padding: 20px;
+        }
+
+        .related-card-type {
+            color: var(--fom-teal);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
+        }
+
+        .related-card-title {
+            font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--fom-black);
+            line-height: 1.3;
+        }
+
+        .related-card-date {
+            font-size: 13px;
+            color: var(--fom-gray);
+            margin-top: 8px;
+        }
+
+        /* ── Share Bar ── */
+        .share-bar {
+            max-width: 800px;
+            margin: 32px auto 0;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .share-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--fom-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .share-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--fom-gray-light);
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all .2s;
+            text-decoration: none;
+            color: var(--fom-gray);
+            font-size: 16px;
+        }
+
+        .share-btn:hover {
+            border-color: var(--fom-teal);
+            color: var(--fom-teal);
+            background: rgba(0, 198, 178, .05);
+        }
+
+        /* ── Back Link ── */
+        .back-link {
+            max-width: 800px;
+            margin: 48px auto 0;
+            padding: 0 32px;
+        }
+
+        .back-link a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--fom-teal);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            padding: 12px 28px;
+            border: 2px solid var(--fom-teal);
+            border-radius: 28px;
+            transition: all .2s;
+        }
+
+        .back-link a:hover {
+            background: var(--fom-teal);
+            color: white;
+        }
+
+        /* ── Loading ── */
+        .loading {
+            text-align: center;
+            padding: 120px 24px;
+            color: var(--fom-gray);
+        }
+
+        .spinner {
+            width: 44px;
+            height: 44px;
+            border: 3px solid var(--fom-gray-light);
+            border-top-color: var(--fom-teal);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .error-msg {
+            text-align: center;
+            padding: 120px 24px;
+            color: var(--fom-gray);
+        }
+
+        .error-msg h2 {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--fom-black);
+            margin-bottom: 12px;
+        }
+
+        .error-msg a {
+            color: var(--fom-teal);
+            font-weight: 700;
+        }
+
+        /* ── Footer ── */
+        footer {
+            background: var(--fom-bg-alt);
+            border-top: 1px solid var(--fom-gray-light);
+            padding: 64px 32px 32px;
+            margin-top: 100px;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+        }
+
+        .footer-about h3 {
+            color: var(--fom-black);
+            font-size: 20px;
+            font-weight: 900;
+            margin-bottom: 14px;
+        }
+
+        .footer-about p {
+            font-size: 14px;
+            color: var(--fom-text-light);
+            line-height: 1.8;
+        }
+
+        .footer-links h4 {
+            color: var(--fom-black);
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 18px;
+        }
+
+        .footer-links a {
+            display: block;
+            color: var(--fom-text-light);
+            text-decoration: none;
+            font-size: 14px;
+            padding: 5px 0;
+            transition: color .2s;
+        }
+
+        .footer-links a:hover { color: var(--fom-teal); }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            padding-top: 24px;
+            border-top: 1px solid var(--fom-gray-light);
+            font-size: 13px;
+            color: var(--fom-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-bottom a {
+            color: var(--fom-teal);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* ── Mobile Menu Toggle ── */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .menu-toggle svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--fom-black);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 1024px) {
+            .related-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-inner { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .header-inner { padding: 0 20px; height: 64px; }
+            .article-hero { padding: 28px 20px 36px; }
+            .article-hero h1 { font-size: 28px; }
+            .article-summary { font-size: 17px; }
+            .article-image-wrap { padding: 24px 20px 0; }
+            .article-content { padding: 28px 20px 0; }
+            .article-body { font-size: 16px; }
+            .article-boilerplate { margin-left: 20px; margin-right: 20px; padding: 24px; }
+            .article-contacts { padding: 0 20px; }
+            .share-bar { padding: 0 20px; }
+            .back-link { padding: 0 20px; }
+            .related-section { padding: 0 20px; }
+            .related-grid { grid-template-columns: 1fr; }
+            .related-title { font-size: 22px; }
+            .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+            nav { display: none; }
+            .menu-toggle { display: block; }
+            .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+            .contact-card { flex-direction: column; text-align: center; }
+            .contact-details { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-inner">
+            <a href="index.html" class="logo">
+                <img class="logo-img" src="fom-logo.png" alt="FOM Hochschule">
+            </a>
+            <nav id="mainNav">
+                <a href="index.html">Aktuelles</a>
+                <a href="https://www.fom.de" class="nav-cta">fom.de &rarr;</a>
+            </nav>
+            <button class="menu-toggle" onclick="document.getElementById('mainNav').style.display = document.getElementById('mainNav').style.display === 'flex' ? 'none' : 'flex'">
+                <svg fill="none" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Article Content (dynamically filled) -->
+    <div id="articleContainer">
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>Artikel wird geladen...</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-about">
+                <h3>FOM Hochschule</h3>
+                <p>Mit rund 45.000 Studierenden z&auml;hlt die FOM zu den gr&ouml;&szlig;ten Hochschulen Europas. Initiiert durch die gemeinn&uuml;tzige Stiftung f&uuml;r internationale Bildung und Wissenschaft erm&ouml;glicht sie Berufst&auml;tigen ein Hochschulstudium neben dem Beruf.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Studium</h4>
+                <a href="https://www.fom.de/studiengaenge.html">Studieng&auml;nge</a>
+                <a href="https://www.fom.de/hochschulzentren.html">Standorte</a>
+                <a href="https://www.fom.de/forschung.html">Forschung</a>
+                <a href="https://www.fom.de">Startseite</a>
+            </div>
+            <div class="footer-links">
+                <h4>Newsroom</h4>
+                <a href="index.html">Alle Beitr&auml;ge</a>
+                <a href="index.html?filter=pressrelease">Pressemitteilungen</a>
+                <a href="index.html?filter=event">Events</a>
+            </div>
+            <div class="footer-links">
+                <h4>Kontakt</h4>
+                <a href="#">Leimkugelstra&szlig;e 6</a>
+                <a href="#">45141 Essen</a>
+                <a href="tel:+49201810040">0201 81004-0</a>
+                <a href="https://www.fom.de">www.fom.de</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 FOM Hochschule f&uuml;r Oekonomie &amp; Management</span>
+            <a href="https://www.mynewsdesk.com">Daten via MyNewsdesk</a>
+        </div>
+    </footer>
+
+    <script>
+        const API_KEY = '2J8377Ow95pCNFI_DPzZTQ';
+        const BASE_URL = 'https://www.mynewsdesk.com/services/pressroom';
+
+        const TYPE_LABELS = {
+            pressrelease: 'Pressemitteilung',
+            news: 'News',
+            event: 'Event',
+            blog_post: 'Blog',
+            image: 'Bild',
+            video: 'Video',
+            document: 'Dokument'
+        };
+
+        function formatDate(dateObj) {
+            if (!dateObj || !dateObj.datetime) return '';
+            const d = new Date(dateObj.datetime);
+            return d.toLocaleDateString('de-DE', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric'
+            });
+        }
+
+        function formatDateShort(dateObj) {
+            if (!dateObj || !dateObj.datetime) return '';
+            const d = new Date(dateObj.datetime);
+            return d.toLocaleDateString('de-DE', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        }
+
+        function getParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                id: params.get('id'),
+                type: params.get('type') || 'pressrelease'
+            };
+        }
+
+        async function loadArticle() {
+            const { id, type } = getParams();
+            const container = document.getElementById('articleContainer');
+
+            if (!id) {
+                container.innerHTML = `
+                    <div class="error-msg">
+                        <h2>Kein Artikel angegeben</h2>
+                        <p><a href="index.html">&larr; Zur&uuml;ck zum Newsroom</a></p>
+                    </div>`;
+                return;
+            }
+
+            try {
+                // Fetch all items and find the one with matching ID
+                const res = await fetch(`${BASE_URL}/list/${API_KEY}?format=json&strict=true&type_of_media=${type}&limit=100`);
+                const data = await res.json();
+                const item = (data.items || []).find(i => String(i.id) === String(id));
+
+                if (!item) {
+                    container.innerHTML = `
+                        <div class="error-msg">
+                            <h2>Artikel nicht gefunden</h2>
+                            <p>Der angeforderte Beitrag konnte nicht geladen werden.</p>
+                            <p><a href="index.html">&larr; Zur&uuml;ck zum Newsroom</a></p>
+                        </div>`;
+                    return;
+                }
+
+                document.title = `${item.header} – FOM Newsroom`;
+                const typeLabel = TYPE_LABELS[item.type_of_media] || item.type_of_media;
+                const tags = item.tags || [];
+                const contacts = item.contact_people || [];
+                const imageUrl = item.image || item.image_medium || '';
+
+                let html = '';
+
+                // Hero
+                html += `
+                    <section class="article-hero">
+                        <div class="article-hero-inner">
+                            <div class="breadcrumb">
+                                <a href="https://www.fom.de">Startseite</a>
+                                <span>/</span>
+                                <a href="index.html">Newsroom</a>
+                                <span>/</span>
+                                ${typeLabel}
+                            </div>
+                            <div class="article-meta">
+                                <span class="article-type">${typeLabel}</span>
+                                <span class="article-date">${formatDate(item.published_at)}</span>
+                            </div>
+                            <h1>${item.header}</h1>
+                            ${item.summary ? `<p class="article-summary">${item.summary}</p>` : ''}
+                        </div>
+                    </section>`;
+
+                // Image
+                if (imageUrl) {
+                    html += `
+                        <div class="article-image-wrap">
+                            <img class="article-image" src="${imageUrl}" alt="${item.image_caption || ''}">
+                            ${item.image_caption ? `<p class="article-image-caption">${item.image_caption}</p>` : ''}
+                        </div>`;
+                }
+
+                // Body
+                if (item.body) {
+                    html += `
+                        <div class="article-content">
+                            <div class="article-body">${item.body}</div>`;
+
+                    // Tags
+                    if (tags.length) {
+                        html += `
+                            <div class="article-tags">
+                                ${tags.map(t => `<a href="index.html?search=${encodeURIComponent(t.name || t)}" class="article-tag">${t.name || t}</a>`).join('')}
+                            </div>`;
+                    }
+
+                    html += `</div>`;
+                }
+
+                // Share
+                const shareUrl = encodeURIComponent(window.location.href);
+                const shareTitle = encodeURIComponent(item.header);
+                html += `
+                    <div class="share-bar">
+                        <span class="share-label">Teilen</span>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}" target="_blank" rel="noopener" class="share-btn" title="LinkedIn">in</a>
+                        <a href="https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}" target="_blank" rel="noopener" class="share-btn" title="X/Twitter">X</a>
+                        <a href="mailto:?subject=${shareTitle}&body=${shareUrl}" class="share-btn" title="E-Mail">@</a>
+                        <button class="share-btn" title="Link kopieren" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='\\u2713'; setTimeout(() => this.textContent='\\u29c9', 1500);">&#x29C9;</button>
+                    </div>`;
+
+                // Boilerplate
+                if (item.boilerplate) {
+                    html += `
+                        <div class="article-boilerplate">
+                            <div class="boilerplate-title">&Uuml;ber die FOM Hochschule</div>
+                            <div class="boilerplate-text">${item.boilerplate}</div>
+                        </div>`;
+                }
+
+                // Contact People
+                if (contacts.length) {
+                    html += `
+                        <div class="article-contacts">
+                            <div class="contacts-title">Ansprechpartner</div>
+                            ${contacts.map(c => `
+                                <div class="contact-card">
+                                    ${c.image_small
+                                        ? `<img class="contact-avatar" src="${c.image_small}" alt="${c.name}">`
+                                        : `<div class="contact-avatar-placeholder">${(c.name || '?').charAt(0)}</div>`
+                                    }
+                                    <div class="contact-info">
+                                        <div class="contact-name">${c.name || ''}</div>
+                                        ${c.title ? `<div class="contact-role">${c.title}</div>` : ''}
+                                        <div class="contact-details">
+                                            ${c.email ? `<a href="mailto:${c.email}">${c.email}</a>` : ''}
+                                            ${c.phone ? `<a href="tel:${c.phone}">${c.phone}</a>` : ''}
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>`;
+                }
+
+                // Back link
+                html += `
+                    <div class="back-link">
+                        <a href="index.html">&larr; Zur&uuml;ck zum Newsroom</a>
+                    </div>`;
+
+                // Related articles
+                const relatedItems = (data.items || [])
+                    .filter(i => String(i.id) !== String(id))
+                    .slice(0, 3);
+
+                if (relatedItems.length) {
+                    html += `
+                        <section class="related-section">
+                            <h2 class="related-title">Weitere Beitr&auml;ge</h2>
+                            <div class="related-grid">
+                                ${relatedItems.map(ri => `
+                                    <a href="artikel.html?id=${ri.id}&type=${ri.type_of_media}" class="related-card">
+                                        ${(ri.image_medium || ri.image_small)
+                                            ? `<img class="related-card-image" src="${ri.image_medium || ri.image_small}" alt="" loading="lazy">`
+                                            : ''
+                                        }
+                                        <div class="related-card-body">
+                                            <div class="related-card-type">${TYPE_LABELS[ri.type_of_media] || ri.type_of_media}</div>
+                                            <div class="related-card-title">${ri.header}</div>
+                                            <div class="related-card-date">${formatDate(ri.published_at)}</div>
+                                        </div>
+                                    </a>
+                                `).join('')}
+                            </div>
+                        </section>`;
+                }
+
+                container.innerHTML = html;
+
+            } catch (err) {
+                container.innerHTML = `
+                    <div class="error-msg">
+                        <h2>Fehler beim Laden</h2>
+                        <p>${err.message}</p>
+                        <p><a href="index.html">&larr; Zur&uuml;ck zum Newsroom</a></p>
+                    </div>`;
+            }
+        }
+
+        loadArticle();
+    </script>
+</body>
+</html>

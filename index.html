@@ -1,0 +1,2087 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOM Newsroom</title>
+    <style>
+        @font-face {
+            font-family: 'Neue-Haas-Grotesk-Text-Pro';
+            src: url('fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-55-Regular.woff2') format('woff2'),
+                 url('fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-55-Regular.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Neue-Haas-Grotesk-Text-Pro';
+            src: url('fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-75-Bold.woff2') format('woff2'),
+                 url('fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-75-Bold.woff') format('woff');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Neue-Haas-Grotesk-Display-Pro';
+            src: url('fonts/Neue-Haas-Grotesk-Display-Pro/Neue-Haas-Grotesk-Display-Pro-75-Bold.woff2') format('woff2'),
+                 url('fonts/Neue-Haas-Grotesk-Display-Pro/Neue-Haas-Grotesk-Display-Pro-75-Bold.woff') format('woff');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        :root {
+            /* BCW Design System Colors */
+            --fom-teal: #00C6B2;
+            --fom-teal-dark: #009F8F;
+            --fom-teal-darker: #00776B;
+            --fom-teal-light: #E5F9F7;
+            --fom-teal-100: #CCF3EF;
+            --fom-teal-200: #99E8E0;
+            --fom-teal-300: #66DDD1;
+            --fom-teal-400: #33D2C2;
+            --fom-blue: #0071DE;
+            --fom-blue-dark: #005AB2;
+            --fom-black: #121212;
+            --fom-white: #FFFFFF;
+            --fom-bg: #FFFFFF;
+            --fom-bg-alt: #F2F0F0;
+            --fom-gray: #6D6D6D;
+            --fom-gray-light: #E6E6E6;
+            --fom-gray-dark: #4B4B4B;
+            --fom-gray-800: #303030;
+            --fom-text: #121212;
+            --fom-text-light: #6D6D6D;
+            --fom-error: #E81818;
+            --fom-success: #77B502;
+            --fom-warning: #F2C91B;
+            --radius: 8px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Neue-Haas-Grotesk-Text-Pro', Helvetica, Arial, sans-serif;
+            color: var(--fom-text);
+            background: var(--fom-bg);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Top Accent Bar ── */
+        .top-bar {
+            height: 4px;
+            background: var(--fom-teal);
+            position: sticky;
+            top: 0;
+            z-index: 101;
+        }
+
+        /* ── Header ── */
+        header {
+            background: var(--fom-white);
+            border-bottom: 1px solid var(--fom-gray-light);
+            position: sticky;
+            top: 4px;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 88px;
+            position: relative;
+        }
+
+        .header-name {
+            font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--fom-black);
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+        }
+
+        .header-name:hover { color: var(--fom-teal); }
+
+        .logo-center {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 64px;
+            width: auto;
+        }
+
+        nav { display: flex; gap: 0; align-items: center; }
+
+        nav a {
+            color: var(--fom-text);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 8px 20px;
+            border-radius: 0;
+            transition: all .2s;
+            letter-spacing: 0;
+            position: relative;
+        }
+
+        nav a:hover { color: var(--fom-teal); }
+        nav a.active {
+            color: var(--fom-teal);
+        }
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -24px;
+            left: 20px;
+            right: 20px;
+            height: 2px;
+            background: var(--fom-teal);
+        }
+
+        .nav-cta {
+            background: var(--fom-teal) !important;
+            color: white !important;
+            border-radius: 4px !important;
+            padding: 8px 20px !important;
+            margin-left: 12px !important;
+            font-size: 14px !important;
+        }
+
+        .nav-cta:hover { background: var(--fom-teal-dark) !important; }
+
+        /* ── Search & Filter Bar ── */
+        .search-filter {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 28px 32px 0;
+        }
+
+        .search-bar-wrap {
+            background: white;
+            border: 1px solid var(--fom-gray-light);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: box-shadow .2s;
+        }
+
+        .search-bar-wrap:focus-within {
+            box-shadow: 0 4px 24px rgba(0, 0, 0, .06);
+            border-color: var(--fom-gray);
+        }
+
+        .search-row {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 20px 28px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            font-family: inherit;
+            color: var(--fom-text);
+            background: transparent;
+        }
+
+        .search-input::placeholder { color: var(--fom-gray); }
+
+        .search-toggle-btn {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--fom-gray);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+            transition: color .15s;
+        }
+
+        .search-toggle-btn:hover { color: var(--fom-text); }
+
+        .search-toggle-btn svg {
+            width: 16px;
+            height: 16px;
+            transition: transform .2s;
+        }
+
+        .search-toggle-btn.open svg { transform: rotate(180deg); }
+
+        .search-submit {
+            width: 56px;
+            height: 56px;
+            margin: 4px;
+            border-radius: 12px;
+            background: var(--fom-black);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .15s;
+            flex-shrink: 0;
+        }
+
+        .search-submit:hover { background: var(--fom-gray-dark); }
+
+        .search-submit svg {
+            width: 20px;
+            height: 20px;
+            stroke: white;
+            fill: none;
+        }
+
+        /* Filter Panel */
+        .filter-panel {
+            display: none;
+            padding: 0 28px 24px;
+            border-top: 1px solid var(--fom-gray-light);
+        }
+
+        .filter-panel.open { display: block; }
+
+        .filter-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 16px 0 0;
+        }
+
+        .filter-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--fom-gray);
+            min-width: 80px;
+            padding-top: 7px;
+            flex-shrink: 0;
+        }
+
+        .filter-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filter-chip {
+            padding: 7px 16px;
+            border: 1.5px solid var(--fom-gray-light);
+            border-radius: 8px;
+            background: white;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--fom-text);
+            cursor: pointer;
+            font-family: inherit;
+            transition: all .15s;
+        }
+
+        .filter-chip:hover {
+            border-color: var(--fom-gray);
+        }
+
+        .filter-chip.active {
+            background: var(--fom-black);
+            color: white;
+            border-color: var(--fom-black);
+        }
+
+        /* ── Hero Slider ── */
+        .hero-slider {
+            position: relative;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 32px 0;
+            overflow: hidden;
+        }
+
+        .slider-viewport {
+            position: relative;
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            background: var(--fom-black);
+            aspect-ratio: 16 / 7;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity .8s ease;
+            pointer-events: none;
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .slide a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: white;
+            position: relative;
+        }
+
+        .slide-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .slide-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(0, 0, 0, .75) 0%,
+                rgba(0, 0, 0, .35) 40%,
+                rgba(0, 0, 0, .05) 100%
+            );
+        }
+
+        .slide-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 48px 56px;
+        }
+
+        .slide-meta {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .slide-tag {
+            font-size: 13px;
+            font-weight: 700;
+            color: white;
+            border: 1.5px solid rgba(255, 255, 255, .5);
+            padding: 5px 16px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        .slide-date {
+            font-size: 14px;
+            color: rgba(255, 255, 255, .8);
+        }
+
+        .slide-title {
+            font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 12px;
+            max-width: 700px;
+            letter-spacing: -0.3px;
+        }
+
+        .slide-excerpt {
+            font-size: 16px;
+            color: rgba(255, 255, 255, .8);
+            line-height: 1.6;
+            max-width: 640px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Slider Controls */
+        .slider-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 20px 0 8px;
+        }
+
+        .slider-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--fom-gray-light);
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: all .3s;
+        }
+
+        .slider-dot.active {
+            width: 28px;
+            border-radius: 5px;
+            background: var(--fom-teal);
+        }
+
+        .slider-pause {
+            position: absolute;
+            bottom: 56px;
+            right: 56px;
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            border: 1.5px solid rgba(255, 255, 255, .4);
+            background: rgba(0, 0, 0, .3);
+            backdrop-filter: blur(8px);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .2s;
+            z-index: 10;
+        }
+
+        .slider-pause:hover {
+            background: rgba(0, 0, 0, .5);
+            border-color: rgba(255, 255, 255, .7);
+        }
+
+        .slider-pause svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+
+        /* Slider loading state */
+        .slider-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            color: rgba(255,255,255,.5);
+        }
+
+        .slider-loading .spinner {
+            border-color: rgba(255,255,255,.15);
+            border-top-color: var(--fom-teal);
+        }
+
+
+        /* ── Admin Panel ── */
+        .admin-fab {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: var(--fom-teal);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0, 198, 178, .3);
+            transition: all .2s;
+            z-index: 200;
+        }
+
+        .admin-fab:hover {
+            background: var(--fom-teal-dark);
+            transform: scale(1.06);
+        }
+
+        .admin-fab svg { width: 22px; height: 22px; fill: white; }
+
+        .admin-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .4);
+            backdrop-filter: blur(4px);
+            z-index: 300;
+        }
+
+        .admin-overlay.open { display: flex; align-items: center; justify-content: center; }
+
+        .admin-panel {
+            background: white;
+            border-radius: 20px;
+            width: 680px;
+            max-width: 95vw;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, .15);
+            overflow: hidden;
+        }
+
+        .admin-header {
+            padding: 24px 28px 20px;
+            border-bottom: 1px solid var(--fom-gray-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .admin-header h2 {
+            font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .admin-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1px solid var(--fom-gray-light);
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--fom-gray);
+            transition: all .15s;
+        }
+
+        .admin-close:hover { background: var(--fom-bg-alt); color: var(--fom-black); }
+
+        .admin-tabs {
+            display: flex;
+            gap: 0;
+            padding: 0 28px;
+            border-bottom: 1px solid var(--fom-gray-light);
+        }
+
+        .admin-tab {
+            padding: 14px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--fom-gray);
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: all .15s;
+            font-family: inherit;
+        }
+
+        .admin-tab:hover { color: var(--fom-text); }
+        .admin-tab.active { color: var(--fom-teal); border-bottom-color: var(--fom-teal); }
+
+        .admin-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 28px;
+        }
+
+        .admin-info {
+            font-size: 13px;
+            color: var(--fom-gray);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        /* Selected items (sortable) */
+        .admin-selected {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 24px;
+            min-height: 48px;
+        }
+
+        .admin-selected:empty::after {
+            content: 'Keine Meldungen ausgew\00E4hlt. W\00E4hle unten aus der Liste.';
+            color: var(--fom-gray);
+            font-size: 14px;
+            text-align: center;
+            padding: 24px;
+            border: 2px dashed var(--fom-gray-light);
+            border-radius: 12px;
+        }
+
+        .admin-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            background: var(--fom-bg-alt);
+            border: 1px solid var(--fom-gray-light);
+            border-radius: 10px;
+            transition: all .15s;
+        }
+
+        .admin-item:hover { border-color: var(--fom-teal); }
+
+        .admin-item.dragging {
+            opacity: .5;
+            border-color: var(--fom-teal);
+            background: var(--fom-teal-light);
+        }
+
+        .admin-item-drag {
+            cursor: grab;
+            color: var(--fom-gray);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .admin-item-drag:active { cursor: grabbing; }
+
+        .admin-item-thumb {
+            width: 64px;
+            height: 40px;
+            border-radius: 6px;
+            object-fit: cover;
+            background: var(--fom-gray-light);
+            flex-shrink: 0;
+        }
+
+        .admin-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .admin-item-title {
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .admin-item-meta {
+            font-size: 12px;
+            color: var(--fom-gray);
+            margin-top: 2px;
+        }
+
+        .admin-item-badge {
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+            background: var(--fom-teal);
+            padding: 2px 8px;
+            border-radius: 10px;
+            flex-shrink: 0;
+        }
+
+        .admin-item-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--fom-gray-light);
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: var(--fom-gray);
+            flex-shrink: 0;
+            transition: all .15s;
+        }
+
+        .admin-item-btn:hover { border-color: #ef4444; color: #ef4444; }
+        .admin-item-btn.add-btn:hover { border-color: var(--fom-teal); color: var(--fom-teal); }
+
+        .admin-divider {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--fom-gray);
+            padding: 8px 0 12px;
+            border-top: 1px solid var(--fom-gray-light);
+        }
+
+        .admin-available {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .admin-item.available { background: white; }
+        .admin-item.available.in-slider { opacity: .4; pointer-events: none; }
+
+        .admin-footer {
+            padding: 16px 28px;
+            border-top: 1px solid var(--fom-gray-light);
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .admin-btn {
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all .15s;
+        }
+
+        .admin-btn-secondary {
+            background: white;
+            border: 1px solid var(--fom-gray-light);
+            color: var(--fom-text);
+        }
+
+        .admin-btn-secondary:hover { background: var(--fom-bg-alt); }
+
+        .admin-btn-primary {
+            background: var(--fom-teal);
+            border: 1px solid var(--fom-teal);
+            color: white;
+        }
+
+        .admin-btn-primary:hover { background: var(--fom-teal-dark); }
+
+        /* ── Content ── */
+        .content {
+            max-width: 1200px;
+            margin: 48px auto 0;
+            padding: 0 32px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--fom-black);
+            letter-spacing: -0.3px;
+        }
+
+        .section-count {
+            font-size: 14px;
+            color: var(--fom-gray);
+            font-weight: 600;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        /* ── Card (FOM Style) ── */
+        .card {
+            background: white;
+            border: 1px solid var(--fom-gray-light);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: border-color .25s, box-shadow .25s, transform .25s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            border-color: var(--fom-teal);
+            box-shadow: 0 8px 32px rgba(90, 185, 167, .1);
+            transform: translateY(-3px);
+        }
+
+        .card-image-wrap {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: var(--fom-bg-alt);
+            display: block;
+            transition: transform .4s;
+        }
+
+        .card:hover .card-image { transform: scale(1.04); }
+
+        .card-body {
+            padding: 28px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .card-type {
+            color: var(--fom-teal);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .card-date {
+            font-size: 13px;
+            color: var(--fom-gray);
+        }
+
+        .card-title {
+            font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 12px;
+            color: var(--fom-black);
+        }
+
+        .card-title a {
+            text-decoration: none;
+            color: inherit;
+            transition: color .2s;
+        }
+
+        .card-title a:hover { color: var(--fom-teal); }
+
+        .card-excerpt {
+            font-size: 15px;
+            color: var(--fom-text-light);
+            line-height: 1.7;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--fom-gray-light);
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .card-tag {
+            font-size: 12px;
+            color: var(--fom-teal-dark);
+            background: var(--fom-teal-light);
+            padding: 4px 12px;
+            border-radius: 14px;
+            font-weight: 600;
+        }
+
+        .card-link {
+            color: var(--fom-teal);
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: color .2s;
+        }
+
+        .card-link:hover { color: var(--fom-teal-dark); }
+
+        .card-link::after { content: ' \2192'; }
+
+        /* ── Featured Card ── */
+        .featured {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+        }
+
+        .featured .card-image-wrap { height: 100%; }
+
+        .featured .card-image {
+            height: 100%;
+            min-height: 380px;
+        }
+
+        .featured .card-body {
+            padding: 44px;
+            justify-content: center;
+        }
+
+        .featured .card-title {
+            font-size: 28px;
+        }
+
+        .featured .card-excerpt {
+            -webkit-line-clamp: 5;
+            font-size: 16px;
+        }
+
+        /* ── Loading ── */
+        .loading {
+            text-align: center;
+            padding: 80px 24px;
+            color: var(--fom-gray);
+            grid-column: 1 / -1;
+        }
+
+        .spinner {
+            width: 44px;
+            height: 44px;
+            border: 3px solid var(--fom-gray-light);
+            border-top-color: var(--fom-teal);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── Media Gallery ── */
+        .media-section {
+            background: var(--fom-bg-alt);
+            padding: 80px 0;
+            margin-top: 80px;
+        }
+
+        .media-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        .media-intro {
+            font-size: 16px;
+            color: var(--fom-gray);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .media-card {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: white;
+            cursor: pointer;
+            aspect-ratio: 4 / 3;
+            group: media;
+        }
+
+        .media-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform .4s;
+        }
+
+        .media-card:hover img { transform: scale(1.06); }
+
+        .media-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,.7) 0%, rgba(0,0,0,0) 50%);
+            opacity: 0;
+            transition: opacity .3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+        }
+
+        .media-card:hover .media-card-overlay { opacity: 1; }
+
+        .media-card-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .media-card-caption {
+            font-size: 12px;
+            color: rgba(255,255,255,.7);
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .media-card-dl {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(0,0,0,.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,.2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity .3s, background .2s;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .media-card:hover .media-card-dl { opacity: 1; }
+        .media-card-dl:hover { background: var(--fom-teal); border-color: var(--fom-teal); }
+
+        .media-card-dl svg {
+            width: 16px;
+            height: 16px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.9);
+            backdrop-filter: blur(12px);
+            z-index: 500;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .lightbox.open { display: flex; }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 28px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,.3);
+            background: rgba(255,255,255,.1);
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .2s;
+        }
+
+        .lightbox-close:hover { background: rgba(255,255,255,.25); }
+
+        .lightbox-content {
+            max-width: 1200px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 75vh;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .lightbox-info {
+            text-align: center;
+            color: white;
+        }
+
+        .lightbox-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .lightbox-desc {
+            font-size: 14px;
+            color: rgba(255,255,255,.7);
+            margin-bottom: 16px;
+        }
+
+        .lightbox-dl-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            background: var(--fom-teal);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background .2s;
+            font-family: inherit;
+        }
+
+        .lightbox-dl-btn:hover { background: var(--fom-teal-dark); }
+
+        .lightbox-dl-btn svg {
+            width: 16px;
+            height: 16px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+        }
+
+        @media (max-width: 1024px) {
+            .media-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .media-grid { grid-template-columns: repeat(2, 1fr); }
+            .media-section { padding: 48px 0; margin-top: 48px; }
+            .media-inner { padding: 0 16px; }
+        }
+
+        /* ── Load More ── */
+        .load-more {
+            display: block;
+            margin: 48px auto;
+            padding: 14px 44px;
+            background: transparent;
+            color: var(--fom-teal);
+            border: 2px solid var(--fom-teal);
+            border-radius: 28px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all .2s;
+        }
+
+        .load-more:hover {
+            background: var(--fom-teal);
+            color: white;
+        }
+
+        .load-more:disabled { opacity: .4; cursor: default; }
+
+        /* ── Footer ── */
+        footer {
+            background: var(--fom-bg-alt);
+            border-top: 1px solid var(--fom-gray-light);
+            padding: 64px 32px 32px;
+            margin-top: 100px;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+        }
+
+        .footer-about h3 {
+            color: var(--fom-black);
+            font-size: 20px;
+            font-weight: 900;
+            margin-bottom: 14px;
+        }
+
+        .footer-about p {
+            font-size: 14px;
+            color: var(--fom-text-light);
+            line-height: 1.8;
+        }
+
+        .footer-links h4 {
+            color: var(--fom-black);
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 18px;
+        }
+
+        .footer-links a {
+            display: block;
+            color: var(--fom-text-light);
+            text-decoration: none;
+            font-size: 14px;
+            padding: 5px 0;
+            transition: color .2s;
+            font-weight: 400;
+        }
+
+        .footer-links a:hover { color: var(--fom-teal); }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            padding-top: 24px;
+            border-top: 1px solid var(--fom-gray-light);
+            font-size: 13px;
+            color: var(--fom-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-bottom a {
+            color: var(--fom-teal);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* ── Mobile Menu Toggle ── */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .menu-toggle svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--fom-black);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 1024px) {
+            .news-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-inner { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .header-inner { padding: 0 20px; height: 64px; }
+            .search-filter { padding: 0 16px; }
+            .search-input { padding: 16px 20px; font-size: 15px; }
+            .search-submit { width: 48px; height: 48px; }
+            .filter-panel { padding: 0 20px 20px; }
+            .filter-group { flex-direction: column; gap: 8px; }
+            .filter-label { min-width: auto; padding-top: 0; }
+            .hero-slider { padding: 12px 16px 0; }
+            .slider-viewport { aspect-ratio: 4 / 5; border-radius: 12px; }
+            .slide-content { padding: 28px 24px; }
+            .slide-title { font-size: 22px; }
+            .slide-excerpt { font-size: 14px; -webkit-line-clamp: 2; }
+            .slider-pause { bottom: 28px; right: 24px; width: 36px; height: 36px; }
+            .slider-pause svg { width: 14px; height: 14px; }
+            .news-grid { grid-template-columns: 1fr; gap: 20px; }
+            .featured { grid-template-columns: 1fr; }
+            .featured .card-image { min-height: 220px; }
+            .featured .card-body { padding: 28px; }
+            .featured .card-title { font-size: 22px; }
+            .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+            .content { padding: 0 20px; }
+            .section-title { font-size: 26px; }
+            nav { display: none; }
+            .menu-toggle { display: block; }
+            .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Accent Bar -->
+    <div class="top-bar"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-inner">
+            <a href="index.html" class="header-name">FOM Newsroom</a>
+            <a href="index.html" class="logo-center">
+                <img class="logo-img" src="fom-logo.png" alt="FOM Hochschule">
+            </a>
+            <nav id="mainNav">
+                <a href="#" class="active">Aktuelles</a>
+                <a href="#mediaSection">Medien &amp; Downloads</a>
+                <a href="https://www.fom.de" class="nav-cta">fom.de &rarr;</a>
+            </nav>
+            <button class="menu-toggle" onclick="document.getElementById('mainNav').style.display = document.getElementById('mainNav').style.display === 'flex' ? 'none' : 'flex'">
+                <svg fill="none" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Slider -->
+    <section class="hero-slider" id="heroSlider">
+        <div class="slider-viewport" id="sliderViewport">
+            <div class="slider-loading">
+                <div class="spinner"></div>
+            </div>
+        </div>
+        <button class="slider-pause" id="sliderPause" onclick="toggleSliderPause()" title="Pause/Play">
+            <svg viewBox="0 0 24 24" id="pauseIcon"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+            <svg viewBox="0 0 24 24" id="playIcon" style="display:none"><polygon points="6,4 20,12 6,20"/></svg>
+        </button>
+        <div class="slider-controls" id="sliderDots"></div>
+    </section>
+
+    <!-- Search & Filter -->
+    <section class="search-filter">
+        <div class="search-bar-wrap">
+            <div class="search-row">
+                <input type="text" class="search-input" id="searchInput" placeholder="Suchen Sie nach Inhalten" onkeyup="handleSearch(event)">
+                <button class="search-toggle-btn" id="filterToggle" onclick="toggleFilterPanel()">
+                    <span id="filterToggleText">Filter</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <button class="search-submit" onclick="loadContent(currentFilter)">
+                    <svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+                </button>
+            </div>
+            <div class="filter-panel" id="filterPanel">
+                <div class="filter-group">
+                    <span class="filter-label">Typ</span>
+                    <div class="filter-chips" id="typeFilters">
+                        <button class="filter-chip active" onclick="setTypeFilter('all', this)">Alle</button>
+                        <button class="filter-chip" onclick="setTypeFilter('pressrelease', this)">Pressemitteilungen</button>
+                        <button class="filter-chip" onclick="setTypeFilter('news', this)">News</button>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">Thema</span>
+                    <div class="filter-chips" id="tagFilters">
+                        <button class="filter-chip active" onclick="setTagFilter('all', this)">Alle Themen</button>
+                        <button class="filter-chip" onclick="setTagFilter('Studium', this)">Studium</button>
+                        <button class="filter-chip" onclick="setTagFilter('Forschung', this)">Forschung</button>
+                        <button class="filter-chip" onclick="setTagFilter('Kooperation', this)">Kooperation</button>
+                        <button class="filter-chip" onclick="setTagFilter('Auszeichnung', this)">Auszeichnung</button>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">Zeitraum</span>
+                    <div class="filter-chips" id="dateFilters">
+                        <button class="filter-chip active" onclick="setDateFilter('all', this)">Alle</button>
+                        <button class="filter-chip" onclick="setDateFilter('7', this)">Letzte 7 Tage</button>
+                        <button class="filter-chip" onclick="setDateFilter('30', this)">Letzte 30 Tage</button>
+                        <button class="filter-chip" onclick="setDateFilter('365', this)">Letztes Jahr</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pressemitteilungen -->
+    <main class="content" id="news">
+        <div class="section-header">
+            <h2 class="section-title">Pressemitteilungen</h2>
+            <span class="section-count" id="resultCount"></span>
+        </div>
+        <div class="news-grid" id="newsGrid">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Lade Pressemitteilungen...</p>
+            </div>
+        </div>
+        <button class="load-more" id="loadMore" style="display:none" onclick="loadMore()">Weitere Beitr&auml;ge laden</button>
+    </main>
+
+    <!-- Medien / Downloads -->
+    <section class="media-section" id="mediaSection">
+        <div class="media-inner">
+            <div class="section-header">
+                <h2 class="section-title">Medien &amp; Downloads</h2>
+                <span class="section-count" id="mediaCount"></span>
+            </div>
+            <p class="media-intro">Pressebilder und Medien zum Download. Klicken Sie auf ein Bild f&uuml;r die Vollansicht und den Download.</p>
+            <div class="media-grid" id="mediaGrid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Lade Medien...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <div class="lightbox-content">
+            <img id="lightboxImg" src="" alt="">
+            <div class="lightbox-info" id="lightboxInfo"></div>
+        </div>
+    </div>
+
+    <!-- Admin FAB -->
+    <button class="admin-fab" onclick="openAdmin()" title="Header-Meldungen verwalten">
+        <svg viewBox="0 0 24 24"><path d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.53a7.76 7.76 0 0 0 .07-1 7.76 7.76 0 0 0-.07-.97l2.11-1.63a.5.5 0 0 0 .12-.64l-2-3.46a.5.5 0 0 0-.61-.22l-2.49 1a7.15 7.15 0 0 0-1.65-.96l-.38-2.65A.49.49 0 0 0 14 2h-4a.49.49 0 0 0-.49.42l-.38 2.65a7.15 7.15 0 0 0-1.65.96l-2.49-1a.5.5 0 0 0-.61.22l-2 3.46a.5.5 0 0 0 .12.64L4.57 11a7.76 7.76 0 0 0-.07.97 7.76 7.76 0 0 0 .07 1l-2.11 1.63a.5.5 0 0 0-.12.64l2 3.46a.5.5 0 0 0 .61.22l2.49-1c.51.38 1.06.7 1.65.96l.38 2.65c.05.24.26.42.49.42h4c.24 0 .44-.18.49-.42l.38-2.65a7.15 7.15 0 0 0 1.65-.96l2.49 1a.5.5 0 0 0 .61-.22l2-3.46a.5.5 0 0 0-.12-.64l-2.11-1.63Z"/></svg>
+    </button>
+
+    <!-- Admin Panel Overlay -->
+    <div class="admin-overlay" id="adminOverlay" onclick="if(event.target===this)closeAdmin()">
+        <div class="admin-panel">
+            <div class="admin-header">
+                <h2>Header verwalten</h2>
+                <button class="admin-close" onclick="closeAdmin()">&times;</button>
+            </div>
+            <div class="admin-tabs">
+                <button class="admin-tab active" onclick="switchAdminTab('slider', this)">Slider</button>
+            </div>
+            <div class="admin-body" id="adminBody">
+                <div class="loading"><div class="spinner"></div><p>Lade Meldungen...</p></div>
+            </div>
+            <div class="admin-footer">
+                <button class="admin-btn admin-btn-secondary" onclick="closeAdmin()">Abbrechen</button>
+                <button class="admin-btn admin-btn-primary" onclick="saveAdminConfig()">Speichern &amp; Anwenden</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-about">
+                <h3>FOM Hochschule</h3>
+                <p>Mit rund 45.000 Studierenden z&auml;hlt die FOM zu den gr&ouml;&szlig;ten Hochschulen Europas. Initiiert durch die gemeinn&uuml;tzige Stiftung f&uuml;r internationale Bildung und Wissenschaft erm&ouml;glicht sie Berufst&auml;tigen ein Hochschulstudium neben dem Beruf.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Studium</h4>
+                <a href="https://www.fom.de/studiengaenge.html">Studieng&auml;nge</a>
+                <a href="https://www.fom.de/hochschulzentren.html">Standorte</a>
+                <a href="https://www.fom.de/forschung.html">Forschung</a>
+                <a href="https://www.fom.de">Startseite</a>
+            </div>
+            <div class="footer-links">
+                <h4>Newsroom</h4>
+                <a href="#" onclick="filterBy('pressrelease'); return false;">Pressemitteilungen</a>
+                <a href="#" onclick="filterBy('news'); return false;">News</a>
+                <a href="#mediaSection">Medien &amp; Downloads</a>
+            </div>
+            <div class="footer-links">
+                <h4>Kontakt</h4>
+                <a href="#">Leimkugelstra&szlig;e 6</a>
+                <a href="#">45141 Essen</a>
+                <a href="tel:+49201810040">0201 81004-0</a>
+                <a href="https://www.fom.de">www.fom.de</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 FOM Hochschule f&uuml;r Oekonomie &amp; Management</span>
+            <a href="https://www.mynewsdesk.com">Daten via MyNewsdesk</a>
+        </div>
+    </footer>
+
+    <script>
+        const API_KEY = '2J8377Ow95pCNFI_DPzZTQ';
+        const BASE_URL = 'https://www.mynewsdesk.com/services/pressroom';
+
+        let currentFilter = 'all';
+        let currentOffset = 0;
+        let allItems = [];
+        let totalCount = 0;
+        const LIMIT = 20;
+
+        const TYPE_LABELS = {
+            pressrelease: 'Pressemitteilung',
+            news: 'News',
+            event: 'Event',
+            blog_post: 'Blog',
+            image: 'Bild',
+            video: 'Video',
+            document: 'Dokument'
+        };
+
+        function formatDate(dateObj) {
+            if (!dateObj || !dateObj.datetime) return '';
+            const d = new Date(dateObj.datetime);
+            return d.toLocaleDateString('de-DE', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric'
+            });
+        }
+
+        function stripHtml(html) {
+            const tmp = document.createElement('div');
+            tmp.innerHTML = html;
+            return tmp.textContent || tmp.innerText || '';
+        }
+
+        function createCard(item, featured = false) {
+            const typeLabel = TYPE_LABELS[item.type_of_media] || item.type_of_media;
+            const excerpt = item.summary || stripHtml(item.body || '').substring(0, 280);
+            const imageUrl = item.image_medium || item.image_small || item.image || '';
+            const tags = (item.tags || []).slice(0, 3);
+
+            return `
+                <article class="card ${featured ? 'featured' : ''}">
+                    ${imageUrl ? `<div class="card-image-wrap"><img class="card-image" src="${imageUrl}" alt="" loading="lazy"></div>` : ''}
+                    <div class="card-body">
+                        <div class="card-meta">
+                            <span class="card-type">${typeLabel}</span>
+                            <span class="card-date">${formatDate(item.published_at)}</span>
+                        </div>
+                        <h2 class="card-title">
+                            <a href="artikel.html?id=${item.id}&type=${item.type_of_media}">${item.header}</a>
+                        </h2>
+                        <p class="card-excerpt">${excerpt}</p>
+                        <div class="card-footer">
+                            <div class="card-tags">
+                                ${tags.map(t => `<span class="card-tag">${t.name || t}</span>`).join('')}
+                            </div>
+                            <a href="artikel.html?id=${item.id}&type=${item.type_of_media}" class="card-link">Lesen</a>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        async function fetchItems(type, offset = 0, query = '') {
+            let url;
+            if (query) {
+                url = `${BASE_URL}/search/${API_KEY}?format=json&strict=true&query=${encodeURIComponent(query)}&limit=${LIMIT}&page=${Math.floor(offset / LIMIT) + 1}`;
+                if (type && type !== 'all') url += `&type_of_media=${type}`;
+            } else {
+                url = `${BASE_URL}/list/${API_KEY}?format=json&strict=true&limit=${LIMIT}&offset=${offset}`;
+                if (type && type !== 'all') url += `&type_of_media=${type}`;
+            }
+
+            const res = await fetch(url);
+            const data = await res.json();
+            return {
+                items: data.items || [],
+                total: data.total_count || 0
+            };
+        }
+
+        function renderItems(items, append = false) {
+            const grid = document.getElementById('newsGrid');
+            const btn = document.getElementById('loadMore');
+            const count = document.getElementById('resultCount');
+
+            if (!append) grid.innerHTML = '';
+
+            if (items.length === 0 && !append) {
+                grid.innerHTML = '<p style="text-align:center;padding:80px;color:var(--fom-gray);grid-column:1/-1;font-size:16px;">Keine Ergebnisse gefunden.</p>';
+                btn.style.display = 'none';
+                count.textContent = '';
+                return;
+            }
+
+            count.textContent = totalCount > 0 ? `${totalCount} Ergebnisse` : '';
+
+            const startIdx = append ? allItems.length - items.length : 0;
+            const html = items.map((item, i) => createCard(item, !append && i === 0 && startIdx === 0)).join('');
+
+            if (append) {
+                grid.insertAdjacentHTML('beforeend', html);
+            } else {
+                grid.innerHTML = html;
+            }
+
+            btn.style.display = items.length >= LIMIT ? 'block' : 'none';
+        }
+
+        async function loadContent(type = 'all', reset = true) {
+            const grid = document.getElementById('newsGrid');
+
+            if (reset) {
+                currentOffset = 0;
+                allItems = [];
+                grid.innerHTML = '<div class="loading"><div class="spinner"></div><p>Lade Neuigkeiten...</p></div>';
+            }
+
+            try {
+                const query = document.getElementById('searchInput').value.trim();
+                const apiType = (type === 'artikel') ? 'all' : type;
+                const { items, total } = await fetchItems(apiType, currentOffset, query);
+                totalCount = total;
+                allItems = reset ? items : [...allItems, ...items];
+                currentOffset += items.length;
+                renderItems(items, !reset);
+            } catch (err) {
+                grid.innerHTML = `<p style="text-align:center;padding:80px;color:#ef4444;grid-column:1/-1;font-size:15px;">Fehler beim Laden: ${err.message}</p>`;
+            }
+        }
+
+        function filterBy(type) {
+            currentFilter = type;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.toLowerCase().includes(
+                    type === 'all' ? 'alle' :
+                    type === 'pressrelease' ? 'press' :
+                    type === 'news' ? 'news' :
+                    type === 'event' ? 'event' :
+                    type === 'blog_post' ? 'blog' : type
+                ));
+            });
+
+            document.querySelectorAll('nav a').forEach(a => {
+                if (a.classList.contains('nav-cta')) return;
+                a.classList.remove('active');
+            });
+
+            loadContent(type);
+        }
+
+        function loadMore() {
+            loadContent(currentFilter, false);
+        }
+
+        let searchTimeout;
+        function handleSearch(e) {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => loadContent(currentFilter), 400);
+        }
+
+        // ── Hero Slider ──
+        const SLIDER_COUNT = 5;
+        const SLIDER_INTERVAL = 5000;
+        let sliderItems = [];
+        let sliderIndex = 0;
+        let sliderTimer = null;
+        let sliderPaused = false;
+
+        function formatSliderDate(dateObj) {
+            if (!dateObj || !dateObj.datetime) return '';
+            const d = new Date(dateObj.datetime);
+            return d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+
+        function buildSlides(items) {
+            const viewport = document.getElementById('sliderViewport');
+            const dots = document.getElementById('sliderDots');
+
+            const slidesHtml = items.map((item, i) => {
+                const typeLabel = TYPE_LABELS[item.type_of_media] || item.type_of_media;
+                const excerpt = item.summary || stripHtml(item.body || '').substring(0, 180);
+                const imageUrl = item.image_large || item.image_medium || item.image || '';
+
+                return `
+                    <div class="slide ${i === 0 ? 'active' : ''}" data-index="${i}">
+                        <a href="artikel.html?id=${item.id}&type=${item.type_of_media}">
+                            <img class="slide-image" src="${imageUrl}" alt="" loading="${i === 0 ? 'eager' : 'lazy'}">
+                            <div class="slide-overlay"></div>
+                            <div class="slide-content">
+                                <div class="slide-meta">
+                                    <span class="slide-tag">${typeLabel}</span>
+                                    <span class="slide-date">${formatSliderDate(item.published_at)}</span>
+                                </div>
+                                <h2 class="slide-title">${item.header}</h2>
+                                <p class="slide-excerpt">${excerpt}</p>
+                            </div>
+                        </a>
+                    </div>
+                `;
+            }).join('');
+
+            viewport.innerHTML = slidesHtml;
+
+            dots.innerHTML = items.map((_, i) =>
+                `<button class="slider-dot ${i === 0 ? 'active' : ''}" onclick="goToSlide(${i})" aria-label="Slide ${i + 1}"></button>`
+            ).join('');
+        }
+
+        function goToSlide(index) {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.slider-dot');
+            if (!slides.length) return;
+
+            slides[sliderIndex].classList.remove('active');
+            dots[sliderIndex].classList.remove('active');
+
+            sliderIndex = index;
+
+            slides[sliderIndex].classList.add('active');
+            dots[sliderIndex].classList.add('active');
+
+            resetSliderTimer();
+        }
+
+        function nextSlide() {
+            goToSlide((sliderIndex + 1) % sliderItems.length);
+        }
+
+        function resetSliderTimer() {
+            if (sliderTimer) clearInterval(sliderTimer);
+            if (!sliderPaused) {
+                sliderTimer = setInterval(nextSlide, SLIDER_INTERVAL);
+            }
+        }
+
+        function toggleSliderPause() {
+            sliderPaused = !sliderPaused;
+            document.getElementById('pauseIcon').style.display = sliderPaused ? 'none' : 'block';
+            document.getElementById('playIcon').style.display = sliderPaused ? 'block' : 'none';
+            if (sliderPaused) {
+                clearInterval(sliderTimer);
+            } else {
+                sliderTimer = setInterval(nextSlide, SLIDER_INTERVAL);
+            }
+        }
+
+        async function initSlider() {
+            try {
+                const { items } = await fetchItems('all', 0, '');
+                sliderItems = items.filter(i => i.image_medium || i.image_large || i.image).slice(0, SLIDER_COUNT);
+                if (sliderItems.length) {
+                    buildSlides(sliderItems);
+                    sliderTimer = setInterval(nextSlide, SLIDER_INTERVAL);
+                }
+            } catch (e) {
+                console.error('Slider load failed:', e);
+            }
+        }
+
+        // ── Search & Filter ──
+        let currentTagFilter = 'all';
+        let currentDateFilter = 'all';
+
+        function toggleFilterPanel() {
+            const panel = document.getElementById('filterPanel');
+            const btn = document.getElementById('filterToggle');
+            panel.classList.toggle('open');
+            btn.classList.toggle('open');
+            document.getElementById('filterToggleText').textContent = panel.classList.contains('open') ? 'Schlie\u00DFen' : 'Filter';
+        }
+
+        function setTypeFilter(type, btn) {
+            currentFilter = type;
+            document.querySelectorAll('#typeFilters .filter-chip').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            loadContent(type);
+        }
+
+        function setTagFilter(tag, btn) {
+            currentTagFilter = tag;
+            document.querySelectorAll('#tagFilters .filter-chip').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            loadContent(currentFilter);
+        }
+
+        function setDateFilter(days, btn) {
+            currentDateFilter = days;
+            document.querySelectorAll('#dateFilters .filter-chip').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            loadContent(currentFilter);
+        }
+
+        // Override renderItems to apply tag, date, and type filters client-side
+        const _originalRenderItems = renderItems;
+        renderItems = function(items, append) {
+            // Always exclude images from news grid - they go in the media gallery
+            let filtered = items.filter(item => item.type_of_media !== 'image');
+
+            if (currentFilter === 'artikel') {
+                filtered = filtered.filter(item =>
+                    item.type_of_media === 'pressrelease' || item.type_of_media === 'news'
+                );
+            }
+
+            if (currentTagFilter !== 'all') {
+                filtered = filtered.filter(item =>
+                    (item.tags || []).some(t => (t.name || t) === currentTagFilter)
+                );
+            }
+
+            if (currentDateFilter !== 'all') {
+                const days = parseInt(currentDateFilter);
+                const cutoff = new Date();
+                cutoff.setDate(cutoff.getDate() - days);
+                filtered = filtered.filter(item => {
+                    if (!item.published_at || !item.published_at.datetime) return false;
+                    return new Date(item.published_at.datetime) >= cutoff;
+                });
+            }
+
+            totalCount = filtered.length;
+            _originalRenderItems(filtered, append);
+        };
+
+        // ── Admin Panel ──
+        let adminAllItems = [];
+        let adminSliderIds = [];
+        let adminCurrentTab = 'slider';
+        let dragSrcIndex = null;
+
+        function getStoredConfig() {
+            try {
+                const raw = localStorage.getItem('fom_newsroom_config');
+                return raw ? JSON.parse(raw) : null;
+            } catch { return null; }
+        }
+
+        function storeConfig(config) {
+            localStorage.setItem('fom_newsroom_config', JSON.stringify(config));
+        }
+
+        async function loadAllAdminItems() {
+            if (adminAllItems.length) return adminAllItems;
+            const results = await Promise.all([
+                fetchItems('all', 0, ''),
+                fetch(`${BASE_URL}/list/${API_KEY}?format=json&strict=true&type_of_media=news&limit=50`).then(r => r.json())
+            ]);
+            const listItems = results[0].items || [];
+            const newsItems = (results[1].items || []);
+            const seen = new Set();
+            adminAllItems = [...listItems, ...newsItems].filter(i => {
+                if (seen.has(i.id)) return false;
+                seen.add(i.id);
+                return true;
+            });
+            return adminAllItems;
+        }
+
+        function adminItemHtml(item, mode, index) {
+            const typeLabel = TYPE_LABELS[item.type_of_media] || item.type_of_media;
+            const date = formatDate(item.published_at);
+            const thumb = item.image_thumbnail_small || item.image_small || '';
+            const inSlider = adminSliderIds.includes(item.id);
+
+            if (mode === 'selected') {
+                return `
+                    <div class="admin-item" draggable="true" data-index="${index}" data-id="${item.id}"
+                         ondragstart="onDragStart(event)" ondragover="onDragOver(event)" ondrop="onDrop(event)" ondragend="onDragEnd(event)">
+                        <span class="admin-item-drag">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="5" cy="3" r="1.5"/><circle cx="11" cy="3" r="1.5"/><circle cx="5" cy="8" r="1.5"/><circle cx="11" cy="8" r="1.5"/><circle cx="5" cy="13" r="1.5"/><circle cx="11" cy="13" r="1.5"/></svg>
+                        </span>
+                        ${thumb ? `<img class="admin-item-thumb" src="${thumb}" alt="">` : '<div class="admin-item-thumb"></div>'}
+                        <div class="admin-item-info">
+                            <div class="admin-item-title">${item.header}</div>
+                            <div class="admin-item-meta">${typeLabel} &middot; ${date}</div>
+                        </div>
+                        <span class="admin-item-badge">${index + 1}</span>
+                        <button class="admin-item-btn" onclick="removeFromSlider(${item.id})" title="Entfernen">&times;</button>
+                    </div>`;
+            }
+
+            if (mode === 'available') {
+                return `
+                    <div class="admin-item available ${inSlider ? 'in-slider' : ''}" data-id="${item.id}">
+                        ${thumb ? `<img class="admin-item-thumb" src="${thumb}" alt="">` : '<div class="admin-item-thumb"></div>'}
+                        <div class="admin-item-info">
+                            <div class="admin-item-title">${item.header}</div>
+                            <div class="admin-item-meta">${typeLabel} &middot; ${date}</div>
+                        </div>
+                        ${inSlider ? '<span style="font-size:12px;color:var(--fom-gray)">Im Slider</span>' : `<button class="admin-item-btn add-btn" onclick="addToSlider(${item.id})" title="Hinzuf&uuml;gen">+</button>`}
+                    </div>`;
+            }
+
+        }
+
+        function renderAdminSliderTab() {
+            const body = document.getElementById('adminBody');
+            const selectedItems = adminSliderIds.map(id => adminAllItems.find(i => i.id === id)).filter(Boolean);
+            const availableItems = adminAllItems.filter(i => i.image_medium || i.image || i.image_small);
+
+            body.innerHTML = `
+                <p class="admin-info">W&auml;hle die Meldungen f&uuml;r den Slider und ordne sie per Drag &amp; Drop.</p>
+                <div class="admin-selected" id="adminSelected">
+                    ${selectedItems.map((item, i) => adminItemHtml(item, 'selected', i)).join('')}
+                </div>
+                <div class="admin-divider">Alle Meldungen (mit Bild)</div>
+                <div class="admin-available">
+                    ${availableItems.map(item => adminItemHtml(item, 'available')).join('')}
+                </div>
+            `;
+        }
+
+        function switchAdminTab(tab, btn) {
+            adminCurrentTab = tab;
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            renderAdminSliderTab();
+        }
+
+        function addToSlider(id) {
+            if (!adminSliderIds.includes(id)) {
+                adminSliderIds.push(id);
+                renderAdminSliderTab();
+            }
+        }
+
+        function removeFromSlider(id) {
+            adminSliderIds = adminSliderIds.filter(i => i !== id);
+            renderAdminSliderTab();
+        }
+
+        // Drag & Drop
+        function onDragStart(e) {
+            dragSrcIndex = +e.currentTarget.dataset.index;
+            e.currentTarget.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        }
+
+        function onDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        }
+
+        function onDrop(e) {
+            e.preventDefault();
+            const targetIndex = +e.currentTarget.dataset.index;
+            if (dragSrcIndex === null || dragSrcIndex === targetIndex) return;
+            const moved = adminSliderIds.splice(dragSrcIndex, 1)[0];
+            adminSliderIds.splice(targetIndex, 0, moved);
+            renderAdminSliderTab();
+        }
+
+        function onDragEnd(e) {
+            e.currentTarget.classList.remove('dragging');
+            dragSrcIndex = null;
+        }
+
+        async function openAdmin() {
+            document.getElementById('adminOverlay').classList.add('open');
+            const body = document.getElementById('adminBody');
+            body.innerHTML = '<div class="loading"><div class="spinner"></div><p>Lade Meldungen...</p></div>';
+
+            await loadAllAdminItems();
+
+            // Init from stored config or current state
+            const config = getStoredConfig();
+            if (config) {
+                adminSliderIds = config.sliderIds || [];
+            } else {
+                adminSliderIds = sliderItems.map(i => i.id);
+            }
+
+            if (adminCurrentTab === 'slider') renderAdminSliderTab();
+            else renderAdminPinnedTab();
+        }
+
+        function closeAdmin() {
+            document.getElementById('adminOverlay').classList.remove('open');
+        }
+
+        async function saveAdminConfig() {
+            const config = { sliderIds: adminSliderIds };
+            storeConfig(config);
+
+            // Re-apply slider
+            const selectedItems = adminSliderIds.map(id => adminAllItems.find(i => i.id === id)).filter(Boolean);
+            if (selectedItems.length) {
+                sliderItems = selectedItems;
+                sliderIndex = 0;
+                buildSlides(selectedItems);
+                resetSliderTimer();
+                document.getElementById('heroSlider').style.display = '';
+            } else {
+                document.getElementById('heroSlider').style.display = 'none';
+            }
+
+            closeAdmin();
+        }
+
+        // ── Media Gallery ──
+        const DL_ICON = '<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>';
+
+        async function loadMedia() {
+            const grid = document.getElementById('mediaGrid');
+            const count = document.getElementById('mediaCount');
+            try {
+                const res = await fetch(`${BASE_URL}/list/${API_KEY}?format=json&strict=true&type_of_media=image&limit=50`);
+                const data = await res.json();
+                const items = data.items || [];
+                count.textContent = items.length + ' Medien';
+
+                if (!items.length) {
+                    grid.innerHTML = '<p style="text-align:center;padding:60px;color:var(--fom-gray)">Keine Medien verf\u00FCgbar.</p>';
+                    return;
+                }
+
+                grid.innerHTML = items.map(item => {
+                    const thumb = item.image_medium || item.image_small || item.image || '';
+                    const full = item.image_large || item.image || thumb;
+                    const title = item.header || '';
+                    const caption = item.summary || '';
+                    return `
+                        <div class="media-card" onclick="openLightbox('${full.replace(/'/g, "\\'")}', '${title.replace(/'/g, "\\'")}', '${caption.replace(/'/g, "\\'")}')">
+                            <img src="${thumb}" alt="${title}" loading="lazy">
+                            <div class="media-card-overlay">
+                                <div class="media-card-title">${title}</div>
+                                ${caption ? `<div class="media-card-caption">${caption}</div>` : ''}
+                            </div>
+                            <a class="media-card-dl" href="${full}" download="${title}" onclick="event.stopPropagation()" title="Download">${DL_ICON}</a>
+                        </div>`;
+                }).join('');
+            } catch (e) {
+                grid.innerHTML = '<p style="text-align:center;padding:60px;color:var(--fom-error)">Fehler beim Laden der Medien.</p>';
+            }
+        }
+
+        function openLightbox(src, title, desc) {
+            const lb = document.getElementById('lightbox');
+            document.getElementById('lightboxImg').src = src;
+            document.getElementById('lightboxInfo').innerHTML = `
+                <div class="lightbox-title">${title}</div>
+                ${desc ? `<div class="lightbox-desc">${desc}</div>` : ''}
+                <a class="lightbox-dl-btn" href="${src}" download="${title}">${DL_ICON} Herunterladen</a>
+            `;
+            lb.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+        // ── Init with stored config ──
+        (async function() {
+            const config = getStoredConfig();
+            if (config && config.sliderIds) {
+                await loadAllAdminItems();
+                const items = config.sliderIds.map(id => adminAllItems.find(i => i.id === id)).filter(Boolean);
+                if (items.length) {
+                    sliderItems = items;
+                    buildSlides(items);
+                    sliderTimer = setInterval(nextSlide, SLIDER_INTERVAL);
+                } else {
+                    initSlider();
+                }
+            } else {
+                initSlider();
+            }
+
+            loadContent('artikel');
+            loadMedia();
+        })();
+    </script>
+</body>
+</html>
