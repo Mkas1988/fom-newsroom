@@ -68,46 +68,63 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ── Top Accent Bar ── */
-        .top-bar {
-            height: 4px;
-            background: var(--fom-teal);
-            position: sticky;
-            top: 0;
-            z-index: 101;
-        }
-
-        /* ── Header ── */
+        /* ── Header (Porsche Newsroom Style – 2 states) ── */
         header {
             background: var(--fom-white);
             border-bottom: 1px solid var(--fom-gray-light);
             position: sticky;
-            top: 4px;
+            top: 0;
             z-index: 100;
+            transition: all .3s ease;
         }
 
         .header-inner {
-            max-width: 1400px;
+            max-width: 100%;
             margin: 0 auto;
-            padding: 0 32px;
+            padding: 0 48px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 88px;
+            height: 80px;
             position: relative;
+            transition: height .3s ease;
         }
 
-        .header-name {
+        /* ── State: scrolled (compact) ── */
+        header.scrolled .header-inner { height: 56px; }
+        header.scrolled .header-subtitle { opacity: 0; height: 0; margin: 0; }
+        header.scrolled .header-title { font-size: 18px; }
+        header.scrolled .logo-center { opacity: 0; pointer-events: none; }
+
+        .header-left {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            flex-shrink: 0;
+            text-decoration: none;
+        }
+
+        .header-title {
             font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
-            font-size: 14px;
+            font-size: 26px;
             font-weight: 700;
             color: var(--fom-black);
-            text-decoration: none;
-            letter-spacing: 0.5px;
-            flex-shrink: 0;
+            line-height: 1.1;
+            letter-spacing: -0.3px;
+            transition: font-size .3s ease;
         }
 
-        .header-name:hover { color: var(--fom-teal); }
+        .header-subtitle {
+            font-size: 11.5px;
+            font-weight: 400;
+            color: var(--fom-gray);
+            letter-spacing: 0.1px;
+            transition: opacity .3s ease, height .3s ease;
+            overflow: hidden;
+            height: 16px;
+        }
+
+        .header-left:hover .header-title { color: var(--fom-teal); }
 
         .logo-center {
             position: absolute;
@@ -115,51 +132,176 @@
             top: 50%;
             transform: translate(-50%, -50%);
             text-decoration: none;
+            transition: opacity .3s ease;
         }
 
         .logo-img {
-            height: 64px;
+            height: 44px;
             width: auto;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .header-icon-btn {
+            width: 38px;
+            height: 38px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background .2s;
+        }
+
+        .header-icon-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--fom-black);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .header-icon-btn:hover {
+            background: var(--fom-bg-alt);
         }
 
         nav { display: flex; gap: 0; align-items: center; }
 
         nav a {
-            color: var(--fom-text);
+            color: var(--fom-black);
             text-decoration: none;
-            font-size: 14px;
-            font-weight: 700;
-            padding: 8px 20px;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 8px 16px;
             border-radius: 0;
             transition: all .2s;
             letter-spacing: 0;
             position: relative;
+            white-space: nowrap;
         }
 
-        nav a:hover { color: var(--fom-teal); }
+        nav a:hover { color: var(--fom-teal-dark); }
         nav a.active {
-            color: var(--fom-teal);
-        }
-        nav a.active::after {
-            content: '';
-            position: absolute;
-            bottom: -24px;
-            left: 20px;
-            right: 20px;
-            height: 2px;
-            background: var(--fom-teal);
+            color: var(--fom-black);
+            font-weight: 700;
         }
 
-        .nav-cta {
-            background: var(--fom-teal) !important;
-            color: white !important;
-            border-radius: 4px !important;
-            padding: 8px 20px !important;
-            margin-left: 12px !important;
-            font-size: 14px !important;
+        .header-menu-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0 8px 16px;
+            background: none;
+            border: none;
+            color: var(--fom-black);
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: inherit;
+            transition: color .2s;
         }
 
-        .nav-cta:hover { background: var(--fom-teal-dark) !important; }
+        .header-menu-btn:hover { color: var(--fom-teal-dark); }
+
+        .header-menu-btn svg {
+            width: 22px;
+            height: 22px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+        }
+
+        /* ── Header Search Overlay ── */
+        .header-search-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--fom-white);
+            border-bottom: 1px solid var(--fom-gray-light);
+            z-index: 200;
+            padding: 0 48px;
+            height: 80px;
+            display: none;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,.06);
+        }
+
+        .header-search-overlay.open { display: flex; }
+
+        .header-search-overlay input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--fom-black);
+            font-size: 18px;
+            font-family: inherit;
+        }
+
+        .header-search-overlay input::placeholder { color: var(--fom-gray); }
+
+        .header-search-close {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background .2s;
+        }
+
+        .header-search-close svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--fom-gray);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+        }
+
+        .header-search-close:hover {
+            background: var(--fom-bg-alt);
+        }
+
+        /* ── Mobile Menu Overlay ── */
+        .mobile-menu-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--fom-white);
+            z-index: 199;
+            display: none;
+            flex-direction: column;
+            padding: 100px 48px 40px;
+        }
+
+        .mobile-menu-overlay.open { display: flex; }
+
+        .mobile-menu-overlay a {
+            color: var(--fom-black);
+            text-decoration: none;
+            font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--fom-gray-light);
+            transition: color .2s;
+        }
+
+        .mobile-menu-overlay a:hover { color: var(--fom-teal); }
 
         /* ── Search & Filter Bar ── */
         .search-filter {
@@ -1272,21 +1414,6 @@
             font-weight: 600;
         }
 
-        /* ── Mobile Menu Toggle ── */
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-        }
-
-        .menu-toggle svg {
-            width: 24px;
-            height: 24px;
-            stroke: var(--fom-black);
-        }
-
         /* ── Responsive ── */
         @media (max-width: 1024px) {
             .news-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1295,6 +1422,12 @@
 
         @media (max-width: 768px) {
             .header-inner { padding: 0 20px; height: 64px; }
+            header.scrolled .header-inner { height: 52px; }
+            .header-title { font-size: 20px; }
+            header.scrolled .header-title { font-size: 16px; }
+            .logo-center { display: none; }
+            nav { display: none; }
+            .header-search-overlay { padding: 0 20px; }
             .search-filter { padding: 0 16px; }
             .search-input { padding: 16px 20px; font-size: 15px; }
             .search-submit { width: 48px; height: 48px; }
@@ -1316,8 +1449,6 @@
             .footer-inner { grid-template-columns: 1fr; gap: 32px; }
             .content { padding: 0 20px; }
             .section-title { font-size: 26px; }
-            nav { display: none; }
-            .menu-toggle { display: block; }
             .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
         }
     </style>
@@ -1325,26 +1456,49 @@
 <body>
     <script src="auth.js"></script>
 
-    <!-- Top Accent Bar -->
-    <div class="top-bar"></div>
-
     <!-- Header -->
     <header>
         <div class="header-inner">
-            <a href="index.html" class="header-name">FOM Newsroom</a>
+            <a href="index.html" class="header-left">
+                <span class="header-title">newsroom</span>
+                <span class="header-subtitle">Das Medien-Portal der FOM Hochschule</span>
+            </a>
             <a href="index.html" class="logo-center">
                 <img class="logo-img" src="fom-logo.png" alt="FOM Hochschule">
             </a>
-            <nav id="mainNav">
-                <a href="#" class="active">Aktuelles</a>
-                <a href="medien.html">Medien &amp; Downloads</a>
-                <a href="https://www.fom.de" class="nav-cta">fom.de &rarr;</a>
-            </nav>
-            <button class="menu-toggle" onclick="document.getElementById('mainNav').style.display = document.getElementById('mainNav').style.display === 'flex' ? 'none' : 'flex'">
-                <svg fill="none" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-            </button>
+            <div class="header-right">
+                <button class="header-icon-btn" onclick="openHeaderSearch()" title="Suche">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+                </button>
+                <div class="header-sep"></div>
+                <nav id="mainNav">
+                    <a href="#" class="active">Aktuelles</a>
+                    <a href="medien.html">Medien</a>
+                </nav>
+                <div class="header-sep"></div>
+                <button class="header-menu-btn" onclick="toggleMobileMenu()">
+                    <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    Men&uuml;
+                </button>
+            </div>
         </div>
     </header>
+
+    <!-- Header Search Overlay -->
+    <div class="header-search-overlay" id="headerSearchOverlay">
+        <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:rgba(255,255,255,.5);fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+        <input type="text" id="headerSearchInput" placeholder="Suche nach Pressemitteilungen, News..." onkeyup="handleHeaderSearch(event)">
+        <button class="header-search-close" onclick="closeHeaderSearch()">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <a href="index.html">Aktuelles</a>
+        <a href="medien.html">Medien &amp; Downloads</a>
+        <a href="https://www.fom.de" target="_blank">fom.de</a>
+    </div>
 
     <!-- Hero Slider -->
     <section class="hero-slider" id="heroSlider">
@@ -1481,6 +1635,44 @@
     </footer>
 
     <script>
+        // ── Header: scroll state toggle ──
+        const headerEl = document.querySelector('header');
+        let lastScrollY = 0;
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 60) {
+                headerEl.classList.add('scrolled');
+            } else {
+                headerEl.classList.remove('scrolled');
+            }
+            lastScrollY = window.scrollY;
+        }, { passive: true });
+
+        // ── Header Search ──
+        function openHeaderSearch() {
+            document.getElementById('headerSearchOverlay').classList.add('open');
+            document.getElementById('headerSearchInput').focus();
+        }
+        function closeHeaderSearch() {
+            document.getElementById('headerSearchOverlay').classList.remove('open');
+            document.getElementById('headerSearchInput').value = '';
+        }
+        let headerSearchTimeout;
+        function handleHeaderSearch(e) {
+            if (e.key === 'Escape') { closeHeaderSearch(); return; }
+            clearTimeout(headerSearchTimeout);
+            headerSearchTimeout = setTimeout(() => {
+                const q = document.getElementById('headerSearchInput').value.trim();
+                document.getElementById('searchInput').value = q;
+                loadContent(currentFilter);
+                if (q) closeHeaderSearch();
+            }, 500);
+        }
+
+        // ── Mobile Menu ──
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('open');
+        }
+
         const API_KEY = '2J8377Ow95pCNFI_DPzZTQ';
         const BASE_URL = 'https://www.mynewsdesk.com/services/pressroom';
 
