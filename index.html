@@ -1697,16 +1697,15 @@
             document.getElementById('headerSearchOverlay').classList.remove('open');
             document.getElementById('headerSearchInput').value = '';
         }
-        let headerSearchTimeout;
         function handleHeaderSearch(e) {
             if (e.key === 'Escape') { closeHeaderSearch(); return; }
-            clearTimeout(headerSearchTimeout);
-            headerSearchTimeout = setTimeout(() => {
+            if (e.key === 'Enter') {
                 const q = document.getElementById('headerSearchInput').value.trim();
                 document.getElementById('searchInput').value = q;
+                closeHeaderSearch();
                 loadContent(currentFilter);
-                if (q) closeHeaderSearch();
-            }, 500);
+                document.querySelector('.search-filter').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
 
         // ── Mobile Menu ──
@@ -1784,36 +1783,49 @@
             `;
         }
 
+        // Cache all items for client-side search
+        let cachedAllItems = null;
+
+        async function fetchAllItems() {
+            if (cachedAllItems) return cachedAllItems;
+            const [prRes, newsRes] = await Promise.all([
+                fetch(`${BASE_URL}/list/${API_KEY}?format=json&strict=true&limit=${LIMIT}&type_of_media=pressrelease`),
+                fetch(`${BASE_URL}/list/${API_KEY}?format=json&strict=true&limit=${LIMIT}&type_of_media=news`)
+            ]);
+            const [prData, newsData] = await Promise.all([prRes.json(), newsRes.json()]);
+            const items = [...(prData.items || []), ...(newsData.items || [])];
+            items.sort((a, b) => {
+                const da = a.published_at?.datetime || '';
+                const db = b.published_at?.datetime || '';
+                return db.localeCompare(da);
+            });
+            cachedAllItems = items;
+            return items;
+        }
+
         async function fetchItems(type, offset = 0, query = '') {
+            // Load all items once, then filter client-side
+            const all = await fetchAllItems();
+            let filtered = [...all];
+
+            // Filter by type
+            if (type && type !== 'all') {
+                filtered = filtered.filter(i => i.type_of_media === type);
+            }
+
+            // Client-side search
             if (query) {
-                let url = `${BASE_URL}/search/${API_KEY}?format=json&strict=true&query=${encodeURIComponent(query)}&limit=${LIMIT}&page=${Math.floor(offset / LIMIT) + 1}`;
-                if (type && type !== 'all') url += `&type_of_media=${type}`;
-                const res = await fetch(url);
-                const data = await res.json();
-                return { items: data.items || [], total: data.total_count || 0 };
-            }
-
-            // For 'all', load pressrelease + news in parallel (API returns only one type per call)
-            if (!type || type === 'all') {
-                const [prRes, newsRes] = await Promise.all([
-                    fetch(`${BASE_URL}/list/${API_KEY}?format=json&strict=true&limit=${LIMIT}&offset=${offset}&type_of_media=pressrelease`),
-                    fetch(`${BASE_URL}/list/${API_KEY}?format=json&strict=true&limit=${LIMIT}&offset=${offset}&type_of_media=news`)
-                ]);
-                const [prData, newsData] = await Promise.all([prRes.json(), newsRes.json()]);
-                const allItems = [...(prData.items || []), ...(newsData.items || [])];
-                // Sort by date descending
-                allItems.sort((a, b) => {
-                    const da = a.published_at?.datetime || '';
-                    const db = b.published_at?.datetime || '';
-                    return db.localeCompare(da);
+                const q = query.toLowerCase();
+                filtered = filtered.filter(i => {
+                    const title = (i.header || '').toLowerCase();
+                    const summary = (i.summary || '').toLowerCase();
+                    const body = (i.body || '').toLowerCase();
+                    const tags = (i.tags || []).map(t => (t.name || t || '').toLowerCase()).join(' ');
+                    return title.includes(q) || summary.includes(q) || body.includes(q) || tags.includes(q);
                 });
-                return { items: allItems, total: (prData.total_count || 0) + (newsData.total_count || 0) };
             }
 
-            const url = `${BASE_URL}/list/${API_KEY}?format=json&strict=true&limit=${LIMIT}&offset=${offset}&type_of_media=${type}`;
-            const res = await fetch(url);
-            const data = await res.json();
-            return { items: data.items || [], total: data.total_count || 0 };
+            return { items: filtered, total: filtered.length };
         }
 
         function renderItems(items, append = false) {
@@ -1892,6 +1904,11 @@
 
         let searchTimeout;
         function handleSearch(e) {
+            if (e.key === 'Enter') {
+                clearTimeout(searchTimeout);
+                loadContent(currentFilter);
+                return;
+            }
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => loadContent(currentFilter), 400);
         }
