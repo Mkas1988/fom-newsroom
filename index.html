@@ -1488,7 +1488,7 @@
         let currentOffset = 0;
         let allItems = [];
         let totalCount = 0;
-        const LIMIT = 20;
+        const LIMIT = 100;
 
         const TYPE_LABELS = {
             pressrelease: 'Pressemitteilung',
@@ -1546,21 +1546,35 @@
         }
 
         async function fetchItems(type, offset = 0, query = '') {
-            let url;
             if (query) {
-                url = `${BASE_URL}/search/${API_KEY}?format=json&strict=true&query=${encodeURIComponent(query)}&limit=${LIMIT}&page=${Math.floor(offset / LIMIT) + 1}`;
+                let url = `${BASE_URL}/search/${API_KEY}?format=json&strict=true&query=${encodeURIComponent(query)}&limit=${LIMIT}&page=${Math.floor(offset / LIMIT) + 1}`;
                 if (type && type !== 'all') url += `&type_of_media=${type}`;
-            } else {
-                url = `${BASE_URL}/list/${API_KEY}?format=json&strict=true&limit=${LIMIT}&offset=${offset}`;
-                if (type && type !== 'all') url += `&type_of_media=${type}`;
+                const res = await fetch(url);
+                const data = await res.json();
+                return { items: data.items || [], total: data.total_count || 0 };
             }
 
+            // For 'all', load pressrelease + news in parallel (API returns only one type per call)
+            if (!type || type === 'all') {
+                const [prRes, newsRes] = await Promise.all([
+                    fetch(`${BASE_URL}/list/${API_KEY}?format=json&strict=true&limit=${LIMIT}&offset=${offset}&type_of_media=pressrelease`),
+                    fetch(`${BASE_URL}/list/${API_KEY}?format=json&strict=true&limit=${LIMIT}&offset=${offset}&type_of_media=news`)
+                ]);
+                const [prData, newsData] = await Promise.all([prRes.json(), newsRes.json()]);
+                const allItems = [...(prData.items || []), ...(newsData.items || [])];
+                // Sort by date descending
+                allItems.sort((a, b) => {
+                    const da = a.published_at?.datetime || '';
+                    const db = b.published_at?.datetime || '';
+                    return db.localeCompare(da);
+                });
+                return { items: allItems, total: (prData.total_count || 0) + (newsData.total_count || 0) };
+            }
+
+            const url = `${BASE_URL}/list/${API_KEY}?format=json&strict=true&limit=${LIMIT}&offset=${offset}&type_of_media=${type}`;
             const res = await fetch(url);
             const data = await res.json();
-            return {
-                items: data.items || [],
-                total: data.total_count || 0
-            };
+            return { items: data.items || [], total: data.total_count || 0 };
         }
 
         function renderItems(items, append = false) {
