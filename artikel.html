@@ -66,14 +66,14 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 80px;
+            height: 96px;
             position: relative;
             transition: height .3s ease;
         }
 
         header.scrolled .header-inner { height: 56px; }
         header.scrolled .header-subtitle { opacity: 0; height: 0; margin: 0; }
-        header.scrolled .header-title { font-size: 18px; }
+        header.scrolled .header-title { font-size: 20px; font-weight: 700; }
         header.scrolled .logo-center { opacity: 0; pointer-events: none; }
 
         .header-left {
@@ -101,7 +101,7 @@
             transition: opacity .3s ease;
         }
 
-        .logo-img { height: 72px; width: auto; }
+        .logo-img { height: 90px; width: auto; }
 
         .header-right { display: flex; align-items: center; gap: 4px; }
 
@@ -129,18 +129,35 @@
             fill: none; stroke-width: 2; stroke-linecap: round;
         }
 
-        .mobile-menu-overlay {
-            position: fixed; inset: 0; background: var(--fom-white);
-            z-index: 199; display: none; flex-direction: column; padding: 100px 48px 40px;
+        .menu-backdrop {
+            position: fixed; inset: 0; background: rgba(0,0,0,.5);
+            z-index: 198; opacity: 0; pointer-events: none; transition: opacity .3s ease;
         }
-        .mobile-menu-overlay.open { display: flex; }
+        .menu-backdrop.open { opacity: 1; pointer-events: auto; }
+        .mobile-menu-overlay {
+            position: fixed; top: 0; right: 0; bottom: 0;
+            width: 420px; max-width: 85vw; background: var(--fom-white);
+            z-index: 199; transform: translateX(100%);
+            transition: transform .35s cubic-bezier(.4,0,.2,1);
+            padding: 100px 0 40px; overflow-y: auto;
+        }
+        .mobile-menu-overlay.open { transform: translateX(0); }
         .mobile-menu-overlay a {
             color: var(--fom-black); text-decoration: none;
-            font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
-            font-size: 28px; font-weight: 700; padding: 16px 0;
+            font-family: 'Neue-Haas-Grotesk-Text-Pro', Helvetica, Arial, sans-serif;
+            font-size: 17px; font-weight: 400; padding: 20px 40px;
             border-bottom: 1px solid var(--fom-gray-light); transition: color .2s;
+            display: flex; align-items: center; justify-content: space-between;
         }
+        .mobile-menu-overlay a:first-child { border-top: 1px solid var(--fom-gray-light); }
         .mobile-menu-overlay a:hover { color: var(--fom-teal); }
+        .menu-chevron {
+            width: 20px; height: 20px; stroke: var(--fom-gray); fill: none;
+            stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0;
+        }
+        .header-menu-btn .menu-icon-close { display: none; }
+        .header-menu-btn.is-open .menu-icon-open { display: none; }
+        .header-menu-btn.is-open .menu-icon-close { display: inline; }
 
         /* ── Article Hero ── */
         .article-hero {
@@ -712,18 +729,20 @@
                     <a href="index.html">Aktuelles</a>
                     <a href="medien.html">Medien</a>
                 </nav>
-                <button class="header-menu-btn" onclick="toggleMobileMenu()">
-                    <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                <button class="header-menu-btn" id="menuBtn" onclick="toggleMobileMenu()">
+                    <svg class="menu-icon-open" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    <svg class="menu-icon-close" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                     Men&uuml;
                 </button>
             </div>
         </div>
     </header>
 
+    <div class="menu-backdrop" id="menuBackdrop" onclick="toggleMobileMenu()"></div>
     <div class="mobile-menu-overlay" id="mobileMenu">
-        <a href="index.html">Aktuelles</a>
-        <a href="medien.html">Medien &amp; Downloads</a>
-        <a href="https://www.fom.de" target="_blank">fom.de</a>
+        <a href="index.html">Aktuelles <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
+        <a href="medien.html">Medien &amp; Downloads <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
+        <a href="https://www.fom.de" target="_blank">fom.de <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
     </div>
 
     <!-- Article Content (dynamically filled) -->
@@ -771,12 +790,25 @@
     <script>
         // ── Header scroll state ──
         const headerEl = document.querySelector('header');
+        const headerTitleEl = document.querySelector('.header-title');
+        let wasScrolled = false;
         window.addEventListener('scroll', () => {
-            headerEl.classList.toggle('scrolled', window.scrollY > 60);
+            const scrolled = window.scrollY > 60;
+            if (scrolled !== wasScrolled) {
+                headerEl.classList.toggle('scrolled', scrolled);
+                headerTitleEl.textContent = scrolled ? 'FOM Newsroom' : 'newsroom';
+                wasScrolled = scrolled;
+            }
         }, { passive: true });
 
         function toggleMobileMenu() {
-            document.getElementById('mobileMenu').classList.toggle('open');
+            const menu = document.getElementById('mobileMenu');
+            const backdrop = document.getElementById('menuBackdrop');
+            const btn = document.getElementById('menuBtn');
+            const isOpen = menu.classList.toggle('open');
+            backdrop.classList.toggle('open', isOpen);
+            btn.classList.toggle('is-open', isOpen);
+            document.body.style.overflow = isOpen ? 'hidden' : '';
         }
 
         const API_KEY = '2J8377Ow95pCNFI_DPzZTQ';
