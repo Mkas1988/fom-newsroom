@@ -1498,7 +1498,7 @@
     <header>
         <div class="header-inner">
             <a href="index.html" class="header-left">
-                <span class="header-title">newsroom</span>
+                <span class="header-title">FOM Newsroom</span>
                 <span class="header-subtitle">Das Medien-Portal der FOM Hochschule</span>
             </a>
             <a href="index.html" class="logo-center">
@@ -1683,7 +1683,7 @@
             const scrolled = window.scrollY > 60;
             if (scrolled !== wasScrolled) {
                 headerEl.classList.toggle('scrolled', scrolled);
-                headerTitleEl.textContent = scrolled ? 'FOM Newsroom' : 'newsroom';
+                // title stays "FOM Newsroom" in both states
                 wasScrolled = scrolled;
             }
         }, { passive: true });
