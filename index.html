@@ -70,8 +70,8 @@
 
         /* ── Header (Porsche Newsroom Style – 2 states) ── */
         header {
-            background: var(--fom-white);
-            border-bottom: 1px solid var(--fom-gray-light);
+            background: var(--fom-teal);
+            border-bottom: none;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -108,7 +108,7 @@
             font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
             font-size: 26px;
             font-weight: 700;
-            color: var(--fom-black);
+            color: var(--fom-white);
             line-height: 1.1;
             letter-spacing: -0.3px;
             transition: font-size .3s ease;
@@ -117,14 +117,14 @@
         .header-subtitle {
             font-size: 11.5px;
             font-weight: 400;
-            color: var(--fom-gray);
+            color: rgba(255,255,255,.7);
             letter-spacing: 0.1px;
             transition: opacity .3s ease, height .3s ease;
             overflow: hidden;
             height: 16px;
         }
 
-        .header-left:hover .header-title { color: var(--fom-teal); }
+        .header-left:hover .header-title { color: var(--fom-white); opacity: .85; }
 
         .logo-center {
             position: absolute;
@@ -162,7 +162,7 @@
         .header-icon-btn svg {
             width: 20px;
             height: 20px;
-            stroke: var(--fom-black);
+            stroke: var(--fom-white);
             fill: none;
             stroke-width: 2;
             stroke-linecap: round;
@@ -170,13 +170,13 @@
         }
 
         .header-icon-btn:hover {
-            background: var(--fom-bg-alt);
+            background: rgba(255,255,255,.15);
         }
 
         nav { display: flex; gap: 0; align-items: center; }
 
         nav a {
-            color: var(--fom-black);
+            color: var(--fom-white);
             text-decoration: none;
             font-size: 15px;
             font-weight: 500;
@@ -188,20 +188,20 @@
             white-space: nowrap;
         }
 
-        nav a:hover { color: var(--fom-teal-dark); }
+        nav a:hover { color: var(--fom-white); opacity: .8; }
         nav a.active {
-            color: var(--fom-black);
+            color: var(--fom-white);
             font-weight: 700;
         }
 
         .header-menu-btn {
-            display: flex;
+            display: none !important;
             align-items: center;
             gap: 8px;
             padding: 8px 0 8px 16px;
             background: none;
             border: none;
-            color: var(--fom-black);
+            color: var(--fom-white);
             font-size: 15px;
             font-weight: 500;
             cursor: pointer;
@@ -209,7 +209,7 @@
             transition: color .2s;
         }
 
-        .header-menu-btn:hover { color: var(--fom-teal-dark); }
+        .header-menu-btn:hover { color: var(--fom-white); opacity: .8; }
 
         .header-menu-btn svg {
             width: 22px;
@@ -1017,7 +1017,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 14px;
+            margin-bottom: 4px;
         }
 
         .card-type {
@@ -1064,7 +1064,7 @@
         .card-footer {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-end;
             margin-top: 20px;
             padding-top: 16px;
             border-top: 1px solid var(--fom-gray-light);
@@ -1074,6 +1074,8 @@
             display: flex;
             gap: 6px;
             flex-wrap: wrap;
+            margin-top: 6px;
+            margin-bottom: 12px;
         }
 
         .card-tag {
@@ -1086,15 +1088,24 @@
         }
 
         .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             color: var(--fom-teal);
             font-size: 13px;
             font-weight: 700;
             text-decoration: none;
             white-space: nowrap;
-            transition: color .2s;
+            padding: 8px 20px;
+            border: 2px solid var(--fom-teal);
+            border-radius: 24px;
+            transition: all .2s;
         }
 
-        .card-link:hover { color: var(--fom-teal-dark); }
+        .card-link:hover {
+            background: var(--fom-teal);
+            color: white;
+        }
 
         .card-link::after { content: ' \2192'; }
 
@@ -1386,10 +1397,20 @@
 
         /* ── Footer ── */
         footer {
-            background: var(--fom-bg-alt);
-            border-top: 1px solid var(--fom-gray-light);
+            background: #0b2623;
+            border-top: none;
             padding: 64px 32px 32px;
             margin-top: 100px;
+        }
+
+        .footer-logo {
+            max-width: 1200px;
+            margin: 0 auto 16px;
+        }
+
+        .footer-logo img {
+            height: 120px;
+            width: auto;
         }
 
         .footer-inner {
@@ -1400,21 +1421,14 @@
             gap: 48px;
         }
 
-        .footer-about h3 {
-            color: var(--fom-black);
-            font-size: 20px;
-            font-weight: 900;
-            margin-bottom: 14px;
-        }
-
         .footer-about p {
             font-size: 14px;
-            color: var(--fom-text-light);
+            color: rgba(255,255,255,.85);
             line-height: 1.8;
         }
 
         .footer-links h4 {
-            color: var(--fom-black);
+            color: rgba(255,255,255,.4);
             font-size: 13px;
             font-weight: 700;
             text-transform: uppercase;
@@ -1424,7 +1438,7 @@
 
         .footer-links a {
             display: block;
-            color: var(--fom-text-light);
+            color: rgba(255,255,255,.75);
             text-decoration: none;
             font-size: 14px;
             padding: 5px 0;
@@ -1438,18 +1452,46 @@
             max-width: 1200px;
             margin: 40px auto 0;
             padding-top: 24px;
-            border-top: 1px solid var(--fom-gray-light);
+            border-top: 1px solid rgba(255,255,255,.1);
             font-size: 13px;
-            color: var(--fom-gray);
+            color: rgba(255,255,255,.4);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .footer-bottom a {
-            color: var(--fom-teal);
+            color: rgba(255,255,255,.5);
             text-decoration: none;
             font-weight: 600;
+            transition: color .2s;
+        }
+
+        .footer-bottom a:hover { color: var(--fom-teal); }
+
+        .footer-accreditation {
+            max-width: 1200px;
+            margin: 48px auto 0;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255,255,255,.1);
+        }
+
+        .footer-accreditation p {
+            font-size: 13px;
+            color: rgba(255,255,255,.4);
+            margin-bottom: 20px;
+        }
+
+        .accreditation-logos {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .accreditation-logos svg {
+            width: 72px;
+            height: 72px;
+            opacity: .7;
         }
 
         /* ── Responsive ── */
@@ -1502,7 +1544,7 @@
                 <span class="header-subtitle">Das Medien-Portal der FOM Hochschule</span>
             </a>
             <a href="index.html" class="logo-center">
-                <img class="logo-img" src="fom-logo.png" alt="FOM Hochschule">
+                <img class="logo-img" src="fom-logo-white.svg" alt="FOM Hochschule">
             </a>
             <div class="header-right">
                 <button class="header-icon-btn" onclick="openHeaderSearch()" title="Suche">
@@ -1510,8 +1552,9 @@
                 </button>
                 <div class="header-sep"></div>
                 <nav id="mainNav">
-                    <a href="#" class="active">Aktuelles</a>
-                    <a href="medien.html">Medien</a>
+                    <a href="#" class="active">News</a>
+                    <a href="medien.html">Mediencenter</a>
+                    <a href="kontakt.html">Kontakt</a>
                 </nav>
                 <div class="header-sep"></div>
                 <button class="header-menu-btn" id="menuBtn" onclick="toggleMobileMenu()">
@@ -1526,7 +1569,7 @@
     <!-- Header Search Overlay -->
     <div class="header-search-overlay" id="headerSearchOverlay">
         <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:rgba(255,255,255,.5);fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
-        <input type="text" id="headerSearchInput" placeholder="Suche nach Pressemitteilungen, News..." onkeyup="handleHeaderSearch(event)">
+        <input type="text" id="headerSearchInput" placeholder="Suche nach News..." onkeyup="handleHeaderSearch(event)">
         <button class="header-search-close" onclick="closeHeaderSearch()">
             <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
@@ -1535,8 +1578,9 @@
     <!-- Menu Backdrop + Slide-in Panel -->
     <div class="menu-backdrop" id="menuBackdrop" onclick="toggleMobileMenu()"></div>
     <div class="mobile-menu-overlay" id="mobileMenu">
-        <a href="index.html">Aktuelles <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
-        <a href="medien.html">Medien &amp; Downloads <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
+        <a href="index.html">News <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
+        <a href="medien.html">Mediencenter <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
+        <a href="kontakt.html">Kontakt <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
         <a href="https://www.fom.de" target="_blank">fom.de <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
     </div>
 
@@ -1569,14 +1613,6 @@
             </div>
             <div class="filter-panel" id="filterPanel">
                 <div class="filter-group">
-                    <span class="filter-label">Typ</span>
-                    <div class="filter-chips" id="typeFilters">
-                        <button class="filter-chip active" onclick="setTypeFilter('all', this)">Alle</button>
-                        <button class="filter-chip" onclick="setTypeFilter('pressrelease', this)">Pressemitteilungen</button>
-                        <button class="filter-chip" onclick="setTypeFilter('news', this)">News</button>
-                    </div>
-                </div>
-                <div class="filter-group">
                     <span class="filter-label">Thema</span>
                     <div class="filter-chips" id="tagFilters">
                         <button class="filter-chip active" onclick="setTagFilter('all', this)">Alle Themen</button>
@@ -1599,16 +1635,16 @@
         </div>
     </section>
 
-    <!-- Pressemitteilungen -->
+    <!-- News -->
     <main class="content" id="news">
         <div class="section-header">
-            <h2 class="section-title">Pressemitteilungen</h2>
+            <h2 class="section-title">News</h2>
             <span class="section-count" id="resultCount"></span>
         </div>
         <div class="news-grid" id="newsGrid">
             <div class="loading">
                 <div class="spinner"></div>
-                <p>Lade Pressemitteilungen...</p>
+                <p>Lade News...</p>
             </div>
         </div>
         <button class="load-more" id="loadMore" style="display:none" onclick="loadMore()">Weitere Beitr&auml;ge laden</button>
@@ -1642,23 +1678,25 @@
 
     <!-- Footer -->
     <footer>
+        <div class="footer-logo">
+            <img src="fom-logo-white.svg" alt="FOM Hochschule">
+        </div>
         <div class="footer-inner">
             <div class="footer-about">
-                <h3>FOM Hochschule</h3>
-                <p>Mit rund 45.000 Studierenden z&auml;hlt die FOM zu den gr&ouml;&szlig;ten Hochschulen Europas. Initiiert durch die gemeinn&uuml;tzige Stiftung f&uuml;r internationale Bildung und Wissenschaft erm&ouml;glicht sie Berufst&auml;tigen ein Hochschulstudium neben dem Beruf.</p>
-            </div>
-            <div class="footer-links">
-                <h4>Studium</h4>
-                <a href="https://www.fom.de/studiengaenge.html">Studieng&auml;nge</a>
-                <a href="https://www.fom.de/hochschulzentren.html">Standorte</a>
-                <a href="https://www.fom.de/forschung.html">Forschung</a>
-                <a href="https://www.fom.de">Startseite</a>
+                <p>Mit rund 45.000 Studierenden z&auml;hlt die gemeinn&uuml;tzige FOM zu den gr&ouml;&szlig;ten Hochschulen Europas. Initiiert durch die gemeinn&uuml;tzige Stiftung f&uuml;r internationale Bildung und Wissenschaft erm&ouml;glicht sie Berufst&auml;tigen, Auszubildenden, Abiturienten und international Studierenden ein Hochschulstudium. Die FOM ist staatlich anerkannt und bietet mehr als 60 akkreditierte Bachelor- und Master-Studieng&auml;nge an &ndash; im Campus-Studium+ an bundesweit &uuml;ber 30 Hochschulzentren oder im einzigartigen Digitalen Live-Studium aus den FOM Studios. Studierende k&ouml;nnen zudem mit den FOM Auslandsprogrammen weltweit Studienerfahrungen an renommierten Partnerhochschulen sammeln.</p>
             </div>
             <div class="footer-links">
                 <h4>Newsroom</h4>
-                <a href="#" onclick="filterBy('pressrelease'); return false;">Pressemitteilungen</a>
-                <a href="#" onclick="filterBy('news'); return false;">News</a>
-                <a href="medien.html">Medien &amp; Downloads</a>
+                <a href="index.html">News</a>
+                <a href="medien.html">Mediencenter</a>
+                <a href="kontakt.html">Kontakt</a>
+            </div>
+            <div class="footer-links">
+                <h4>FOM Hochschule</h4>
+                <a href="https://www.fom.de/studiengaenge.html">Studieng&auml;nge</a>
+                <a href="https://www.fom.de/hochschulzentren.html">Standorte</a>
+                <a href="https://www.fom.de/forschung.html">Forschung &amp; Lehre</a>
+                <a href="https://www.fom.de">fom.de</a>
             </div>
             <div class="footer-links">
                 <h4>Kontakt</h4>
@@ -1668,9 +1706,17 @@
                 <a href="https://www.fom.de">www.fom.de</a>
             </div>
         </div>
+        <div class="footer-accreditation">
+            <p>Die FOM Hochschule ist akkreditiert sowie staatlich und international anerkannt</p>
+            <div class="accreditation-logos">
+                <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="36" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/><text x="40" y="18" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="5" font-weight="700" letter-spacing="1.5">SYSTEM AKKREDITIERT</text><rect x="24" y="28" width="14" height="24" fill="rgba(255,255,255,.25)"/><rect x="42" y="28" width="14" height="24" fill="rgba(255,255,255,.25)"/><polyline points="46,38 50,44 56,32" stroke="rgba(255,255,255,.4)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="40" y="62" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="4.5">Akkreditierungsrat</text></svg>
+                <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="36" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/><text x="40" y="18" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="5" font-weight="700" letter-spacing="1.5">SYSTEM-AKKREDITIERT</text><line x1="40" y1="24" x2="20" y2="52" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/><line x1="40" y1="24" x2="60" y2="52" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/><line x1="20" y1="52" x2="60" y2="52" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/><line x1="40" y1="52" x2="40" y2="24" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/><text x="40" y="64" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="7" font-weight="700">FIBAA</text></svg>
+                <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="36" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/><text x="40" y="22" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="4.5">Staatlich und International</text><text x="40" y="34" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="4" font-weight="600">anerkannte</text><text x="40" y="44" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="8" font-weight="900" letter-spacing="1">HOCHSCHULE</text><text x="40" y="54" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="5">seit 1993</text><text x="40" y="64" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="8">&starf; &starf; &starf; &starf; &starf;</text></svg>
+            </div>
+        </div>
         <div class="footer-bottom">
             <span>&copy; 2026 FOM Hochschule f&uuml;r Oekonomie &amp; Management</span>
-            <a href="https://www.mynewsdesk.com">Daten via MyNewsdesk</a>
+            <span><a href="https://www.fom.de/die-fom/impressum.html">Impressum</a> &nbsp; <a href="https://www.fom.de/die-fom/datenschutz.html">Datenschutz</a></span>
         </div>
     </footer>
 
@@ -1737,7 +1783,7 @@
         const LIMIT = 100;
 
         const TYPE_LABELS = {
-            pressrelease: 'Pressemitteilung',
+            pressrelease: 'News',
             news: 'News',
             event: 'Event',
             blog_post: 'Blog',
@@ -1773,17 +1819,14 @@
                     ${imageUrl ? `<div class="card-image-wrap"><img class="card-image" src="${imageUrl}" alt="" loading="lazy"></div>` : ''}
                     <div class="card-body">
                         <div class="card-meta">
-                            <span class="card-type">${typeLabel}</span>
                             <span class="card-date">${formatDate(item.published_at)}</span>
                         </div>
+                        ${tags.length ? `<div class="card-tags">${tags.map(t => `<span class="card-tag">${t.name || t}</span>`).join('')}</div>` : ''}
                         <h2 class="card-title">
                             <a href="artikel.html?id=${item.id}&type=${item.type_of_media}">${item.header}</a>
                         </h2>
                         <p class="card-excerpt">${excerpt}</p>
                         <div class="card-footer">
-                            <div class="card-tags">
-                                ${tags.map(t => `<span class="card-tag">${t.name || t}</span>`).join('')}
-                            </div>
                             <a href="artikel.html?id=${item.id}&type=${item.type_of_media}" class="card-link">Lesen</a>
                         </div>
                     </div>

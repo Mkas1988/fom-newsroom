@@ -51,8 +51,8 @@
 
         /* ── Header (Porsche Newsroom Style – 2 states) ── */
         header {
-            background: var(--fom-white);
-            border-bottom: 1px solid var(--fom-gray-light);
+            background: var(--fom-teal);
+            border-bottom: none;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -83,17 +83,17 @@
 
         .header-title {
             font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
-            font-size: 26px; font-weight: 700; color: var(--fom-black);
+            font-size: 26px; font-weight: 700; color: white;
             line-height: 1.1; letter-spacing: -0.3px; transition: font-size .3s ease;
         }
 
         .header-subtitle {
-            font-size: 11.5px; font-weight: 400; color: var(--fom-gray);
+            font-size: 11.5px; font-weight: 400; color: rgba(255,255,255,.7);
             letter-spacing: 0.1px; transition: opacity .3s ease, height .3s ease;
             overflow: hidden; height: 16px;
         }
 
-        .header-left:hover .header-title { color: var(--fom-teal); }
+        .header-left:hover .header-title { color: white; opacity: .85; }
 
         .logo-center {
             position: absolute; left: 50%; top: 50%;
@@ -108,21 +108,21 @@
         nav { display: flex; gap: 0; align-items: center; }
 
         nav a {
-            color: var(--fom-black); text-decoration: none; font-size: 15px;
+            color: white; text-decoration: none; font-size: 15px;
             font-weight: 500; padding: 8px 16px; transition: all .2s;
             position: relative; white-space: nowrap;
         }
 
-        nav a:hover { color: var(--fom-teal-dark); }
+        nav a:hover { color: white; opacity: .8; }
 
         .header-menu-btn {
-            display: flex; align-items: center; gap: 8px;
+            display: none !important; align-items: center; gap: 8px;
             padding: 8px 0 8px 16px; background: none; border: none;
-            color: var(--fom-black); font-size: 15px; font-weight: 500;
+            color: white; font-size: 15px; font-weight: 500;
             cursor: pointer; font-family: inherit; transition: color .2s;
         }
 
-        .header-menu-btn:hover { color: var(--fom-teal-dark); }
+        .header-menu-btn:hover { color: white; opacity: .8; }
 
         .header-menu-btn svg {
             width: 22px; height: 22px; stroke: currentColor;
@@ -205,6 +205,75 @@
         .article-date {
             font-size: 14px;
             color: var(--fom-gray);
+        }
+
+        .article-reading-time {
+            font-size: 14px;
+            color: var(--fom-gray);
+        }
+
+        .meta-dot {
+            color: var(--fom-gray-light);
+            font-size: 14px;
+        }
+
+        .hero-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .hero-tag {
+            font-size: 13px;
+            color: var(--fom-teal-dark);
+            background: var(--fom-teal-light);
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background .2s;
+        }
+
+        .hero-tag:hover {
+            background: rgba(0, 198, 178, .15);
+        }
+
+        .hero-share {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .hero-share .share-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--fom-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .hero-share .share-btn {
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--fom-gray-light);
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all .2s;
+            text-decoration: none;
+            color: var(--fom-gray);
+            font-size: 14px;
+        }
+
+        .hero-share .share-btn:hover {
+            border-color: var(--fom-teal);
+            color: var(--fom-teal);
+            background: rgba(0, 198, 178, .05);
         }
 
         .article-hero h1 {
@@ -357,45 +426,51 @@
             line-height: 1.7;
         }
 
-        /* ── Contact People ── */
-        .article-contacts {
+        /* ── Article Author ── */
+        .article-author {
             max-width: 800px;
             margin: 32px auto 0;
             padding: 0 32px;
         }
 
-        .contacts-title {
-            font-size: 14px;
+        .author-label {
+            display: block;
+            font-size: 12px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--fom-gray);
-            margin-bottom: 16px;
-        }
-
-        .contact-card {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            padding: 20px 24px;
-            background: white;
-            border: 1px solid var(--fom-gray-light);
-            border-radius: var(--radius);
             margin-bottom: 12px;
         }
 
-        .contact-avatar {
-            width: 56px;
-            height: 56px;
+        .author-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+            padding: 10px 20px 10px 10px;
+            border-radius: 40px;
+            border: 1px solid var(--fom-gray-light);
+            background: var(--fom-bg-alt);
+            transition: border-color .2s, background .2s;
+        }
+
+        .author-link:hover {
+            border-color: var(--fom-teal);
+            background: var(--fom-teal-light);
+        }
+
+        .author-avatar {
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             object-fit: cover;
-            background: var(--fom-bg-alt);
             flex-shrink: 0;
         }
 
-        .contact-avatar-placeholder {
-            width: 56px;
-            height: 56px;
+        .author-avatar-placeholder {
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             background: var(--fom-teal);
             color: white;
@@ -403,38 +478,15 @@
             align-items: center;
             justify-content: center;
             font-weight: 900;
-            font-size: 20px;
+            font-size: 16px;
             flex-shrink: 0;
         }
 
-        .contact-info { flex: 1; }
-
-        .contact-name {
-            font-size: 16px;
+        .author-name {
+            font-size: 15px;
             font-weight: 700;
             color: var(--fom-black);
         }
-
-        .contact-role {
-            font-size: 14px;
-            color: var(--fom-gray);
-            margin-top: 2px;
-        }
-
-        .contact-details {
-            display: flex;
-            gap: 16px;
-            margin-top: 6px;
-        }
-
-        .contact-details a {
-            font-size: 13px;
-            color: var(--fom-teal);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .contact-details a:hover { text-decoration: underline; }
 
         /* ── Related Articles ── */
         .related-section {
@@ -613,70 +665,25 @@
 
         /* ── Footer ── */
         footer {
-            background: var(--fom-bg-alt);
-            border-top: 1px solid var(--fom-gray-light);
+            background: #0b2623;
+            border-top: none;
             padding: 64px 32px 32px;
             margin-top: 100px;
         }
-
-        .footer-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 48px;
-        }
-
-        .footer-about h3 {
-            color: var(--fom-black);
-            font-size: 20px;
-            font-weight: 900;
-            margin-bottom: 14px;
-        }
-
-        .footer-about p {
-            font-size: 14px;
-            color: var(--fom-text-light);
-            line-height: 1.8;
-        }
-
-        .footer-links h4 {
-            color: var(--fom-black);
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            margin-bottom: 18px;
-        }
-
-        .footer-links a {
-            display: block;
-            color: var(--fom-text-light);
-            text-decoration: none;
-            font-size: 14px;
-            padding: 5px 0;
-            transition: color .2s;
-        }
-
-        .footer-links a:hover { color: var(--fom-teal); }
-
-        .footer-bottom {
-            max-width: 1200px;
-            margin: 40px auto 0;
-            padding-top: 24px;
-            border-top: 1px solid var(--fom-gray-light);
-            font-size: 13px;
-            color: var(--fom-gray);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-bottom a {
-            color: var(--fom-teal);
-            text-decoration: none;
-            font-weight: 600;
-        }
+        .footer-logo { max-width: 1200px; margin: 0 auto 16px; }
+        .footer-logo img { height: 120px; width: auto; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
+        .footer-about p { font-size: 14px; color: rgba(255,255,255,.85); line-height: 1.8; }
+        .footer-links h4 { color: rgba(255,255,255,.4); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 18px; }
+        .footer-links a { display: block; color: rgba(255,255,255,.75); text-decoration: none; font-size: 14px; padding: 5px 0; transition: color .2s; }
+        .footer-links a:hover { color: #00c6b2; }
+        .footer-bottom { max-width: 1200px; margin: 40px auto 0; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.1); font-size: 13px; color: rgba(255,255,255,.4); display: flex; justify-content: space-between; align-items: center; }
+        .footer-bottom a { color: rgba(255,255,255,.5); text-decoration: none; font-weight: 600; transition: color .2s; }
+        .footer-bottom a:hover { color: #00c6b2; }
+        .footer-accreditation { max-width: 1200px; margin: 48px auto 0; padding-top: 32px; border-top: 1px solid rgba(255,255,255,.1); }
+        .footer-accreditation p { font-size: 13px; color: rgba(255,255,255,.4); margin-bottom: 20px; }
+        .accreditation-logos { display: flex; gap: 32px; align-items: center; }
+        .accreditation-logos svg { width: 72px; height: 72px; opacity: .7; }
 
         /* ── Responsive ── */
         @media (max-width: 1024px) {
@@ -706,8 +713,7 @@
             .related-title { font-size: 22px; }
             .footer-inner { grid-template-columns: 1fr; gap: 32px; }
             .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
-            .contact-card { flex-direction: column; text-align: center; }
-            .contact-details { justify-content: center; }
+            .article-author { padding: 0 20px; }
         }
     </style>
 </head>
@@ -722,12 +728,13 @@
                 <span class="header-subtitle">Das Medien-Portal der FOM Hochschule</span>
             </a>
             <a href="index.html" class="logo-center">
-                <img class="logo-img" src="fom-logo.png" alt="FOM Hochschule">
+                <img class="logo-img" src="fom-logo-white.svg" alt="FOM Hochschule">
             </a>
             <div class="header-right">
                 <nav id="mainNav">
-                    <a href="index.html">Aktuelles</a>
-                    <a href="medien.html">Medien</a>
+                    <a href="index.html">News</a>
+                    <a href="medien.html">Mediencenter</a>
+                    <a href="kontakt.html">Kontakt</a>
                 </nav>
                 <button class="header-menu-btn" id="menuBtn" onclick="toggleMobileMenu()">
                     <svg class="menu-icon-open" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -740,8 +747,9 @@
 
     <div class="menu-backdrop" id="menuBackdrop" onclick="toggleMobileMenu()"></div>
     <div class="mobile-menu-overlay" id="mobileMenu">
-        <a href="index.html">Aktuelles <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
-        <a href="medien.html">Medien &amp; Downloads <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
+        <a href="index.html">News <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
+        <a href="medien.html">Mediencenter <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
+        <a href="kontakt.html">Kontakt <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
         <a href="https://www.fom.de" target="_blank">fom.de <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
     </div>
 
@@ -755,23 +763,25 @@
 
     <!-- Footer -->
     <footer>
+        <div class="footer-logo">
+            <img src="fom-logo-white.svg" alt="FOM Hochschule">
+        </div>
         <div class="footer-inner">
             <div class="footer-about">
-                <h3>FOM Hochschule</h3>
-                <p>Mit rund 45.000 Studierenden z&auml;hlt die FOM zu den gr&ouml;&szlig;ten Hochschulen Europas. Initiiert durch die gemeinn&uuml;tzige Stiftung f&uuml;r internationale Bildung und Wissenschaft erm&ouml;glicht sie Berufst&auml;tigen ein Hochschulstudium neben dem Beruf.</p>
-            </div>
-            <div class="footer-links">
-                <h4>Studium</h4>
-                <a href="https://www.fom.de/studiengaenge.html">Studieng&auml;nge</a>
-                <a href="https://www.fom.de/hochschulzentren.html">Standorte</a>
-                <a href="https://www.fom.de/forschung.html">Forschung</a>
-                <a href="https://www.fom.de">Startseite</a>
+                <p>Mit rund 45.000 Studierenden z&auml;hlt die gemeinn&uuml;tzige FOM zu den gr&ouml;&szlig;ten Hochschulen Europas. Initiiert durch die gemeinn&uuml;tzige Stiftung f&uuml;r internationale Bildung und Wissenschaft erm&ouml;glicht sie Berufst&auml;tigen, Auszubildenden, Abiturienten und international Studierenden ein Hochschulstudium. Die FOM ist staatlich anerkannt und bietet mehr als 60 akkreditierte Bachelor- und Master-Studieng&auml;nge an &ndash; im Campus-Studium+ an bundesweit &uuml;ber 30 Hochschulzentren oder im einzigartigen Digitalen Live-Studium aus den FOM Studios. Studierende k&ouml;nnen zudem mit den FOM Auslandsprogrammen weltweit Studienerfahrungen an renommierten Partnerhochschulen sammeln.</p>
             </div>
             <div class="footer-links">
                 <h4>Newsroom</h4>
-                <a href="index.html">Alle Beitr&auml;ge</a>
-                <a href="index.html?filter=pressrelease">Pressemitteilungen</a>
-                <a href="index.html?filter=event">Events</a>
+                <a href="index.html">News</a>
+                <a href="medien.html">Mediencenter</a>
+                <a href="kontakt.html">Kontakt</a>
+            </div>
+            <div class="footer-links">
+                <h4>FOM Hochschule</h4>
+                <a href="https://www.fom.de/studiengaenge.html">Studieng&auml;nge</a>
+                <a href="https://www.fom.de/hochschulzentren.html">Standorte</a>
+                <a href="https://www.fom.de/forschung.html">Forschung &amp; Lehre</a>
+                <a href="https://www.fom.de">fom.de</a>
             </div>
             <div class="footer-links">
                 <h4>Kontakt</h4>
@@ -781,9 +791,17 @@
                 <a href="https://www.fom.de">www.fom.de</a>
             </div>
         </div>
+        <div class="footer-accreditation">
+            <p>Die FOM Hochschule ist akkreditiert sowie staatlich und international anerkannt</p>
+            <div class="accreditation-logos">
+                <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="36" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/><text x="40" y="18" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="5" font-weight="700" letter-spacing="1.5">SYSTEM AKKREDITIERT</text><rect x="24" y="28" width="14" height="24" fill="rgba(255,255,255,.25)"/><rect x="42" y="28" width="14" height="24" fill="rgba(255,255,255,.25)"/><polyline points="46,38 50,44 56,32" stroke="rgba(255,255,255,.4)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="40" y="62" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="4.5">Akkreditierungsrat</text></svg>
+                <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="36" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/><text x="40" y="18" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="5" font-weight="700" letter-spacing="1.5">SYSTEM-AKKREDITIERT</text><line x1="40" y1="24" x2="20" y2="52" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/><line x1="40" y1="24" x2="60" y2="52" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/><line x1="20" y1="52" x2="60" y2="52" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/><line x1="40" y1="52" x2="40" y2="24" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/><text x="40" y="64" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="7" font-weight="700">FIBAA</text></svg>
+                <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="36" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/><text x="40" y="22" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="4.5">Staatlich und International</text><text x="40" y="34" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="4" font-weight="600">anerkannte</text><text x="40" y="44" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="8" font-weight="900" letter-spacing="1">HOCHSCHULE</text><text x="40" y="54" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="5">seit 1993</text><text x="40" y="64" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="8">&starf; &starf; &starf; &starf; &starf;</text></svg>
+            </div>
+        </div>
         <div class="footer-bottom">
             <span>&copy; 2026 FOM Hochschule f&uuml;r Oekonomie &amp; Management</span>
-            <a href="https://www.mynewsdesk.com">Daten via MyNewsdesk</a>
+            <span><a href="https://www.fom.de/die-fom/impressum.html">Impressum</a> &nbsp; <a href="https://www.fom.de/die-fom/datenschutz.html">Datenschutz</a></span>
         </div>
     </footer>
 
@@ -815,7 +833,7 @@
         const BASE_URL = 'https://www.mynewsdesk.com/services/pressroom';
 
         const TYPE_LABELS = {
-            pressrelease: 'Pressemitteilung',
+            pressrelease: 'News',
             news: 'News',
             event: 'Event',
             blog_post: 'Blog',
@@ -852,6 +870,58 @@
             };
         }
 
+        // Helper: normalize tags from view endpoint (can be string or object)
+        function normalizeTags(tags) {
+            if (!tags) return [];
+            if (Array.isArray(tags)) return tags.map(t => t.name || t);
+            if (tags.tag) {
+                const t = tags.tag;
+                if (Array.isArray(t)) return t.map(x => x.name || x);
+                return [t.name || t];
+            }
+            return [];
+        }
+
+        // Helper: normalize contact_people from view endpoint
+        function normalizeContacts(cp) {
+            if (!cp) return [];
+            if (Array.isArray(cp)) return cp;
+            if (cp.contact_person) {
+                const c = cp.contact_person;
+                return Array.isArray(c) ? c : [c];
+            }
+            return [];
+        }
+
+        // Helper: normalize related_items from view endpoint
+        function normalizeRelatedItems(ri) {
+            if (!ri) return [];
+            if (Array.isArray(ri)) return ri;
+            if (ri.related_item) {
+                const r = ri.related_item;
+                return Array.isArray(r) ? r : [r];
+            }
+            return [];
+        }
+
+        // Filter contacts to only those linked via related_items (= actual article author)
+        function getArticleAuthors(contacts, relatedItems) {
+            const authorIds = new Set(
+                relatedItems
+                    .filter(r => r.type_of_media === 'contact_person')
+                    .map(r => String(r.item_id))
+            );
+            if (authorIds.size === 0) return [];
+            return contacts.filter(c => authorIds.has(String(c.id)));
+        }
+
+        // Helper: normalize published_at (view returns string, list returns object)
+        function normalizeDate(d) {
+            if (!d) return null;
+            if (typeof d === 'object' && d.datetime) return d;
+            return { datetime: d };
+        }
+
         async function loadArticle() {
             const { id, type } = getParams();
             const container = document.getElementById('articleContainer');
@@ -866,10 +936,10 @@
             }
 
             try {
-                // Fetch all items and find the one with matching ID
-                const res = await fetch(`${BASE_URL}/list/${API_KEY}?format=json&strict=true&type_of_media=${type}&limit=100`);
+                // Use view endpoint for full article details incl. contact_people with photos
+                const res = await fetch(`${BASE_URL}/view/${API_KEY}?format=json&type_of_media=${type}&item_id=${id}`);
                 const data = await res.json();
-                const item = (data.items || []).find(i => String(i.id) === String(id));
+                const item = data.item;
 
                 if (!item) {
                     container.innerHTML = `
@@ -883,9 +953,20 @@
 
                 document.title = `${item.header} – FOM Newsroom`;
                 const typeLabel = TYPE_LABELS[item.type_of_media] || item.type_of_media;
-                const tags = item.tags || [];
-                const contacts = item.contact_people || [];
+                const tags = normalizeTags(item.tags);
+                const allContacts = normalizeContacts(item.contact_people);
+                const relatedItems = normalizeRelatedItems(item.related_items);
+                const contacts = getArticleAuthors(allContacts, relatedItems);
                 const imageUrl = item.image || item.image_medium || '';
+                const publishedAt = normalizeDate(item.published_at);
+
+                // Calculate reading time
+                const plainText = (item.body || '').replace(/<[^>]+>/g, '');
+                const wordCount = plainText.trim().split(/\s+/).filter(w => w.length > 0).length;
+                const readingMinutes = Math.max(1, Math.round(wordCount / 200));
+
+                const shareUrl = encodeURIComponent(window.location.href);
+                const shareTitle = encodeURIComponent(item.header);
 
                 let html = '';
 
@@ -894,18 +975,25 @@
                     <section class="article-hero">
                         <div class="article-hero-inner">
                             <div class="breadcrumb">
-                                <a href="https://www.fom.de">Startseite</a>
-                                <span>/</span>
                                 <a href="index.html">Newsroom</a>
                                 <span>/</span>
                                 ${typeLabel}
                             </div>
+                            ${tags.length ? `<div class="hero-tags">${tags.map(t => `<a href="index.html?search=${encodeURIComponent(t)}" class="hero-tag">${t}</a>`).join('')}</div>` : ''}
                             <div class="article-meta">
-                                <span class="article-type">${typeLabel}</span>
-                                <span class="article-date">${formatDate(item.published_at)}</span>
+                                <span class="article-date">${formatDate(publishedAt)}</span>
+                                <span class="meta-dot">&middot;</span>
+                                <span class="article-reading-time">${readingMinutes} Min. Lesezeit</span>
                             </div>
                             <h1>${item.header}</h1>
                             ${item.summary ? `<p class="article-summary">${item.summary}</p>` : ''}
+                            <div class="hero-share">
+                                <span class="share-label">Teilen</span>
+                                <a href="https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}" target="_blank" rel="noopener" class="share-btn" title="LinkedIn">in</a>
+                                <a href="https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}" target="_blank" rel="noopener" class="share-btn" title="X/Twitter">X</a>
+                                <a href="mailto:?subject=${shareTitle}&body=${shareUrl}" class="share-btn" title="E-Mail">@</a>
+                                <button class="share-btn" title="Link kopieren" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='\\u2713'; setTimeout(() => this.textContent='\\u29c9', 1500);">&#x29C9;</button>
+                            </div>
                         </div>
                     </section>`;
 
@@ -924,28 +1012,10 @@
                         <div class="article-content">
                             <div class="article-body">${item.body}</div>`;
 
-                    // Tags
-                    if (tags.length) {
-                        html += `
-                            <div class="article-tags">
-                                ${tags.map(t => `<a href="index.html?search=${encodeURIComponent(t.name || t)}" class="article-tag">${t.name || t}</a>`).join('')}
-                            </div>`;
-                    }
-
                     html += `</div>`;
                 }
 
-                // Share
-                const shareUrl = encodeURIComponent(window.location.href);
-                const shareTitle = encodeURIComponent(item.header);
-                html += `
-                    <div class="share-bar">
-                        <span class="share-label">Teilen</span>
-                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}" target="_blank" rel="noopener" class="share-btn" title="LinkedIn">in</a>
-                        <a href="https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}" target="_blank" rel="noopener" class="share-btn" title="X/Twitter">X</a>
-                        <a href="mailto:?subject=${shareTitle}&body=${shareUrl}" class="share-btn" title="E-Mail">@</a>
-                        <button class="share-btn" title="Link kopieren" onclick="navigator.clipboard.writeText(window.location.href); this.textContent='\\u2713'; setTimeout(() => this.textContent='\\u29c9', 1500);">&#x29C9;</button>
-                    </div>`;
+                // (Share bar is now in the hero section above)
 
                 // Boilerplate
                 if (item.boilerplate) {
@@ -956,27 +1026,20 @@
                         </div>`;
                 }
 
-                // Contact People
+                // Author (compact: photo + name, links to profile)
                 if (contacts.length) {
+                    const c = contacts[0];
+                    const avatarUrl = c.image_thumbnail_large || c.image_thumbnail_medium || c.image_small || '';
                     html += `
-                        <div class="article-contacts">
-                            <div class="contacts-title">Ansprechpartner</div>
-                            ${contacts.map(c => `
-                                <div class="contact-card">
-                                    ${c.image_small
-                                        ? `<img class="contact-avatar" src="${c.image_small}" alt="${c.name}">`
-                                        : `<div class="contact-avatar-placeholder">${(c.name || '?').charAt(0)}</div>`
-                                    }
-                                    <div class="contact-info">
-                                        <div class="contact-name">${c.name || ''}</div>
-                                        ${c.title ? `<div class="contact-role">${c.title}</div>` : ''}
-                                        <div class="contact-details">
-                                            ${c.email ? `<a href="mailto:${c.email}">${c.email}</a>` : ''}
-                                            ${c.phone ? `<a href="tel:${c.phone}">${c.phone}</a>` : ''}
-                                        </div>
-                                    </div>
-                                </div>
-                            `).join('')}
+                        <div class="article-author">
+                            <span class="author-label">Autor</span>
+                            <a href="autor.html?id=${c.id}" class="author-link">
+                                ${avatarUrl
+                                    ? `<img class="author-avatar" src="${avatarUrl}" alt="${c.name}">`
+                                    : `<div class="author-avatar-placeholder">${(c.name || '?').charAt(0)}</div>`
+                                }
+                                <span class="author-name">${c.name || ''}</span>
+                            </a>
                         </div>`;
                 }
 
@@ -986,34 +1049,10 @@
                         <a href="index.html">&larr; Zur&uuml;ck zum Newsroom</a>
                     </div>`;
 
-                // Related articles
-                const relatedItems = (data.items || [])
-                    .filter(i => String(i.id) !== String(id))
-                    .slice(0, 3);
-
-                if (relatedItems.length) {
-                    html += `
-                        <section class="related-section">
-                            <h2 class="related-title">Weitere Beitr&auml;ge</h2>
-                            <div class="related-grid">
-                                ${relatedItems.map(ri => `
-                                    <a href="artikel.html?id=${ri.id}&type=${ri.type_of_media}" class="related-card">
-                                        ${(ri.image_medium || ri.image_small)
-                                            ? `<img class="related-card-image" src="${ri.image_medium || ri.image_small}" alt="" loading="lazy">`
-                                            : ''
-                                        }
-                                        <div class="related-card-body">
-                                            <div class="related-card-type">${TYPE_LABELS[ri.type_of_media] || ri.type_of_media}</div>
-                                            <div class="related-card-title">${ri.header}</div>
-                                            <div class="related-card-date">${formatDate(ri.published_at)}</div>
-                                        </div>
-                                    </a>
-                                `).join('')}
-                            </div>
-                        </section>`;
-                }
-
                 container.innerHTML = html;
+
+                // Load related articles asynchronously (tag-based recommendations)
+                loadRelatedArticles(id, type, tags);
 
             } catch (err) {
                 container.innerHTML = `
@@ -1022,6 +1061,77 @@
                         <p>${err.message}</p>
                         <p><a href="index.html">&larr; Zur&uuml;ck zum Newsroom</a></p>
                     </div>`;
+            }
+        }
+
+        async function loadRelatedArticles(currentId, currentType, tags) {
+            try {
+                // Fetch articles: try tag-based search first, fall back to same type
+                let relatedItems = [];
+
+                if (tags.length > 0) {
+                    // Search by first tag for relevance
+                    const searchRes = await fetch(`${BASE_URL}/search/${API_KEY}?format=json&query=${encodeURIComponent(tags[0])}&type_of_media=pressrelease&limit=10`);
+                    const searchData = await searchRes.json();
+                    const searchItems = searchData.items || [];
+                    // Normalize: search may return array or object with .item
+                    const normalized = Array.isArray(searchItems)
+                        ? searchItems
+                        : (searchItems.item ? (Array.isArray(searchItems.item) ? searchItems.item : [searchItems.item]) : []);
+                    relatedItems = normalized.filter(i => String(i.id) !== String(currentId));
+                }
+
+                // If not enough tag-based results, supplement with recent articles
+                if (relatedItems.length < 3) {
+                    const listRes = await fetch(`${BASE_URL}/list/${API_KEY}?format=json&strict=true&type_of_media=${currentType}&limit=10`);
+                    const listData = await listRes.json();
+                    const listItems = listData.items || [];
+                    const normalized = Array.isArray(listItems)
+                        ? listItems
+                        : (listItems.item ? (Array.isArray(listItems.item) ? listItems.item : [listItems.item]) : []);
+                    const existingIds = new Set(relatedItems.map(i => String(i.id)));
+                    existingIds.add(String(currentId));
+                    for (const item of normalized) {
+                        if (!existingIds.has(String(item.id))) {
+                            relatedItems.push(item);
+                            existingIds.add(String(item.id));
+                        }
+                    }
+                }
+
+                relatedItems = relatedItems.slice(0, 3);
+
+                if (relatedItems.length) {
+                    const relatedHtml = `
+                        <section class="related-section">
+                            <h2 class="related-title">Das k&ouml;nnte Sie auch interessieren</h2>
+                            <div class="related-grid">
+                                ${relatedItems.map(ri => {
+                                    const riDate = normalizeDate(ri.published_at);
+                                    const riImage = ri.image_medium || ri.image_small || ri.image || '';
+                                    const riType = ri.type_of_media || 'pressrelease';
+                                    return `
+                                    <a href="artikel.html?id=${ri.id}&type=${riType}" class="related-card">
+                                        ${riImage
+                                            ? `<img class="related-card-image" src="${riImage}" alt="" loading="lazy">`
+                                            : ''
+                                        }
+                                        <div class="related-card-body">
+                                            <div class="related-card-type">${TYPE_LABELS[riType] || riType}</div>
+                                            <div class="related-card-title">${ri.header}</div>
+                                            <div class="related-card-date">${formatDate(riDate)}</div>
+                                        </div>
+                                    </a>`;
+                                }).join('')}
+                            </div>
+                        </section>`;
+
+                    // Insert before footer
+                    const footer = document.querySelector('footer');
+                    footer.insertAdjacentHTML('beforebegin', relatedHtml);
+                }
+            } catch (e) {
+                console.error('Related articles load failed:', e);
             }
         }
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medien &amp; Downloads – FOM Newsroom</title>
+    <title>Autor – FOM Newsroom</title>
     <style>
         @font-face {
             font-family: 'Neue-Haas-Grotesk-Text-Pro';
@@ -25,19 +25,18 @@
         }
 
         :root {
-            --fom-teal: #00C6B2;
-            --fom-teal-dark: #009F8F;
+            --fom-teal: #00c6b2;
+            --fom-teal-dark: #009f8f;
+            --fom-teal-light: #e5f9f7;
             --fom-black: #121212;
-            --fom-white: #FFFFFF;
-            --fom-bg: #FFFFFF;
-            --fom-bg-alt: #F2F0F0;
-            --fom-gray: #6D6D6D;
-            --fom-gray-light: #E6E6E6;
-            --fom-gray-dark: #4B4B4B;
-            --fom-text: #121212;
-            --fom-text-light: #6D6D6D;
-            --fom-error: #E81818;
-            --radius: 8px;
+            --fom-white: #ffffff;
+            --fom-bg: #ffffff;
+            --fom-bg-alt: #f7f7f7;
+            --fom-gray: #6d6d6d;
+            --fom-gray-light: #e6e6e6;
+            --fom-text: #202020;
+            --fom-text-light: #6d6d6d;
+            --radius: 12px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -50,7 +49,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ── Header (Porsche Newsroom Style – 2 states) ── */
+        /* ── Header ── */
         header {
             background: var(--fom-teal);
             border-bottom: none;
@@ -66,11 +65,7 @@
         header.scrolled .header-subtitle { opacity: 0; height: 0; margin: 0; }
         header.scrolled .header-title { font-size: 20px; font-weight: 700; }
         header.scrolled .logo-center { opacity: 0; pointer-events: none; }
-
-        .header-left {
-            display: flex; flex-direction: column; gap: 1px;
-            flex-shrink: 0; text-decoration: none;
-        }
+        .header-left { display: flex; flex-direction: column; gap: 1px; flex-shrink: 0; text-decoration: none; }
         .header-title {
             font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
             font-size: 26px; font-weight: 700; color: white;
@@ -82,27 +77,13 @@
             overflow: hidden; height: 16px;
         }
         .header-left:hover .header-title { color: white; opacity: .85; }
-
         .logo-center {
             position: absolute; left: 50%; top: 50%;
             transform: translate(-50%, -50%); text-decoration: none;
             transition: opacity .3s ease;
         }
         .logo-img { height: 90px; width: auto; }
-
         .header-right { display: flex; align-items: center; gap: 4px; }
-
-        .header-icon-btn {
-            width: 38px; height: 38px; border: none; background: transparent;
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
-            border-radius: 50%; transition: background .2s;
-        }
-        .header-icon-btn svg {
-            width: 20px; height: 20px; stroke: var(--fom-black); fill: none;
-            stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-        }
-        .header-icon-btn:hover { background: var(--fom-bg-alt); }
-
         nav { display: flex; gap: 0; align-items: center; }
         nav a {
             color: white; text-decoration: none; font-size: 15px;
@@ -110,8 +91,6 @@
             position: relative; white-space: nowrap;
         }
         nav a:hover { color: white; opacity: .8; }
-        nav a.active { color: white; font-weight: 700; }
-
         .header-menu-btn {
             display: none !important; align-items: center; gap: 8px;
             padding: 8px 0 8px 16px; background: none; border: none;
@@ -123,7 +102,6 @@
             width: 22px; height: 22px; stroke: currentColor;
             fill: none; stroke-width: 2; stroke-linecap: round;
         }
-
         .menu-backdrop {
             position: fixed; inset: 0; background: rgba(0,0,0,.5);
             z-index: 198; opacity: 0; pointer-events: none; transition: opacity .3s ease;
@@ -154,133 +132,216 @@
         .header-menu-btn.is-open .menu-icon-open { display: none; }
         .header-menu-btn.is-open .menu-icon-close { display: inline; }
 
-        /* ── Page Hero ── */
-        .page-hero {
+        /* ── Author Profile ── */
+        .author-hero {
             background: var(--fom-bg-alt);
-            padding: 64px 32px 56px;
+            border-bottom: 1px solid var(--fom-gray-light);
+            padding: 48px 32px 56px;
         }
-        .page-hero-inner {
-            max-width: 1400px; margin: 0 auto;
+
+        .author-hero-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 28px;
         }
-        .page-hero h1 {
+
+        .author-hero-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 4px 16px rgba(0,0,0,.1);
+            flex-shrink: 0;
+        }
+
+        .author-hero-avatar-placeholder {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--fom-teal);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 40px;
+            border: 4px solid white;
+            box-shadow: 0 4px 16px rgba(0,0,0,.1);
+            flex-shrink: 0;
+        }
+
+        .author-hero-info h1 {
             font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
-            font-size: 42px; font-weight: 700; color: var(--fom-black);
-            margin-bottom: 12px; letter-spacing: -0.5px;
-        }
-        .page-hero p {
-            font-size: 18px; color: var(--fom-gray); line-height: 1.7; max-width: 680px;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--fom-black);
+            line-height: 1.2;
         }
 
-        /* ── Category Filter ── */
-        .media-filters {
-            max-width: 1400px; margin: 0 auto; padding: 28px 32px 0;
-            display: flex; gap: 8px; flex-wrap: wrap;
+        .author-hero-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--fom-gray);
+            border: 1px solid var(--fom-gray-light);
+            border-radius: 4px;
+            padding: 3px 10px;
+            margin-top: 6px;
         }
-        .cat-chip {
-            padding: 7px 18px; border-radius: 20px; border: 1px solid var(--fom-gray-light);
-            background: white; font-family: inherit; font-size: 14px; font-weight: 600;
-            color: var(--fom-gray-dark); cursor: pointer; transition: all .2s;
-        }
-        .cat-chip:hover { border-color: var(--fom-gray); }
-        .cat-chip.active { background: var(--fom-black); color: white; border-color: var(--fom-black); }
 
-        /* ── Media Gallery ── */
-        .media-content {
-            max-width: 1400px; margin: 0 auto; padding: 32px 32px 80px;
+        .author-hero-role {
+            font-size: 16px;
+            color: var(--fom-gray);
+            margin-top: 6px;
         }
-        .media-count {
-            font-size: 14px; color: var(--fom-gray); font-weight: 600; margin-bottom: 28px;
+
+        .author-hero-contact {
+            display: flex;
+            gap: 16px;
+            margin-top: 10px;
         }
-        .category-section {
-            margin-bottom: 48px;
+
+        .author-hero-contact a {
+            font-size: 14px;
+            color: var(--fom-teal);
+            text-decoration: none;
+            font-weight: 600;
         }
-        .category-title {
+
+        .author-hero-contact a:hover { text-decoration: underline; }
+
+        /* ── Articles List ── */
+        .author-articles {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 48px 32px;
+        }
+
+        .author-articles-title {
             font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
-            font-size: 22px; font-weight: 700; color: var(--fom-black);
-            margin-bottom: 20px; padding-bottom: 12px;
-            border-bottom: 2px solid var(--fom-gray-light);
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--fom-black);
+            margin-bottom: 24px;
         }
-        .category-count {
-            font-size: 14px; font-weight: 400; color: var(--fom-gray); margin-left: 8px;
-        }
-        .media-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
-        }
-        .media-card {
-            position: relative; border-radius: var(--radius);
-            overflow: hidden; background: white; cursor: pointer; aspect-ratio: 4 / 3;
-        }
-        .media-card img {
-            width: 100%; height: 100%; object-fit: cover; display: block;
-            transition: transform .4s;
-        }
-        .media-card:hover img { transform: scale(1.06); }
-        .media-card-overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,.7) 0%, rgba(0,0,0,0) 50%);
-            opacity: 0; transition: opacity .3s;
-            display: flex; flex-direction: column; justify-content: flex-end; padding: 20px;
-        }
-        .media-card:hover .media-card-overlay { opacity: 1; }
-        .media-card-title { font-size: 14px; font-weight: 700; color: white; margin-bottom: 4px; line-height: 1.3; }
-        .media-card-caption {
-            font-size: 12px; color: rgba(255,255,255,.7); line-height: 1.4;
-            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-        }
-        .media-card-dl {
-            position: absolute; top: 12px; right: 12px; width: 36px; height: 36px;
-            border-radius: 8px; background: rgba(0,0,0,.5); backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,.2); color: white;
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; transition: opacity .3s, background .2s;
-            cursor: pointer; text-decoration: none;
-        }
-        .media-card:hover .media-card-dl { opacity: 1; }
-        .media-card-dl:hover { background: var(--fom-teal); border-color: var(--fom-teal); }
-        .media-card-dl svg { width: 16px; height: 16px; stroke: white; fill: none; stroke-width: 2.5; stroke-linecap: round; }
 
-        /* Lightbox */
-        .lightbox {
-            display: none; position: fixed; inset: 0;
-            background: rgba(0,0,0,.9); backdrop-filter: blur(12px);
-            z-index: 500; align-items: center; justify-content: center; padding: 40px;
+        .author-article-count {
+            font-weight: 400;
+            color: var(--fom-gray);
+            font-size: 16px;
         }
-        .lightbox.open { display: flex; }
-        .lightbox-close {
-            position: absolute; top: 20px; right: 28px; width: 44px; height: 44px;
-            border-radius: 50%; border: 1px solid rgba(255,255,255,.3);
-            background: rgba(255,255,255,.1); color: white; font-size: 24px;
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
+
+        .author-article-item {
+            display: flex;
+            gap: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--fom-gray-light);
+            text-decoration: none;
+            color: inherit;
             transition: background .2s;
         }
-        .lightbox-close:hover { background: rgba(255,255,255,.25); }
-        .lightbox-content {
-            max-width: 1200px; max-height: 90vh;
-            display: flex; flex-direction: column; align-items: center; gap: 20px;
-        }
-        .lightbox-content img { max-width: 100%; max-height: 75vh; object-fit: contain; border-radius: 8px; }
-        .lightbox-info { text-align: center; color: white; }
-        .lightbox-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-        .lightbox-desc { font-size: 14px; color: rgba(255,255,255,.7); margin-bottom: 16px; }
-        .lightbox-dl-btn {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 12px 28px; background: var(--fom-teal); color: white;
-            border: none; border-radius: 6px; font-size: 14px; font-weight: 700;
-            cursor: pointer; text-decoration: none; transition: background .2s; font-family: inherit;
-        }
-        .lightbox-dl-btn:hover { background: var(--fom-teal-dark); }
-        .lightbox-dl-btn svg { width: 16px; height: 16px; stroke: white; fill: none; stroke-width: 2.5; stroke-linecap: round; }
 
-        /* Loading */
-        .loading { text-align: center; padding: 80px 24px; color: var(--fom-gray); grid-column: 1 / -1; }
-        .spinner {
-            width: 44px; height: 44px; border: 3px solid var(--fom-gray-light);
-            border-top-color: var(--fom-teal); border-radius: 50%;
-            animation: spin .8s linear infinite; margin: 0 auto 16px;
+        .author-article-item:first-child {
+            border-top: 1px solid var(--fom-gray-light);
         }
+
+        .author-article-item:hover {
+            background: var(--fom-bg-alt);
+            margin: 0 -16px;
+            padding: 20px 16px;
+        }
+
+        .author-article-thumb {
+            width: 120px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: var(--fom-bg-alt);
+        }
+
+        .author-article-body { flex: 1; min-width: 0; }
+
+        .author-article-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+
+        .author-article-type {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--fom-teal);
+        }
+
+        .author-article-date {
+            font-size: 13px;
+            color: var(--fom-gray);
+        }
+
+        .author-article-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--fom-black);
+            line-height: 1.3;
+        }
+
+        .author-article-item:hover .author-article-title {
+            color: var(--fom-teal);
+        }
+
+        /* ── Loading / Empty ── */
+        .loading {
+            text-align: center;
+            padding: 80px 24px;
+            color: var(--fom-gray);
+        }
+
+        .spinner {
+            width: 44px; height: 44px;
+            border: 3px solid var(--fom-gray-light);
+            border-top-color: var(--fom-teal);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+            margin: 0 auto 16px;
+        }
+
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Footer */
+        .back-link {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 32px 48px;
+        }
+
+        .back-link a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--fom-teal);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            padding: 12px 28px;
+            border: 2px solid var(--fom-teal);
+            border-radius: 28px;
+            transition: all .2s;
+        }
+
+        .back-link a:hover {
+            background: var(--fom-teal);
+            color: white;
+        }
+
+        /* ── Footer ── */
         footer {
             background: #0b2623;
             border-top: none;
@@ -288,7 +349,7 @@
             margin-top: 100px;
         }
         .footer-logo { max-width: 1200px; margin: 0 auto 16px; }
-        .footer-logo img { height: 120px; width: auto; }
+        .footer-logo img { height: 90px; width: auto; }
         .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
         .footer-about p { font-size: 14px; color: rgba(255,255,255,.85); line-height: 1.8; }
         .footer-links h4 { color: rgba(255,255,255,.4); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 18px; }
@@ -302,10 +363,11 @@
         .accreditation-logos { display: flex; gap: 32px; align-items: center; }
         .accreditation-logos svg { width: 72px; height: 72px; opacity: .7; }
 
+        /* ── Responsive ── */
         @media (max-width: 1024px) {
-            .media-grid { grid-template-columns: repeat(3, 1fr); }
             .footer-inner { grid-template-columns: 1fr 1fr; }
         }
+
         @media (max-width: 768px) {
             .header-inner { padding: 0 20px; height: 64px; }
             header.scrolled .header-inner { height: 52px; }
@@ -313,11 +375,14 @@
             header.scrolled .header-title { font-size: 16px; }
             .logo-center { display: none; }
             nav { display: none; }
-            .page-hero { padding: 40px 20px 36px; }
-            .page-hero h1 { font-size: 28px; }
-            .page-hero p { font-size: 16px; }
-            .media-content { padding: 32px 16px 48px; }
-            .media-grid { grid-template-columns: repeat(2, 1fr); }
+            .author-hero { padding: 32px 20px 40px; }
+            .author-hero-inner { flex-direction: column; text-align: center; }
+            .author-hero-contact { justify-content: center; }
+            .author-hero-info h1 { font-size: 26px; }
+            .author-articles { padding: 32px 20px; }
+            .author-article-thumb { width: 80px; height: 56px; }
+            .author-article-title { font-size: 15px; }
+            .back-link { padding: 0 20px 32px; }
             .footer-inner { grid-template-columns: 1fr; gap: 32px; }
             .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
         }
@@ -338,7 +403,7 @@
             <div class="header-right">
                 <nav id="mainNav">
                     <a href="index.html">News</a>
-                    <a href="medien.html" class="active">Mediencenter</a>
+                    <a href="medien.html">Mediencenter</a>
                     <a href="kontakt.html">Kontakt</a>
                 </nav>
                 <button class="header-menu-btn" id="menuBtn" onclick="toggleMobileMenu()">
@@ -358,26 +423,10 @@
         <a href="https://www.fom.de" target="_blank">fom.de <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
     </div>
 
-    <section class="page-hero">
-        <div class="page-hero-inner">
-            <h1>Medien &amp; Downloads</h1>
-            <p>Pressebilder und Medien der FOM Hochschule zum Download. Klicken Sie auf ein Bild f&uuml;r die Vollansicht und den direkten Download in hoher Aufl&ouml;sung.</p>
-        </div>
-    </section>
-
-    <div class="media-filters" id="mediaFilters"></div>
-    <div class="media-content" id="mediaContent">
+    <div id="pageContent">
         <div class="loading">
             <div class="spinner"></div>
-            <p>Lade Medien...</p>
-        </div>
-    </div>
-
-    <div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLightbox()">
-        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-        <div class="lightbox-content">
-            <img id="lightboxImg" src="" alt="">
-            <div class="lightbox-info" id="lightboxInfo"></div>
+            <p>Profil wird geladen...</p>
         </div>
     </div>
 
@@ -425,15 +474,12 @@
     </footer>
 
     <script>
-        // ── Header scroll state ──
         const headerEl = document.querySelector('header');
-        const headerTitleEl = document.querySelector('.header-title');
         let wasScrolled = false;
         window.addEventListener('scroll', () => {
             const scrolled = window.scrollY > 60;
             if (scrolled !== wasScrolled) {
                 headerEl.classList.toggle('scrolled', scrolled);
-                // title stays "FOM Newsroom" in both states
                 wasScrolled = scrolled;
             }
         }, { passive: true });
@@ -450,151 +496,164 @@
 
         const API_KEY = '2J8377Ow95pCNFI_DPzZTQ';
         const BASE_URL = 'https://www.mynewsdesk.com/services/pressroom';
-        const DL_ICON = '<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>';
 
-        let allMediaItems = [];
-        let allCategories = [];
-        let activeCategory = 'all';
+        const TYPE_LABELS = {
+            pressrelease: 'Pressemitteilung',
+            news: 'News',
+            event: 'Event',
+            blog_post: 'Blog'
+        };
 
-        function normalizeTags(tags) {
-            if (!tags) return [];
-            if (Array.isArray(tags)) return tags.map(t => t.name || t);
-            if (tags.tag) {
-                const t = tags.tag;
-                if (Array.isArray(t)) return t.map(x => x.name || x);
-                return [t.name || t];
+        function formatDate(d) {
+            if (!d) return '';
+            const str = typeof d === 'string' ? d : d.datetime || '';
+            if (!str) return '';
+            const date = new Date(str);
+            return date.toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' });
+        }
+
+        function normalizeRelatedItems(ri) {
+            if (!ri) return [];
+            if (Array.isArray(ri)) return ri;
+            if (ri.related_item) {
+                const r = ri.related_item;
+                return Array.isArray(r) ? r : [r];
             }
-            if (typeof tags === 'string') return [tags];
             return [];
         }
 
-        function getItemCategory(item) {
-            const tags = normalizeTags(item.tags);
-            return tags.length > 0 ? tags[0] : 'Sonstige';
-        }
+        async function loadAuthorPage() {
+            const params = new URLSearchParams(window.location.search);
+            const authorId = params.get('id');
+            const container = document.getElementById('pageContent');
 
-        function renderMediaCard(item) {
-            const thumb = item.image_medium || item.image_small || item.image || '';
-            const full = item.image_large || item.image || thumb;
-            const title = (item.header || '').replace(/'/g, "\\'");
-            const caption = (item.summary || '').replace(/'/g, "\\'");
-            return `
-                <div class="media-card" onclick="openLightbox('${full.replace(/'/g, "\\'")}', '${title}', '${caption}')">
-                    <img src="${thumb}" alt="${item.header || ''}" loading="lazy">
-                    <div class="media-card-overlay">
-                        <div class="media-card-title">${item.header || ''}</div>
-                        ${item.summary ? `<div class="media-card-caption">${item.summary}</div>` : ''}
-                    </div>
-                    <a class="media-card-dl" href="${full}" download="${item.header || ''}" onclick="event.stopPropagation()" title="Download">${DL_ICON}</a>
-                </div>`;
-        }
-
-        function renderMedia() {
-            const content = document.getElementById('mediaContent');
-            const items = activeCategory === 'all'
-                ? allMediaItems
-                : allMediaItems.filter(i => getItemCategory(i) === activeCategory);
-
-            if (!items.length) {
-                content.innerHTML = '<p style="text-align:center;padding:60px;color:var(--fom-gray)">Keine Medien in dieser Kategorie.</p>';
+            if (!authorId) {
+                container.innerHTML = '<div class="loading"><p>Kein Autor angegeben. <a href="index.html">Zur&uuml;ck</a></p></div>';
                 return;
             }
 
-            // Group by category
-            const grouped = {};
-            items.forEach(item => {
-                const cat = getItemCategory(item);
-                if (!grouped[cat]) grouped[cat] = [];
-                grouped[cat].push(item);
-            });
-
-            // Sort categories alphabetically, "Sonstige" last
-            const cats = Object.keys(grouped).sort((a, b) => {
-                if (a === 'Sonstige') return 1;
-                if (b === 'Sonstige') return -1;
-                return a.localeCompare(b, 'de');
-            });
-
-            let html = '';
-
-            if (activeCategory !== 'all') {
-                // Single category — no section headers needed
-                html += `<div class="media-grid">${items.map(renderMediaCard).join('')}</div>`;
-            } else {
-                cats.forEach(cat => {
-                    html += `
-                        <div class="category-section">
-                            <h2 class="category-title">${cat}<span class="category-count">(${grouped[cat].length})</span></h2>
-                            <div class="media-grid">${grouped[cat].map(renderMediaCard).join('')}</div>
-                        </div>`;
-                });
-            }
-
-            content.innerHTML = html;
-        }
-
-        function setCategory(cat, btn) {
-            activeCategory = cat;
-            document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
-            btn.classList.add('active');
-            renderMedia();
-        }
-
-        async function loadMedia() {
-            const content = document.getElementById('mediaContent');
-            const filters = document.getElementById('mediaFilters');
             try {
-                const res = await fetch(`${BASE_URL}/list/${API_KEY}?format=json&strict=true&type_of_media=image&limit=100`);
-                const data = await res.json();
-                allMediaItems = data.items || [];
+                // 1. Load author details
+                const contactRes = await fetch(`${BASE_URL}/list/${API_KEY}?format=json&type_of_media=contact_person&limit=20`);
+                const contactData = await contactRes.json();
+                const raw = contactData.items?.item || contactData.items || [];
+                const allContacts = Array.isArray(raw) ? raw : [raw];
+                const author = allContacts.find(c => String(c.id) === String(authorId));
 
-                if (!allMediaItems.length) {
-                    content.innerHTML = '<p style="text-align:center;padding:60px;color:var(--fom-gray)">Keine Medien verf\u00FCgbar.</p>';
+                if (!author) {
+                    container.innerHTML = '<div class="loading"><p>Autor nicht gefunden. <a href="index.html">Zur&uuml;ck</a></p></div>';
                     return;
                 }
 
-                // Extract unique categories
-                const catSet = new Set();
-                allMediaItems.forEach(item => catSet.add(getItemCategory(item)));
-                allCategories = [...catSet].sort((a, b) => {
-                    if (a === 'Sonstige') return 1;
-                    if (b === 'Sonstige') return -1;
-                    return a.localeCompare(b, 'de');
+                const avatarUrl = author.image_thumbnail_large || author.image_medium || author.image_small || '';
+                const role = author.specialist || author.title || '';
+                document.title = `${author.name} – FOM Newsroom`;
+
+                // 2. Render hero immediately
+                let html = `
+                    <section class="author-hero">
+                        <div class="author-hero-inner">
+                            ${avatarUrl
+                                ? `<img class="author-hero-avatar" src="${avatarUrl}" alt="${author.name}">`
+                                : `<div class="author-hero-avatar-placeholder">${(author.name || '?').charAt(0)}</div>`
+                            }
+                            <div class="author-hero-info">
+                                <h1>${author.name}</h1>
+                                ${author.pressroom_contact === 'true' ? '<span class="author-hero-badge">Pressekontakt</span>' : ''}
+                                ${role ? `<p class="author-hero-role">${role}</p>` : ''}
+                                <div class="author-hero-contact">
+                                    ${author.email ? `<a href="mailto:${author.email}">${author.email}</a>` : ''}
+                                    ${author.phone ? `<a href="tel:${author.phone}">${author.phone}</a>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="author-articles">
+                        <h2 class="author-articles-title">Artikel <span class="author-article-count" id="articleCount"></span></h2>
+                        <div id="authorArticleList">
+                            <div class="loading"><div class="spinner"></div><p>Artikel werden geladen...</p></div>
+                        </div>
+                    </section>
+                    <div class="back-link">
+                        <a href="index.html">&larr; Zur&uuml;ck zum Newsroom</a>
+                    </div>`;
+
+                container.innerHTML = html;
+
+                // 3. Load all articles and check authorship via view endpoint
+                const [prRes, newsRes] = await Promise.all([
+                    fetch(`${BASE_URL}/list/${API_KEY}?format=json&strict=true&type_of_media=pressrelease&limit=100`),
+                    fetch(`${BASE_URL}/list/${API_KEY}?format=json&strict=true&type_of_media=news&limit=100`)
+                ]);
+                const [prData, newsData] = await Promise.all([prRes.json(), newsRes.json()]);
+                const allArticles = [...(prData.items || []), ...(newsData.items || [])];
+
+                // Check each article's related_items for this author
+                const authorArticles = [];
+                const batchSize = 5;
+
+                for (let i = 0; i < allArticles.length; i += batchSize) {
+                    const batch = allArticles.slice(i, i + batchSize);
+                    const viewResults = await Promise.all(
+                        batch.map(article =>
+                            fetch(`${BASE_URL}/view/${API_KEY}?format=json&type_of_media=${article.type_of_media}&item_id=${article.id}`)
+                                .then(r => r.json())
+                                .then(d => ({ article, viewItem: d.item }))
+                                .catch(() => null)
+                        )
+                    );
+
+                    for (const result of viewResults) {
+                        if (!result || !result.viewItem) continue;
+                        const related = normalizeRelatedItems(result.viewItem.related_items);
+                        const isAuthor = related.some(r =>
+                            r.type_of_media === 'contact_person' && String(r.item_id) === String(authorId)
+                        );
+                        if (isAuthor) {
+                            authorArticles.push(result.article);
+                        }
+                    }
+                }
+
+                // Sort by date descending
+                authorArticles.sort((a, b) => {
+                    const da = a.published_at?.datetime || '';
+                    const db = b.published_at?.datetime || '';
+                    return db.localeCompare(da);
                 });
 
-                // Render filter chips
-                filters.innerHTML = `
-                    <button class="cat-chip active" onclick="setCategory('all', this)">Alle (${allMediaItems.length})</button>
-                    ${allCategories.map(cat => {
-                        const count = allMediaItems.filter(i => getItemCategory(i) === cat).length;
-                        return `<button class="cat-chip" onclick="setCategory('${cat.replace(/'/g, "\\'")}', this)">${cat} (${count})</button>`;
-                    }).join('')}`;
+                // Render articles
+                const listEl = document.getElementById('authorArticleList');
+                const countEl = document.getElementById('articleCount');
+                countEl.textContent = `(${authorArticles.length})`;
 
-                renderMedia();
-            } catch (e) {
-                content.innerHTML = '<p style="text-align:center;padding:60px;color:var(--fom-error)">Fehler beim Laden der Medien.</p>';
+                if (!authorArticles.length) {
+                    listEl.innerHTML = '<p style="padding:40px 0;color:var(--fom-gray);text-align:center;">Keine Artikel gefunden.</p>';
+                    return;
+                }
+
+                listEl.innerHTML = authorArticles.map(a => {
+                    const img = a.image_medium || a.image_small || a.image || '';
+                    const typeLabel = TYPE_LABELS[a.type_of_media] || a.type_of_media;
+                    return `
+                        <a href="artikel.html?id=${a.id}&type=${a.type_of_media}" class="author-article-item">
+                            ${img ? `<img class="author-article-thumb" src="${img}" alt="" loading="lazy">` : ''}
+                            <div class="author-article-body">
+                                <div class="author-article-meta">
+                                    <span class="author-article-type">${typeLabel}</span>
+                                    <span class="author-article-date">${formatDate(a.published_at)}</span>
+                                </div>
+                                <div class="author-article-title">${a.header}</div>
+                            </div>
+                        </a>`;
+                }).join('');
+
+            } catch (err) {
+                container.innerHTML = `<div class="loading"><p>Fehler: ${err.message}. <a href="index.html">Zur&uuml;ck</a></p></div>`;
             }
         }
 
-        function openLightbox(src, title, desc) {
-            document.getElementById('lightboxImg').src = src;
-            document.getElementById('lightboxInfo').innerHTML = `
-                <div class="lightbox-title">${title}</div>
-                ${desc ? `<div class="lightbox-desc">${desc}</div>` : ''}
-                <a class="lightbox-dl-btn" href="${src}" download="${title}">${DL_ICON} Herunterladen</a>
-            `;
-            document.getElementById('lightbox').classList.add('open');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeLightbox() {
-            document.getElementById('lightbox').classList.remove('open');
-            document.body.style.overflow = '';
-        }
-
-        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
-
-        loadMedia();
+        loadAuthorPage();
     </script>
 </body>
 </html>

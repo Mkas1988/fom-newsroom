@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontakt – FOM Newsroom</title>
+    <style>
+        @font-face {
+            font-family: 'Neue-Haas-Grotesk-Text-Pro';
+            src: url('fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-55-Regular.woff2') format('woff2'),
+                 url('fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-55-Regular.woff') format('woff');
+            font-weight: 400; font-style: normal; font-display: swap;
+        }
+        @font-face {
+            font-family: 'Neue-Haas-Grotesk-Text-Pro';
+            src: url('fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-75-Bold.woff2') format('woff2'),
+                 url('fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-75-Bold.woff') format('woff');
+            font-weight: 700; font-style: normal; font-display: swap;
+        }
+        @font-face {
+            font-family: 'Neue-Haas-Grotesk-Display-Pro';
+            src: url('fonts/Neue-Haas-Grotesk-Display-Pro/Neue-Haas-Grotesk-Display-Pro-75-Bold.woff2') format('woff2'),
+                 url('fonts/Neue-Haas-Grotesk-Display-Pro/Neue-Haas-Grotesk-Display-Pro-75-Bold.woff') format('woff');
+            font-weight: 700; font-style: normal; font-display: swap;
+        }
+
+        :root {
+            --fom-teal: #00c6b2;
+            --fom-teal-dark: #009f8f;
+            --fom-teal-light: #e5f9f7;
+            --fom-black: #121212;
+            --fom-white: #ffffff;
+            --fom-bg: #ffffff;
+            --fom-bg-alt: #f7f7f7;
+            --fom-gray: #6d6d6d;
+            --fom-gray-light: #e6e6e6;
+            --fom-text: #202020;
+            --fom-text-light: #6d6d6d;
+            --radius: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Neue-Haas-Grotesk-Text-Pro', Helvetica, Arial, sans-serif;
+            color: var(--fom-text);
+            background: var(--fom-bg);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Header ── */
+        header {
+            background: var(--fom-teal);
+            border-bottom: none;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all .3s ease;
+        }
+
+        .header-inner {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 96px;
+            position: relative;
+            transition: height .3s ease;
+        }
+
+        header.scrolled .header-inner { height: 56px; }
+        header.scrolled .header-subtitle { opacity: 0; height: 0; margin: 0; }
+        header.scrolled .header-title { font-size: 20px; font-weight: 700; }
+        header.scrolled .logo-center { opacity: 0; pointer-events: none; }
+
+        .header-left {
+            display: flex; flex-direction: column; gap: 1px;
+            flex-shrink: 0; text-decoration: none;
+        }
+
+        .header-title {
+            font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
+            font-size: 26px; font-weight: 700; color: white;
+            line-height: 1.1; letter-spacing: -0.3px; transition: font-size .3s ease;
+        }
+
+        .header-subtitle {
+            font-size: 11.5px; font-weight: 400; color: rgba(255,255,255,.7);
+            letter-spacing: 0.1px; transition: opacity .3s ease, height .3s ease;
+            overflow: hidden; height: 16px;
+        }
+
+        .header-left:hover .header-title { color: white; opacity: .85; }
+
+        .logo-center {
+            position: absolute; left: 50%; top: 50%;
+            transform: translate(-50%, -50%); text-decoration: none;
+            transition: opacity .3s ease;
+        }
+
+        .logo-img { height: 90px; width: auto; }
+
+        .header-right { display: flex; align-items: center; gap: 4px; }
+
+        nav { display: flex; gap: 0; align-items: center; }
+
+        nav a {
+            color: white; text-decoration: none; font-size: 15px;
+            font-weight: 500; padding: 8px 16px; transition: all .2s;
+            position: relative; white-space: nowrap;
+        }
+
+        nav a:hover { color: white; opacity: .8; }
+        nav a.active { color: white; }
+
+        .header-menu-btn {
+            display: none !important; align-items: center; gap: 8px;
+            padding: 8px 0 8px 16px; background: none; border: none;
+            color: white; font-size: 15px; font-weight: 500;
+            cursor: pointer; font-family: inherit; transition: color .2s;
+        }
+
+        .header-menu-btn:hover { color: white; opacity: .8; }
+
+        .header-menu-btn svg {
+            width: 22px; height: 22px; stroke: currentColor;
+            fill: none; stroke-width: 2; stroke-linecap: round;
+        }
+
+        .menu-backdrop {
+            position: fixed; inset: 0; background: rgba(0,0,0,.5);
+            z-index: 198; opacity: 0; pointer-events: none; transition: opacity .3s ease;
+        }
+        .menu-backdrop.open { opacity: 1; pointer-events: auto; }
+        .mobile-menu-overlay {
+            position: fixed; top: 0; right: 0; bottom: 0;
+            width: 420px; max-width: 85vw; background: var(--fom-white);
+            z-index: 199; transform: translateX(100%);
+            transition: transform .35s cubic-bezier(.4,0,.2,1);
+            padding: 100px 0 40px; overflow-y: auto;
+        }
+        .mobile-menu-overlay.open { transform: translateX(0); }
+        .mobile-menu-overlay a {
+            color: var(--fom-black); text-decoration: none;
+            font-family: 'Neue-Haas-Grotesk-Text-Pro', Helvetica, Arial, sans-serif;
+            font-size: 17px; font-weight: 400; padding: 20px 40px;
+            border-bottom: 1px solid var(--fom-gray-light); transition: color .2s;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .mobile-menu-overlay a:first-child { border-top: 1px solid var(--fom-gray-light); }
+        .mobile-menu-overlay a:hover { color: var(--fom-teal); }
+        .menu-chevron {
+            width: 20px; height: 20px; stroke: var(--fom-gray); fill: none;
+            stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0;
+        }
+        .header-menu-btn .menu-icon-close { display: none; }
+        .header-menu-btn.is-open .menu-icon-open { display: none; }
+        .header-menu-btn.is-open .menu-icon-close { display: inline; }
+
+        /* ── Page Hero ── */
+        .page-hero {
+            background: var(--fom-bg-alt);
+            border-bottom: 1px solid var(--fom-gray-light);
+            padding: 48px 32px 56px;
+        }
+
+        .page-hero-inner {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-hero h1 {
+            font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--fom-black);
+            line-height: 1.15;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+
+        .page-hero p {
+            font-size: 18px;
+            color: var(--fom-text-light);
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        /* ── Service Link ── */
+        .service-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: rgba(0, 198, 178, .08);
+            border: 1px solid rgba(0, 198, 178, .2);
+            border-radius: 8px;
+            color: var(--fom-teal-dark);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+            text-decoration: none;
+        }
+
+        .service-link:hover {
+            background: rgba(0, 198, 178, .15);
+            border-color: var(--fom-teal);
+        }
+
+        .service-link svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        /* ── Modal ── */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.5);
+            z-index: 300;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-backdrop.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal {
+            background: white;
+            border-radius: var(--radius);
+            width: 560px;
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 40px;
+            transform: translateY(20px);
+            transition: transform .3s ease;
+        }
+
+        .modal-backdrop.open .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .modal-header h2 {
+            font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--fom-black);
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--fom-bg-alt);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--fom-gray);
+            transition: background .2s;
+        }
+
+        .modal-close:hover {
+            background: var(--fom-gray-light);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--fom-text);
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--fom-gray-light);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 15px;
+            color: var(--fom-text);
+            background: var(--fom-bg-alt);
+            transition: border-color .2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--fom-teal);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .form-submit {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            background: var(--fom-teal);
+            color: white;
+            border: none;
+            border-radius: 28px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background .2s;
+            margin-top: 6px;
+        }
+
+        .form-submit:hover {
+            background: var(--fom-teal-dark);
+        }
+
+        .form-success {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .form-success-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--fom-teal-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            color: var(--fom-teal);
+        }
+
+        .form-success h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--fom-black);
+            margin-bottom: 8px;
+        }
+
+        .form-success p {
+            font-size: 15px;
+            color: var(--fom-text-light);
+        }
+
+        /* ── Contact Grid ── */
+        .kontakt-section {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 48px 32px;
+        }
+
+        .kontakt-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 28px;
+        }
+
+        .kontakt-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 40px 24px 32px;
+            background: var(--fom-bg-alt);
+            border: 1px solid var(--fom-gray-light);
+            border-radius: var(--radius);
+            transition: border-color .25s, transform .25s;
+        }
+
+        .kontakt-card:hover {
+            border-color: var(--fom-teal);
+            transform: translateY(-2px);
+        }
+
+        .kontakt-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 4px 16px rgba(0,0,0,.1);
+            margin-bottom: 20px;
+        }
+
+        .kontakt-avatar-placeholder {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--fom-teal);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 36px;
+            border: 4px solid white;
+            box-shadow: 0 4px 16px rgba(0,0,0,.1);
+            margin-bottom: 20px;
+        }
+
+        .kontakt-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--fom-black);
+        }
+
+        .kontakt-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--fom-gray);
+            border: 1px solid var(--fom-gray-light);
+            border-radius: 4px;
+            padding: 3px 10px;
+            margin-top: 8px;
+        }
+
+        .kontakt-role {
+            font-size: 15px;
+            color: var(--fom-gray);
+            margin-top: 8px;
+        }
+
+        .kontakt-links {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 16px;
+        }
+
+        .kontakt-links a {
+            font-size: 14px;
+            color: var(--fom-teal);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color .2s;
+        }
+
+        .kontakt-links a:hover { text-decoration: underline; }
+
+        /* ── Press Request CTA ── */
+        .press-request-section {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 32px 48px;
+        }
+
+        .press-request-card {
+            background: var(--fom-teal-light);
+            border: 1px solid rgba(0, 198, 178, .2);
+            border-radius: var(--radius);
+            padding: 32px 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .press-request-info h3 {
+            font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--fom-black);
+            margin-bottom: 6px;
+        }
+
+        .press-request-info p {
+            font-size: 15px;
+            color: var(--fom-text-light);
+            line-height: 1.5;
+        }
+
+        .press-request-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            background: var(--fom-teal);
+            color: white;
+            border: none;
+            border-radius: 28px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background .2s;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .press-request-btn:hover {
+            background: var(--fom-teal-dark);
+        }
+
+        /* ── General Info ── */
+        .kontakt-info {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 32px 48px;
+        }
+
+        .kontakt-info-card {
+            background: var(--fom-bg-alt);
+            border: 1px solid var(--fom-gray-light);
+            border-radius: var(--radius);
+            padding: 32px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+
+        .kontakt-info-block h3 {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--fom-gray);
+            margin-bottom: 12px;
+        }
+
+        .kontakt-info-block p,
+        .kontakt-info-block a {
+            font-size: 15px;
+            color: var(--fom-text);
+            line-height: 1.8;
+        }
+
+        .kontakt-info-block a {
+            color: var(--fom-teal);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .kontakt-info-block a:hover { text-decoration: underline; }
+
+        /* ── Loading / Spinner ── */
+        .loading {
+            text-align: center;
+            padding: 80px 24px;
+            color: var(--fom-gray);
+        }
+
+        .spinner {
+            width: 44px;
+            height: 44px;
+            border: 3px solid var(--fom-gray-light);
+            border-top-color: var(--fom-teal);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── Footer ── */
+        footer {
+            background: #0b2623;
+            border-top: none;
+            padding: 64px 32px 32px;
+            margin-top: 0;
+        }
+        .footer-logo { max-width: 1200px; margin: 0 auto 16px; }
+        .footer-logo img { height: 120px; width: auto; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
+        .footer-about p { font-size: 14px; color: rgba(255,255,255,.85); line-height: 1.8; }
+        .footer-links h4 { color: rgba(255,255,255,.4); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 18px; }
+        .footer-links a { display: block; color: rgba(255,255,255,.75); text-decoration: none; font-size: 14px; padding: 5px 0; transition: color .2s; }
+        .footer-links a:hover { color: #00c6b2; }
+        .footer-bottom { max-width: 1200px; margin: 40px auto 0; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.1); font-size: 13px; color: rgba(255,255,255,.4); display: flex; justify-content: space-between; align-items: center; }
+        .footer-bottom a { color: rgba(255,255,255,.5); text-decoration: none; font-weight: 600; transition: color .2s; }
+        .footer-bottom a:hover { color: #00c6b2; }
+        .footer-accreditation { max-width: 1200px; margin: 48px auto 0; padding-top: 32px; border-top: 1px solid rgba(255,255,255,.1); }
+        .footer-accreditation p { font-size: 13px; color: rgba(255,255,255,.4); margin-bottom: 20px; }
+        .accreditation-logos { display: flex; gap: 32px; align-items: center; }
+        .accreditation-logos svg { width: 72px; height: 72px; opacity: .7; }
+
+        /* ── Responsive ── */
+        @media (max-width: 1024px) {
+            .footer-inner { grid-template-columns: 1fr 1fr; }
+            .kontakt-info-card { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 1024px) {
+            .footer-inner { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .header-inner { padding: 0 20px; height: 64px; }
+            header.scrolled .header-inner { height: 52px; }
+            .header-title { font-size: 20px; }
+            header.scrolled .header-title { font-size: 16px; }
+            .logo-center { display: none; }
+            nav { display: none; }
+            .page-hero { padding: 32px 20px 40px; }
+            .page-hero h1 { font-size: 28px; }
+            .kontakt-section { padding: 32px 20px; }
+            .kontakt-grid { grid-template-columns: 1fr; }
+            .kontakt-info { padding: 0 20px 32px; }
+            .kontakt-info-card { grid-template-columns: 1fr; padding: 24px; }
+            .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+            .press-request-section { padding: 0 20px 32px; }
+            .press-request-card { flex-direction: column; text-align: center; padding: 24px; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <script src="auth.js"></script>
+
+    <!-- Header -->
+    <header>
+        <div class="header-inner">
+            <a href="index.html" class="header-left">
+                <span class="header-title">FOM Newsroom</span>
+                <span class="header-subtitle">Das Medien-Portal der FOM Hochschule</span>
+            </a>
+            <a href="index.html" class="logo-center">
+                <img class="logo-img" src="fom-logo-white.svg" alt="FOM Hochschule">
+            </a>
+            <div class="header-right">
+                <nav id="mainNav">
+                    <a href="index.html">News</a>
+                    <a href="medien.html">Mediencenter</a>
+                    <a href="kontakt.html" class="active">Kontakt</a>
+                </nav>
+                <button class="header-menu-btn" id="menuBtn" onclick="toggleMobileMenu()">
+                    <svg class="menu-icon-open" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    <svg class="menu-icon-close" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    Men&uuml;
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="menu-backdrop" id="menuBackdrop" onclick="toggleMobileMenu()"></div>
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <a href="index.html">News <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
+        <a href="medien.html">Mediencenter <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
+        <a href="kontakt.html">Kontakt <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
+        <a href="https://www.fom.de" target="_blank">fom.de <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
+    </div>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="page-hero-inner">
+            <h1>Kontakt</h1>
+            <p>F&uuml;r Presseanfragen, Intervieww&uuml;nsche und Medienanfragen stehen Ihnen unsere Ansprechpartner gerne zur Verf&uuml;gung.</p>
+            <a class="service-link" onclick="openExpertModal(); return false;" href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                <span>Wir vermitteln Expertinnen und Experten f&uuml;r Ihre Berichterstattung.<br><strong>Jetzt kostenlos anfragen &rarr;</strong></span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Expert Request Modal -->
+    <div class="modal-backdrop" id="expertModal" onclick="if(event.target===this)closeExpertModal()">
+        <div class="modal">
+            <div id="expertFormContent">
+                <div class="modal-header">
+                    <h2>Experten-Anfrage</h2>
+                    <button class="modal-close" onclick="closeExpertModal()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
+                <form id="expertForm" onsubmit="submitExpertForm(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Vorname *</label>
+                            <input type="text" name="vorname" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nachname *</label>
+                            <input type="text" name="nachname" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Redaktion / Medium *</label>
+                        <input type="text" name="medium" required placeholder="z.B. Westdeutsche Allgemeine Zeitung">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>E-Mail *</label>
+                            <input type="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Telefon</label>
+                            <input type="tel" name="telefon">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Fachgebiet / Thema *</label>
+                        <select name="fachgebiet" required>
+                            <option value="">Bitte w&auml;hlen...</option>
+                            <option>Betriebswirtschaft &amp; Management</option>
+                            <option>Wirtschaftspsychologie</option>
+                            <option>Gesundheit &amp; Soziales</option>
+                            <option>Informatik &amp; Digitalisierung</option>
+                            <option>Ingenieurwesen &amp; Technik</option>
+                            <option>Recht &amp; Steuern</option>
+                            <option>Bildung &amp; Hochschule</option>
+                            <option>Sonstiges</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Ihre Anfrage *</label>
+                        <textarea name="anfrage" required placeholder="Beschreiben Sie kurz das Thema und den gew&uuml;nschten Interviewkontext..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Gew&uuml;nschter Zeitraum</label>
+                        <input type="text" name="zeitraum" placeholder="z.B. bis Ende der Woche, flexibel">
+                    </div>
+                    <button type="submit" class="form-submit">Anfrage senden &rarr;</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Cards -->
+    <section class="kontakt-section">
+        <div class="kontakt-grid" id="kontaktGrid">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Lade Ansprechpartner...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Press Request CTA -->
+    <section class="press-request-section">
+        <div class="press-request-card">
+            <div class="press-request-info">
+                <h3>Presseanfrage stellen</h3>
+                <p>Sie ben&ouml;tigen Informationen, Stellungnahmen oder Material? Stellen Sie Ihre Anfrage direkt an unser Presseteam.</p>
+            </div>
+            <button class="press-request-btn" onclick="openPressModal()">Anfrage senden &rarr;</button>
+        </div>
+    </section>
+
+    <!-- Press Request Modal -->
+    <div class="modal-backdrop" id="pressModal" onclick="if(event.target===this)closePressModal()">
+        <div class="modal">
+            <div id="pressFormContent">
+                <div class="modal-header">
+                    <h2>Presseanfrage</h2>
+                    <button class="modal-close" onclick="closePressModal()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
+                <form id="pressForm" onsubmit="submitPressForm(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Vorname *</label>
+                            <input type="text" name="vorname" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nachname *</label>
+                            <input type="text" name="nachname" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Redaktion / Medium *</label>
+                        <input type="text" name="medium" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>E-Mail *</label>
+                            <input type="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Telefon</label>
+                            <input type="tel" name="telefon">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Art der Anfrage *</label>
+                        <select name="art" required>
+                            <option value="">Bitte w&auml;hlen...</option>
+                            <option>Stellungnahme / Statement</option>
+                            <option>Pressematerial / Bildmaterial</option>
+                            <option>Hintergrundinformationen</option>
+                            <option>Interview-Anfrage</option>
+                            <option>Sonstiges</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Ihre Anfrage *</label>
+                        <textarea name="anfrage" required placeholder="Beschreiben Sie Ihr Anliegen..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Deadline</label>
+                        <input type="text" name="deadline" placeholder="z.B. bis morgen 14 Uhr, flexibel">
+                    </div>
+                    <button type="submit" class="form-submit">Anfrage absenden &rarr;</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- General Contact Info -->
+    <section class="kontakt-info">
+        <div class="kontakt-info-card">
+            <div class="kontakt-info-block">
+                <h3>Adresse</h3>
+                <p>FOM Hochschule f&uuml;r Oekonomie &amp; Management<br>
+                Leimkugelstra&szlig;e 6<br>
+                45141 Essen</p>
+            </div>
+            <div class="kontakt-info-block">
+                <h3>Allgemeiner Kontakt</h3>
+                <p>Telefon: <a href="tel:+49201810040">0201 81004-0</a><br>
+                Web: <a href="https://www.fom.de" target="_blank">www.fom.de</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">
+            <img src="fom-logo-white.svg" alt="FOM Hochschule">
+        </div>
+        <div class="footer-inner">
+            <div class="footer-about">
+                <p>Mit rund 45.000 Studierenden z&auml;hlt die gemeinn&uuml;tzige FOM zu den gr&ouml;&szlig;ten Hochschulen Europas. Initiiert durch die gemeinn&uuml;tzige Stiftung f&uuml;r internationale Bildung und Wissenschaft erm&ouml;glicht sie Berufst&auml;tigen, Auszubildenden, Abiturienten und international Studierenden ein Hochschulstudium. Die FOM ist staatlich anerkannt und bietet mehr als 60 akkreditierte Bachelor- und Master-Studieng&auml;nge an &ndash; im Campus-Studium+ an bundesweit &uuml;ber 30 Hochschulzentren oder im einzigartigen Digitalen Live-Studium aus den FOM Studios. Studierende k&ouml;nnen zudem mit den FOM Auslandsprogrammen weltweit Studienerfahrungen an renommierten Partnerhochschulen sammeln.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Newsroom</h4>
+                <a href="index.html">News</a>
+                <a href="medien.html">Mediencenter</a>
+                <a href="kontakt.html">Kontakt</a>
+            </div>
+            <div class="footer-links">
+                <h4>FOM Hochschule</h4>
+                <a href="https://www.fom.de/studiengaenge.html">Studieng&auml;nge</a>
+                <a href="https://www.fom.de/hochschulzentren.html">Standorte</a>
+                <a href="https://www.fom.de/forschung.html">Forschung &amp; Lehre</a>
+                <a href="https://www.fom.de">fom.de</a>
+            </div>
+            <div class="footer-links">
+                <h4>Kontakt</h4>
+                <a href="#">Leimkugelstra&szlig;e 6</a>
+                <a href="#">45141 Essen</a>
+                <a href="tel:+49201810040">0201 81004-0</a>
+                <a href="https://www.fom.de">www.fom.de</a>
+            </div>
+        </div>
+        <div class="footer-accreditation">
+            <p>Die FOM Hochschule ist akkreditiert sowie staatlich und international anerkannt</p>
+            <div class="accreditation-logos">
+                <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="36" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/><text x="40" y="18" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="5" font-weight="700" letter-spacing="1.5">SYSTEM AKKREDITIERT</text><rect x="24" y="28" width="14" height="24" fill="rgba(255,255,255,.25)"/><rect x="42" y="28" width="14" height="24" fill="rgba(255,255,255,.25)"/><polyline points="46,38 50,44 56,32" stroke="rgba(255,255,255,.4)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><text x="40" y="62" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="4.5">Akkreditierungsrat</text></svg>
+                <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="36" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/><text x="40" y="18" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="5" font-weight="700" letter-spacing="1.5">SYSTEM-AKKREDITIERT</text><line x1="40" y1="24" x2="20" y2="52" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/><line x1="40" y1="24" x2="60" y2="52" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/><line x1="20" y1="52" x2="60" y2="52" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/><line x1="40" y1="52" x2="40" y2="24" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/><text x="40" y="64" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="7" font-weight="700">FIBAA</text></svg>
+                <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="36" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/><text x="40" y="22" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="4.5">Staatlich und International</text><text x="40" y="34" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="4" font-weight="600">anerkannte</text><text x="40" y="44" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="8" font-weight="900" letter-spacing="1">HOCHSCHULE</text><text x="40" y="54" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="5">seit 1993</text><text x="40" y="64" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="8">&starf; &starf; &starf; &starf; &starf;</text></svg>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 FOM Hochschule f&uuml;r Oekonomie &amp; Management</span>
+            <span><a href="https://www.fom.de/die-fom/impressum.html">Impressum</a> &nbsp; <a href="https://www.fom.de/die-fom/datenschutz.html">Datenschutz</a></span>
+        </div>
+    </footer>
+
+    <script>
+        // ── Header scroll state ──
+        const headerEl = document.querySelector('header');
+        let wasScrolled = false;
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY > 60;
+            if (scrolled !== wasScrolled) {
+                headerEl.classList.toggle('scrolled', scrolled);
+                wasScrolled = scrolled;
+            }
+        }, { passive: true });
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const backdrop = document.getElementById('menuBackdrop');
+            const btn = document.getElementById('menuBtn');
+            const isOpen = menu.classList.toggle('open');
+            backdrop.classList.toggle('open', isOpen);
+            btn.classList.toggle('is-open', isOpen);
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        }
+
+        const API_KEY = '2J8377Ow95pCNFI_DPzZTQ';
+        const BASE_URL = 'https://www.mynewsdesk.com/services/pressroom';
+
+        async function loadContacts() {
+            const grid = document.getElementById('kontaktGrid');
+            try {
+                const res = await fetch(`${BASE_URL}/list/${API_KEY}?format=json&type_of_media=contact_person&limit=20`);
+                const data = await res.json();
+                const raw = data.items?.item || data.items || [];
+                const contacts = Array.isArray(raw) ? raw : [raw];
+
+                if (!contacts.length) {
+                    grid.innerHTML = '<p style="text-align:center;padding:60px;color:var(--fom-gray)">Keine Ansprechpartner verf&uuml;gbar.</p>';
+                    return;
+                }
+
+                grid.innerHTML = contacts.map(c => {
+                    const avatarUrl = c.image_thumbnail_large || c.image_thumbnail_medium || c.image_small || '';
+                    const role = c.specialist || c.title || '';
+                    return `
+                        <div class="kontakt-card">
+                            ${avatarUrl
+                                ? `<img class="kontakt-avatar" src="${avatarUrl}" alt="${c.name}">`
+                                : `<div class="kontakt-avatar-placeholder">${(c.name || '?').charAt(0)}</div>`
+                            }
+                            <div class="kontakt-name">${c.name || ''}</div>
+                            ${c.pressroom_contact === 'true' ? '<span class="kontakt-badge">Pressekontakt</span>' : ''}
+                            ${role ? `<div class="kontakt-role">${role}</div>` : ''}
+                            <div class="kontakt-links">
+                                ${c.email ? `<a href="mailto:${c.email}">${c.email}</a>` : ''}
+                                ${c.phone ? `<a href="tel:${c.phone}">${c.phone}</a>` : ''}
+                            </div>
+                        </div>`;
+                }).join('');
+            } catch (e) {
+                grid.innerHTML = '<p style="text-align:center;padding:60px;color:#ef4444">Fehler beim Laden der Kontakte.</p>';
+                console.error('Contact load failed:', e);
+            }
+        }
+
+        loadContacts();
+
+        // ── Expert Modal ──
+        function openExpertModal() {
+            document.getElementById('expertModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeExpertModal() {
+            document.getElementById('expertModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function submitExpertForm(e) {
+            e.preventDefault();
+            const form = e.target;
+            const data = new FormData(form);
+
+            // Build mailto link with form data
+            const subject = encodeURIComponent(`Experten-Anfrage: ${data.get('fachgebiet')}`);
+            const body = encodeURIComponent(
+                `Vorname: ${data.get('vorname')}\n` +
+                `Nachname: ${data.get('nachname')}\n` +
+                `Redaktion/Medium: ${data.get('medium')}\n` +
+                `E-Mail: ${data.get('email')}\n` +
+                `Telefon: ${data.get('telefon') || '-'}\n` +
+                `Fachgebiet: ${data.get('fachgebiet')}\n` +
+                `Zeitraum: ${data.get('zeitraum') || '-'}\n\n` +
+                `Anfrage:\n${data.get('anfrage')}`
+            );
+
+            // Open mailto
+            window.location.href = `mailto:presse@fom.de?subject=${subject}&body=${body}`;
+
+            // Show success
+            document.getElementById('expertFormContent').innerHTML = `
+                <div class="form-success">
+                    <div class="form-success-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <h3>Vielen Dank!</h3>
+                    <p>Ihr E-Mail-Programm wurde ge&ouml;ffnet. Bitte senden Sie die vorbereitete Nachricht ab. Wir melden uns zeitnah bei Ihnen.</p>
+                </div>`;
+        }
+
+        // ── Press Modal ──
+        function openPressModal() {
+            document.getElementById('pressModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePressModal() {
+            document.getElementById('pressModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function submitPressForm(e) {
+            e.preventDefault();
+            const data = new FormData(e.target);
+            const subject = encodeURIComponent(`Presseanfrage: ${data.get('art')}`);
+            const body = encodeURIComponent(
+                `Vorname: ${data.get('vorname')}\n` +
+                `Nachname: ${data.get('nachname')}\n` +
+                `Redaktion/Medium: ${data.get('medium')}\n` +
+                `E-Mail: ${data.get('email')}\n` +
+                `Telefon: ${data.get('telefon') || '-'}\n` +
+                `Art: ${data.get('art')}\n` +
+                `Deadline: ${data.get('deadline') || '-'}\n\n` +
+                `Anfrage:\n${data.get('anfrage')}`
+            );
+            window.location.href = `mailto:presse@fom.de?subject=${subject}&body=${body}`;
+
+            document.getElementById('pressFormContent').innerHTML = `
+                <div class="form-success">
+                    <div class="form-success-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <h3>Vielen Dank!</h3>
+                    <p>Ihr E-Mail-Programm wurde ge&ouml;ffnet. Bitte senden Sie die vorbereitete Nachricht ab.</p>
+                </div>`;
+        }
+
+        // Close modals with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') { closeExpertModal(); closePressModal(); }
+        });
+    </script>
+</body>
+</html>
