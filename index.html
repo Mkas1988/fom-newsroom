@@ -136,7 +136,7 @@
         }
 
         .logo-img {
-            height: 90px;
+            height: 60px;
             width: auto;
         }
 
@@ -1815,8 +1815,9 @@
             const imageUrl = item.image_medium || item.image_small || item.image || '';
             const tags = (item.tags || []).slice(0, 3);
 
+            const articleUrl = `artikel.html?id=${item.id}&type=${item.type_of_media}`;
             return `
-                <article class="card ${featured ? 'featured' : ''}">
+                <article class="card ${featured ? 'featured' : ''}" onclick="window.location.href='${articleUrl}'" style="cursor:pointer;">
                     ${imageUrl ? `<div class="card-image-wrap"><img class="card-image" src="${imageUrl}" alt="" loading="lazy"></div>` : ''}
                     <div class="card-body">
                         <div class="card-meta">
@@ -1824,11 +1825,11 @@
                         </div>
                         ${tags.length ? `<div class="card-tags">${tags.map(t => `<span class="card-tag">${t.name || t}</span>`).join('')}</div>` : ''}
                         <h2 class="card-title">
-                            <a href="artikel.html?id=${item.id}&type=${item.type_of_media}">${item.header}</a>
+                            <a href="${articleUrl}">${item.header}</a>
                         </h2>
                         <p class="card-excerpt">${excerpt}</p>
                         <div class="card-footer">
-                            <a href="artikel.html?id=${item.id}&type=${item.type_of_media}" class="card-link">Lesen</a>
+                            <a href="${articleUrl}" class="card-link">Lesen</a>
                         </div>
                     </div>
                 </article>

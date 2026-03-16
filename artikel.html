@@ -426,6 +426,17 @@
             line-height: 1.7;
         }
 
+        .boilerplate-link {
+            display: inline-block;
+            margin-top: 14px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--fom-teal);
+            text-decoration: none;
+            transition: color .2s;
+        }
+        .boilerplate-link:hover { color: var(--fom-teal-dark); text-decoration: underline; }
+
         /* ── Article Author ── */
         .article-author {
             max-width: 800px;
@@ -791,47 +802,221 @@
         }
         .insert-marker:hover::after { opacity: 1; }
 
-        /* Gallery Block */
+        /* ── Modern Gallery Component ── */
         .article-gallery {
-            margin: 32px 0; border-radius: var(--radius); overflow: hidden;
+            margin: 40px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--fom-black);
         }
-        .article-gallery .gallery-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;
+
+        /* Hero layout: first image large, rest small */
+        .gallery-grid {
+            display: grid;
+            gap: 3px;
         }
-        .article-gallery .gallery-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
-        .article-gallery .gallery-grid.cols-1 { grid-template-columns: 1fr; }
-        .article-gallery .gallery-item {
-            aspect-ratio: 4/3; overflow: hidden; position: relative; cursor: pointer;
+        .gallery-grid.layout-1 {
+            grid-template-columns: 1fr;
         }
-        .article-gallery .gallery-item img {
+        .gallery-grid.layout-2 {
+            grid-template-columns: 1fr 1fr;
+        }
+        .gallery-grid.layout-3 {
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: 1fr 1fr;
+        }
+        .gallery-grid.layout-3 .gallery-item:first-child {
+            grid-row: 1 / 3;
+        }
+        .gallery-grid.layout-4 {
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+        }
+        .gallery-grid.layout-4 .gallery-item:first-child {
+            grid-row: 1 / 4;
+        }
+        .gallery-grid.layout-many {
+            grid-template-columns: 2fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+        }
+        .gallery-grid.layout-many .gallery-item:first-child {
+            grid-row: 1 / 3;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            min-height: 140px;
+        }
+        .gallery-item img {
             width: 100%; height: 100%; object-fit: cover; display: block;
-            transition: transform .4s;
+            transition: transform .5s cubic-bezier(.25,.1,.25,1), filter .3s;
         }
-        .article-gallery .gallery-item:hover img { transform: scale(1.05); }
-        .article-gallery .gallery-caption {
-            font-size: 13px; color: var(--fom-gray); margin-top: 8px;
-            font-style: italic; text-align: center;
+        .gallery-item:hover img {
+            transform: scale(1.06);
         }
+        .gallery-item::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,.4) 100%);
+            opacity: 0; transition: opacity .3s;
+            pointer-events: none;
+        }
+        .gallery-item:hover::after { opacity: 1; }
+
+        /* Zoom icon on hover */
+        .gallery-item .gi-zoom {
+            position: absolute; bottom: 12px; right: 12px;
+            width: 36px; height: 36px; border-radius: 50%;
+            background: rgba(255,255,255,.2); backdrop-filter: blur(8px);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transform: translateY(8px);
+            transition: opacity .3s, transform .3s;
+            pointer-events: none;
+        }
+        .gallery-item:hover .gi-zoom { opacity: 1; transform: translateY(0); }
+        .gi-zoom svg { width: 18px; height: 18px; stroke: white; fill: none; stroke-width: 2; }
+
+        /* "Show more" overlay on last visible item */
+        .gallery-item .gi-more {
+            position: absolute; inset: 0;
+            background: rgba(0,0,0,.55); backdrop-filter: blur(2px);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            color: white; pointer-events: none;
+        }
+        .gi-more-count {
+            font-size: 32px; font-weight: 900; line-height: 1;
+        }
+        .gi-more-label {
+            font-size: 13px; font-weight: 600; margin-top: 4px;
+            opacity: .8;
+        }
+
+        .gallery-caption {
+            padding: 12px 16px;
+            font-size: 13px; color: rgba(255,255,255,.6);
+            background: var(--fom-black);
+            text-align: center;
+        }
+
+        /* ── Style: Slider / Carousel ── */
+        .article-gallery.style-slider {
+            background: transparent; position: relative;
+        }
+        .article-gallery.style-slider .gallery-slider {
+            display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+            scroll-behavior: smooth; gap: 0;
+            scrollbar-width: none; border-radius: 12px;
+        }
+        .article-gallery.style-slider .gallery-slider::-webkit-scrollbar { display: none; }
+        .article-gallery.style-slider .gallery-slide {
+            flex: 0 0 100%; scroll-snap-align: start;
+            position: relative; aspect-ratio: 16/9; overflow: hidden; cursor: pointer;
+        }
+        .article-gallery.style-slider .gallery-slide img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+        }
+        .gallery-slider-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 44px; height: 44px; border-radius: 50%; border: none;
+            background: rgba(255,255,255,.9); color: var(--fom-black);
+            font-size: 20px; cursor: pointer; display: flex;
+            align-items: center; justify-content: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,.15);
+            transition: background .2s, transform .2s; z-index: 2;
+        }
+        .gallery-slider-nav:hover { background: white; transform: translateY(-50%) scale(1.08); }
+        .gallery-slider-nav.prev { left: 12px; }
+        .gallery-slider-nav.next { right: 12px; }
+        .gallery-slider-dots {
+            display: flex; justify-content: center; gap: 6px;
+            padding: 14px 0 4px;
+        }
+        .gallery-slider-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--fom-gray-light); border: none; cursor: pointer;
+            transition: background .2s, transform .2s; padding: 0;
+        }
+        .gallery-slider-dot.active { background: var(--fom-teal); transform: scale(1.3); }
+        .article-gallery.style-slider .gallery-caption {
+            background: transparent; color: var(--fom-gray);
+        }
+        .gallery-slide-counter {
+            position: absolute; top: 14px; right: 14px;
+            background: rgba(0,0,0,.5); backdrop-filter: blur(8px);
+            color: white; font-size: 12px; font-weight: 700;
+            padding: 4px 12px; border-radius: 20px;
+        }
+
+        /* ── Style: Classic Grid (equal tiles) ── */
+        .article-gallery.style-grid { background: transparent; }
+        .article-gallery.style-grid .gallery-grid-classic {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+            border-radius: 12px; overflow: hidden;
+        }
+        .article-gallery.style-grid .gallery-grid-classic.cols-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .article-gallery.style-grid .gallery-item {
+            border-radius: 8px; aspect-ratio: 4/3;
+        }
+        .article-gallery.style-grid .gallery-caption {
+            background: transparent; color: var(--fom-gray);
+        }
+
+        /* ── Style: Masonry ── */
+        .article-gallery.style-masonry { background: transparent; }
+        .article-gallery.style-masonry .gallery-masonry {
+            columns: 3; column-gap: 8px;
+        }
+        .article-gallery.style-masonry .gallery-masonry .gallery-item {
+            break-inside: avoid; margin-bottom: 8px;
+            border-radius: 8px; min-height: auto; display: block;
+        }
+        .article-gallery.style-masonry .gallery-masonry .gallery-item img {
+            height: auto;
+        }
+        .article-gallery.style-masonry .gallery-caption {
+            background: transparent; color: var(--fom-gray);
+        }
+
+        /* ── Style Picker in Modal ── */
+        .gm-style-picker {
+            display: flex; gap: 10px; margin-bottom: 20px;
+        }
+        .gm-style-option {
+            flex: 1; border: 2px solid var(--fom-gray-light); border-radius: 10px;
+            padding: 12px 10px; cursor: pointer; text-align: center;
+            transition: all .2s; background: white;
+        }
+        .gm-style-option:hover { border-color: var(--fom-gray); }
+        .gm-style-option.active { border-color: var(--fom-teal); background: rgba(0,198,178,.04); }
+        .gm-style-option svg { width: 32px; height: 32px; stroke: var(--fom-gray); fill: none; stroke-width: 1.5; margin-bottom: 4px; }
+        .gm-style-option.active svg { stroke: var(--fom-teal); }
+        .gm-style-option span { display: block; font-size: 12px; font-weight: 700; color: var(--fom-gray); }
+        .gm-style-option.active span { color: var(--fom-teal); }
 
         /* Gallery edit controls */
         .gallery-edit-bar {
             display: none; padding: 8px 12px; background: var(--fom-bg-alt);
-            border: 1px solid var(--fom-gray-light); border-radius: 8px 8px 0 0;
+            border: 1px solid var(--fom-gray-light); border-radius: 12px 12px 0 0;
             gap: 8px; align-items: center;
         }
         body.edit-mode .gallery-edit-bar { display: flex; }
+        body.edit-mode .article-gallery { border-radius: 0 0 12px 12px; }
         .gallery-edit-bar .ge-btn {
             padding: 4px 10px; border: 1px solid var(--fom-gray-light);
             background: white; border-radius: 4px; cursor: pointer;
-            font-size: 12px; font-weight: 600; font-family: inherit;
-            transition: all .15s;
+            font-size: 12px; font-weight: 600; font-family: inherit; transition: all .15s;
         }
         .gallery-edit-bar .ge-btn:hover { background: var(--fom-bg-alt); }
         .gallery-edit-bar .ge-btn.danger { color: #e81818; border-color: #e81818; }
         .gallery-edit-bar .ge-btn.danger:hover { background: #fef0f0; }
         .gallery-edit-bar .ge-label { font-size: 12px; font-weight: 700; color: var(--fom-gray); }
 
-        /* Gallery Modal */
+        /* ── Gallery Modal ── */
         .gallery-modal-overlay {
             display: none; position: fixed; inset: 0;
             background: rgba(0,0,0,.5); backdrop-filter: blur(4px);
@@ -839,7 +1024,7 @@
         }
         .gallery-modal-overlay.open { display: flex; }
         .gallery-modal {
-            background: white; border-radius: 16px; width: 600px;
+            background: white; border-radius: 16px; width: 640px;
             max-width: 95vw; max-height: 85vh; overflow-y: auto;
             box-shadow: 0 20px 60px rgba(0,0,0,.2);
         }
@@ -847,9 +1032,7 @@
             padding: 20px 24px; border-bottom: 1px solid var(--fom-gray-light);
             display: flex; justify-content: space-between; align-items: center;
         }
-        .gallery-modal-header h3 {
-            font-size: 18px; font-weight: 700;
-        }
+        .gallery-modal-header h3 { font-size: 18px; font-weight: 700; }
         .gallery-modal-close {
             width: 36px; height: 36px; border-radius: 50%;
             border: 1px solid var(--fom-gray-light); background: white;
@@ -868,25 +1051,72 @@
             margin-bottom: 16px; transition: border-color .2s;
         }
         .gallery-modal-body .gm-input:focus { outline: none; border-color: var(--fom-teal); }
-        .gallery-modal-body textarea.gm-input { min-height: 100px; resize: vertical; }
+
+        /* Upload drop zone */
+        .gm-dropzone {
+            border: 2px dashed var(--fom-gray-light); border-radius: 12px;
+            padding: 28px; text-align: center; margin-bottom: 16px;
+            cursor: pointer; transition: border-color .2s, background .2s;
+        }
+        .gm-dropzone:hover, .gm-dropzone.dragover {
+            border-color: var(--fom-teal); background: rgba(0,198,178,.04);
+        }
+        .gm-dropzone svg { width: 32px; height: 32px; stroke: var(--fom-gray); margin-bottom: 8px; }
+        .gm-dropzone p { font-size: 14px; color: var(--fom-gray); margin: 0; }
+        .gm-dropzone p strong { color: var(--fom-teal); }
+
+        /* Media picker grid */
+        .gm-media-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+            margin-bottom: 16px; max-height: 220px; overflow-y: auto; padding: 2px;
+        }
+        .gm-media-item {
+            position: relative; border-radius: 6px; overflow: hidden;
+            cursor: pointer; border: 2px solid transparent; transition: all .2s;
+        }
+        .gm-media-item::before {
+            content: ''; display: block; padding-bottom: 100%;
+        }
+        .gm-media-item img {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            object-fit: cover; display: block;
+        }
+        .gm-media-item.selected { border-color: var(--fom-teal); }
+        .gm-media-item.selected::after {
+            content: '\2713'; position: absolute; top: 4px; right: 4px;
+            width: 20px; height: 20px; border-radius: 50%;
+            background: var(--fom-teal); color: white; font-size: 12px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Preview grid */
         .gm-preview {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-            margin-bottom: 16px; min-height: 60px;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+            margin-bottom: 16px; min-height: 40px;
         }
         .gm-preview-item {
-            aspect-ratio: 4/3; border-radius: 8px; overflow: hidden;
-            position: relative; border: 1px solid var(--fom-gray-light);
+            position: relative; border-radius: 8px; overflow: hidden;
+            border: 1px solid var(--fom-gray-light);
         }
+        .gm-preview-item::before { content: ''; display: block; padding-bottom: 75%; }
         .gm-preview-item img {
-            width: 100%; height: 100%; object-fit: cover; display: block;
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            object-fit: cover; display: block;
         }
         .gm-preview-item .gm-remove {
             position: absolute; top: 4px; right: 4px; width: 22px; height: 22px;
             border-radius: 50%; background: rgba(0,0,0,.6); color: white;
             border: none; cursor: pointer; font-size: 14px; display: flex;
-            align-items: center; justify-content: center;
+            align-items: center; justify-content: center; transition: background .15s;
         }
         .gm-preview-item .gm-remove:hover { background: #e81818; }
+        .gm-preview-item .gm-order {
+            position: absolute; bottom: 4px; left: 4px;
+            width: 20px; height: 20px; border-radius: 50%;
+            background: rgba(0,0,0,.6); color: white; font-size: 11px;
+            font-weight: 700; display: flex; align-items: center; justify-content: center;
+        }
+
         .gallery-modal-footer {
             padding: 16px 24px; border-top: 1px solid var(--fom-gray-light);
             display: flex; justify-content: flex-end; gap: 10px;
@@ -894,8 +1124,7 @@
         .gallery-modal-footer .gm-btn {
             padding: 10px 24px; border-radius: 8px; font-family: inherit;
             font-size: 14px; font-weight: 700; cursor: pointer;
-            border: 1px solid var(--fom-gray-light); background: white;
-            transition: all .15s;
+            border: 1px solid var(--fom-gray-light); background: white; transition: all .15s;
         }
         .gallery-modal-footer .gm-btn:hover { background: var(--fom-bg-alt); }
         .gallery-modal-footer .gm-btn.primary {
@@ -903,41 +1132,76 @@
         }
         .gallery-modal-footer .gm-btn.primary:hover { background: var(--fom-teal-dark); }
 
-        /* Lightbox for gallery images */
+        /* ── Gallery Lightbox ── */
         .gallery-lightbox {
             display: none; position: fixed; inset: 0;
-            background: rgba(0,0,0,.92); backdrop-filter: blur(12px);
-            z-index: 500; align-items: center; justify-content: center;
-            padding: 40px;
+            background: rgba(0,0,0,.95); backdrop-filter: blur(20px);
+            z-index: 500; flex-direction: column;
+            align-items: center; justify-content: center;
         }
         .gallery-lightbox.open { display: flex; }
-        .gallery-lightbox img {
-            max-width: 100%; max-height: 90vh; object-fit: contain;
-            border-radius: 8px;
+        .gallery-lightbox-main {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            width: 100%; padding: 60px 80px 20px;
+            position: relative;
+        }
+        .gallery-lightbox-main img {
+            max-width: 100%; max-height: 100%; object-fit: contain;
+            border-radius: 4px; transition: opacity .3s;
         }
         .gallery-lightbox-close {
-            position: absolute; top: 20px; right: 28px; width: 44px; height: 44px;
-            border-radius: 50%; border: 1px solid rgba(255,255,255,.3);
-            background: rgba(255,255,255,.1); color: white; font-size: 24px;
+            position: absolute; top: 16px; right: 20px; width: 44px; height: 44px;
+            border-radius: 50%; border: 1px solid rgba(255,255,255,.15);
+            background: rgba(255,255,255,.08); color: white; font-size: 22px;
             cursor: pointer; display: flex; align-items: center; justify-content: center;
+            z-index: 2; transition: background .2s;
         }
-        .gallery-lightbox-close:hover { background: rgba(255,255,255,.25); }
+        .gallery-lightbox-close:hover { background: rgba(255,255,255,.2); }
         .gallery-lightbox-nav {
             position: absolute; top: 50%; transform: translateY(-50%);
             width: 48px; height: 48px; border-radius: 50%; border: none;
-            background: rgba(255,255,255,.15); color: white; font-size: 24px;
+            background: rgba(255,255,255,.08); color: white; font-size: 24px;
             cursor: pointer; display: flex; align-items: center; justify-content: center;
-            transition: background .2s;
+            transition: background .2s; z-index: 2;
         }
-        .gallery-lightbox-nav:hover { background: rgba(255,255,255,.3); }
+        .gallery-lightbox-nav:hover { background: rgba(255,255,255,.2); }
         .gallery-lightbox-nav.prev { left: 20px; }
         .gallery-lightbox-nav.next { right: 20px; }
+        .gallery-lightbox-counter {
+            position: absolute; top: 24px; left: 28px;
+            font-size: 14px; color: rgba(255,255,255,.5); font-weight: 600;
+        }
+
+        /* Thumbnail strip */
+        .gallery-lightbox-thumbs {
+            display: flex; gap: 6px; padding: 16px 20px 20px;
+            overflow-x: auto; max-width: 100%;
+            scrollbar-width: none;
+        }
+        .gallery-lightbox-thumbs::-webkit-scrollbar { display: none; }
+        .gallery-lightbox-thumb {
+            width: 56px; height: 40px; border-radius: 4px; overflow: hidden;
+            cursor: pointer; flex-shrink: 0; border: 2px solid transparent;
+            opacity: .4; transition: opacity .2s, border-color .2s;
+        }
+        .gallery-lightbox-thumb.active { opacity: 1; border-color: white; }
+        .gallery-lightbox-thumb:hover { opacity: .8; }
+        .gallery-lightbox-thumb img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+        }
 
         @media (max-width: 768px) {
             .edit-toolbar-inner { gap: 4px; }
             .edit-toolbar .tb-btn { padding: 5px 8px; font-size: 12px; }
-            .article-gallery .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-            .gm-preview { grid-template-columns: repeat(2, 1fr); }
+            .gallery-grid.layout-3,
+            .gallery-grid.layout-4,
+            .gallery-grid.layout-many { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+            .gallery-grid .gallery-item:first-child { grid-row: auto; }
+            .gm-preview { grid-template-columns: repeat(3, 1fr); }
+            .gm-media-grid { grid-template-columns: repeat(3, 1fr); }
+            .gallery-lightbox-main { padding: 60px 20px 20px; }
+            .article-gallery.style-masonry .gallery-masonry { columns: 2; }
+            .article-gallery.style-grid .gallery-grid-classic { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
@@ -975,6 +1239,29 @@
         <a href="medien.html">Mediencenter <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
         <a href="kontakt.html">Kontakt <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
         <a href="https://www.fom.de" target="_blank">fom.de <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
+    </div>
+
+    <!-- Edit Toolbar (before article so it's always visible) -->
+    <div class="edit-toolbar" id="editToolbar">
+        <div class="edit-toolbar-inner">
+            <button class="tb-btn" onclick="execEdit('bold')" title="Fett"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h5a4 4 0 0 1 3.5 5.9A4.5 4.5 0 0 1 12 20H6V4Zm3 7h2a1.5 1.5 0 0 0 0-3H9v3Zm0 6h3a2 2 0 0 0 0-4H9v4Z"/></svg></button>
+            <button class="tb-btn" onclick="execEdit('italic')" title="Kursiv"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 4h8l-.5 2h-2.6l-3.8 12h2.6l-.5 2H5l.5-2h2.6l3.8-12H9.3L10 4Z"/></svg></button>
+            <div class="tb-sep"></div>
+            <button class="tb-btn" onclick="execEdit('insertUnorderedList')" title="Liste">&bull; Liste</button>
+            <button class="tb-btn" onclick="insertHeading()" title="Zwischentitel">H2</button>
+            <div class="tb-sep"></div>
+            <button class="tb-btn" onclick="openGalleryModal()" title="Bildgalerie einf&uuml;gen">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                Galerie
+            </button>
+            <div class="tb-sep"></div>
+            <button class="tb-btn primary" onclick="saveEdits()" title="&Auml;nderungen speichern">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                Speichern
+            </button>
+            <button class="tb-btn" onclick="discardEdits()" title="&Auml;nderungen verwerfen">Verwerfen</button>
+            <div class="tb-info"><div class="dot" id="editDot"></div><span id="editStatus">Bearbeitungsmodus</span></div>
+        </div>
     </div>
 
     <!-- Article Content (dynamically filled) -->
@@ -1241,15 +1528,6 @@
 
                 // (Share bar is now in the hero section above)
 
-                // Boilerplate
-                if (item.boilerplate) {
-                    html += `
-                        <div class="article-boilerplate">
-                            <div class="boilerplate-title">&Uuml;ber die FOM Hochschule</div>
-                            <div class="boilerplate-text">${item.boilerplate}</div>
-                        </div>`;
-                }
-
                 // Author (compact: photo + name, links to profile)
                 if (contacts.length) {
                     const c = contacts[0];
@@ -1264,6 +1542,16 @@
                                 }
                                 <span class="author-name">${c.name || ''}</span>
                             </a>
+                        </div>`;
+                }
+
+                // Boilerplate (after author)
+                if (item.boilerplate) {
+                    html += `
+                        <div class="article-boilerplate">
+                            <div class="boilerplate-title">&Uuml;ber die FOM Hochschule</div>
+                            <div class="boilerplate-text">${item.boilerplate}</div>
+                            <a href="https://www.fom.de" target="_blank" rel="noopener" class="boilerplate-link">Mehr erfahren auf fom.de &rarr;</a>
                         </div>`;
                 }
 
@@ -1367,54 +1655,55 @@
         <svg viewBox="0 0 24 24"><path d="M16.47 3.85a2.58 2.58 0 0 1 3.68 3.62l-1.13 1.14-3.62-3.62 1.07-1.14Zm-2.2 2.28 3.62 3.62L8.4 19.24l-4.28.66.66-4.28 9.49-9.49Z"/></svg>
     </button>
 
-    <!-- Edit Toolbar -->
-    <div class="edit-toolbar" id="editToolbar">
-        <div class="edit-toolbar-inner">
-            <button class="tb-btn" onclick="execEdit('bold')" title="Fett"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h5a4 4 0 0 1 3.5 5.9A4.5 4.5 0 0 1 12 20H6V4Zm3 7h2a1.5 1.5 0 0 0 0-3H9v3Zm0 6h3a2 2 0 0 0 0-4H9v4Z"/></svg></button>
-            <button class="tb-btn" onclick="execEdit('italic')" title="Kursiv"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 4h8l-.5 2h-2.6l-3.8 12h2.6l-.5 2H5l.5-2h2.6l3.8-12H9.3L10 4Z"/></svg></button>
-            <div class="tb-sep"></div>
-            <button class="tb-btn" onclick="execEdit('insertUnorderedList')" title="Liste">&bull; Liste</button>
-            <button class="tb-btn" onclick="insertHeading()" title="Zwischentitel">H2</button>
-            <div class="tb-sep"></div>
-            <button class="tb-btn" onclick="openGalleryModal()" title="Bildgalerie einf&uuml;gen">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-                Galerie
-            </button>
-            <div class="tb-sep"></div>
-            <button class="tb-btn primary" onclick="saveEdits()" title="&Auml;nderungen speichern">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-                Speichern
-            </button>
-            <button class="tb-btn" onclick="discardEdits()" title="&Auml;nderungen verwerfen">Verwerfen</button>
-            <div class="tb-info"><div class="dot" id="editDot"></div><span id="editStatus">Bearbeitungsmodus</span></div>
-        </div>
-    </div>
-
     <!-- Gallery Insert Modal -->
-    <div class="gallery-modal-overlay" id="galleryModal">
+    <div class="gallery-modal-overlay" id="galleryModal" onclick="if(event.target===this)closeGalleryModal()">
         <div class="gallery-modal">
             <div class="gallery-modal-header">
                 <h3>Bildgalerie einf&uuml;gen</h3>
                 <button class="gallery-modal-close" onclick="closeGalleryModal()">&times;</button>
             </div>
             <div class="gallery-modal-body">
+                <label>Bilder hochladen oder per Drag &amp; Drop ablegen</label>
+                <div class="gm-dropzone" id="gmDropzone" onclick="document.getElementById('gmFileInput').click()">
+                    <input type="file" id="gmFileInput" accept="image/*" multiple style="display:none;" onchange="handleFileUpload(this)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    <p>Dateien hierher ziehen oder <strong>klicken zum Ausw&auml;hlen</strong></p>
+                </div>
+
                 <label>Bild-URL hinzuf&uuml;gen</label>
                 <div style="display:flex;gap:8px;margin-bottom:16px;">
-                    <input class="gm-input" id="gmUrlInput" placeholder="https://example.com/bild.jpg" style="margin-bottom:0;">
+                    <input class="gm-input" id="gmUrlInput" placeholder="https://example.com/bild.jpg" style="margin-bottom:0;" onkeydown="if(event.key==='Enter')addGalleryImage()">
                     <button class="tb-btn" onclick="addGalleryImage()" style="white-space:nowrap;">+ Hinzuf&uuml;gen</button>
                 </div>
-                <label>Oder aus Mediencenter w&auml;hlen</label>
-                <div id="gmMediaPicker" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:16px;max-height:200px;overflow-y:auto;"></div>
-                <label>Vorschau (<span id="gmCount">0</span> Bilder)</label>
+
+                <label>Aus Mediencenter w&auml;hlen</label>
+                <div class="gm-media-grid" id="gmMediaPicker"></div>
+
+                <label>Ausgew&auml;hlte Bilder (<span id="gmCount">0</span>)</label>
                 <div class="gm-preview" id="gmPreview"></div>
-                <label>Spalten</label>
-                <select class="gm-input" id="gmCols" style="margin-bottom:12px;">
-                    <option value="2">2 Spalten</option>
-                    <option value="3" selected>3 Spalten</option>
-                    <option value="1">1 Spalte (volle Breite)</option>
-                </select>
+
+                <label>Galerie-Stil</label>
+                <div class="gm-style-picker" id="gmStylePicker">
+                    <div class="gm-style-option active" data-style="mosaic" onclick="setGalleryStyle('mosaic', this)">
+                        <svg viewBox="0 0 32 32"><rect x="1" y="1" width="14" height="30" rx="2"/><rect x="17" y="1" width="14" height="14" rx="2"/><rect x="17" y="17" width="14" height="14" rx="2"/></svg>
+                        <span>Mosaik</span>
+                    </div>
+                    <div class="gm-style-option" data-style="slider" onclick="setGalleryStyle('slider', this)">
+                        <svg viewBox="0 0 32 32"><rect x="1" y="4" width="30" height="20" rx="2"/><circle cx="12" cy="28" r="2"/><circle cx="16" cy="28" r="2" fill="currentColor"/><circle cx="20" cy="28" r="2"/><path d="M3 14l4-4M29 14l-4-4" stroke-linecap="round"/></svg>
+                        <span>Slider</span>
+                    </div>
+                    <div class="gm-style-option" data-style="grid" onclick="setGalleryStyle('grid', this)">
+                        <svg viewBox="0 0 32 32"><rect x="1" y="1" width="9" height="9" rx="1.5"/><rect x="12" y="1" width="9" height="9" rx="1.5"/><rect x="23" y="1" width="9" height="9" rx="1.5"/><rect x="1" y="12" width="9" height="9" rx="1.5"/><rect x="12" y="12" width="9" height="9" rx="1.5"/><rect x="23" y="12" width="9" height="9" rx="1.5"/></svg>
+                        <span>Raster</span>
+                    </div>
+                    <div class="gm-style-option" data-style="masonry" onclick="setGalleryStyle('masonry', this)">
+                        <svg viewBox="0 0 32 32"><rect x="1" y="1" width="9" height="14" rx="1.5"/><rect x="12" y="1" width="9" height="9" rx="1.5"/><rect x="23" y="1" width="9" height="20" rx="1.5"/><rect x="1" y="17" width="9" height="9" rx="1.5"/><rect x="12" y="12" width="9" height="14" rx="1.5"/><rect x="23" y="23" width="9" height="9" rx="1.5"/></svg>
+                        <span>Masonry</span>
+                    </div>
+                </div>
+
                 <label>Bildunterschrift (optional)</label>
-                <input class="gm-input" id="gmCaption" placeholder="z.B. Impressionen vom Campus">
+                <input class="gm-input" id="gmCaption" placeholder="z.B. Impressionen vom Campus" style="margin-bottom:0;">
             </div>
             <div class="gallery-modal-footer">
                 <button class="gm-btn" onclick="closeGalleryModal()">Abbrechen</button>
@@ -1424,11 +1713,15 @@
     </div>
 
     <!-- Gallery Lightbox -->
-    <div class="gallery-lightbox" id="galleryLightbox" onclick="if(event.target===this)closeGalleryLightbox()">
+    <div class="gallery-lightbox" id="galleryLightbox">
         <button class="gallery-lightbox-close" onclick="closeGalleryLightbox()">&times;</button>
-        <button class="gallery-lightbox-nav prev" onclick="navGalleryLightbox(-1)">&#8249;</button>
-        <img id="galleryLightboxImg" src="" alt="">
-        <button class="gallery-lightbox-nav next" onclick="navGalleryLightbox(1)">&#8250;</button>
+        <span class="gallery-lightbox-counter" id="glCounter"></span>
+        <div class="gallery-lightbox-main" onclick="if(event.target===this)closeGalleryLightbox()">
+            <button class="gallery-lightbox-nav prev" onclick="navGalleryLightbox(-1)">&#8249;</button>
+            <img id="galleryLightboxImg" src="" alt="">
+            <button class="gallery-lightbox-nav next" onclick="navGalleryLightbox(1)">&#8250;</button>
+        </div>
+        <div class="gallery-lightbox-thumbs" id="glThumbs"></div>
     </div>
 
     <script>
@@ -1436,10 +1729,17 @@
     let editMode = false;
     let hasUnsavedChanges = false;
     let galleryImages = [];
-    let insertTarget = null; // where to insert the gallery
+    let insertTarget = null;
     let lightboxImages = [];
     let lightboxIndex = 0;
-    let mediaItems = []; // from API for picker
+    let mediaItems = [];
+    let selectedStyle = 'mosaic';
+
+    function setGalleryStyle(style, el) {
+        selectedStyle = style;
+        document.querySelectorAll('.gm-style-option').forEach(o => o.classList.remove('active'));
+        el.classList.add('active');
+    }
 
     function getArticleId() {
         return new URLSearchParams(window.location.search).get('id') || '';
@@ -1463,9 +1763,11 @@
             if (editMode) {
                 body.addEventListener('input', onBodyEdit);
                 addInsertMarkers();
+                reinitGalleries();
             } else {
                 body.removeEventListener('input', onBodyEdit);
                 removeInsertMarkers();
+                reinitGalleries();
             }
         }
 
@@ -1518,10 +1820,13 @@
     // ── Gallery Modal ──
     function openGalleryModal() {
         galleryImages = [];
+        selectedStyle = 'mosaic';
         renderGalleryPreview();
         document.getElementById('gmUrlInput').value = '';
         document.getElementById('gmCaption').value = '';
-        document.getElementById('gmCols').value = '3';
+        document.querySelectorAll('.gm-style-option').forEach(o => {
+            o.classList.toggle('active', o.dataset.style === 'mosaic');
+        });
         document.getElementById('galleryModal').classList.add('open');
         document.body.style.overflow = 'hidden';
         loadMediaPicker();
@@ -1561,12 +1866,15 @@
         count.textContent = galleryImages.length;
         btn.disabled = galleryImages.length === 0;
 
-        preview.innerHTML = galleryImages.map((url, i) => `
-            <div class="gm-preview-item">
-                <img src="${url}" alt="Bild ${i + 1}" onerror="this.parentElement.style.background='#f0f0f0';this.style.display='none';">
-                <button class="gm-remove" onclick="removeGalleryImage(${i})">&times;</button>
-            </div>
-        `).join('');
+        preview.innerHTML = galleryImages.length === 0
+            ? '<p style="grid-column:1/-1;color:var(--fom-gray);font-size:13px;text-align:center;padding:16px 0;">Noch keine Bilder ausgew&auml;hlt</p>'
+            : galleryImages.map((url, i) => `
+                <div class="gm-preview-item">
+                    <img src="${url}" alt="Bild ${i + 1}" onerror="this.parentElement.style.background='#f0f0f0';this.style.display='none';">
+                    <button class="gm-remove" onclick="removeGalleryImage(${i})">&times;</button>
+                    <span class="gm-order">${i + 1}</span>
+                </div>
+            `).join('');
     }
 
     async function loadMediaPicker() {
@@ -1592,39 +1900,154 @@
             const thumb = item.image_small || item.image_medium || '';
             const full = item.image_large || item.image || thumb;
             const selected = galleryImages.includes(full);
-            return `<div style="aspect-ratio:1;border-radius:6px;overflow:hidden;cursor:pointer;border:2px solid ${selected ? 'var(--fom-teal)' : 'transparent'};opacity:${selected ? '.6' : '1'}"
-                onclick="addFromPicker('${full.replace(/'/g, "\\'")}')" title="${(item.header || '').replace(/"/g, '&quot;')}">
-                <img src="${thumb}" style="width:100%;height:100%;object-fit:cover;display:block;" alt="">
+            return `<div class="gm-media-item ${selected ? 'selected' : ''}"
+                onclick="toggleMediaPick('${full.replace(/'/g, "\\'")}')" title="${(item.header || '').replace(/"/g, '&quot;')}">
+                <img src="${thumb}" alt="">
             </div>`;
         }).join('');
     }
 
+    function toggleMediaPick(url) {
+        const idx = galleryImages.indexOf(url);
+        if (idx >= 0) {
+            galleryImages.splice(idx, 1);
+        } else {
+            galleryImages.push(url);
+        }
+        renderGalleryPreview();
+        renderMediaPicker();
+    }
+
+    function handleFileUpload(input) {
+        const files = Array.from(input.files);
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                galleryImages.push(e.target.result);
+                renderGalleryPreview();
+            };
+            reader.readAsDataURL(file);
+        });
+        input.value = '';
+    }
+
+    // Drag & Drop on dropzone
+    (function() {
+        const dz = document.getElementById('gmDropzone');
+        if (!dz) return;
+        ['dragenter','dragover'].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.add('dragover'); }));
+        ['dragleave','drop'].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.remove('dragover'); }));
+        dz.addEventListener('drop', e => {
+            const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = ev => { galleryImages.push(ev.target.result); renderGalleryPreview(); };
+                reader.readAsDataURL(file);
+            });
+        });
+    })();
+
     // ── Insert Gallery into Article ──
+    function getLayoutClass(count) {
+        if (count === 1) return 'layout-1';
+        if (count === 2) return 'layout-2';
+        if (count === 3) return 'layout-3';
+        if (count === 4) return 'layout-4';
+        return 'layout-many';
+    }
+
+    const ZOOM_ICON = '<span class="gi-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg></span>';
+
+    function buildMosaicHtml(galleryId, images) {
+        const maxVisible = 5;
+        const visible = images.slice(0, maxVisible);
+        const hidden = Math.max(0, images.length - maxVisible);
+        const layout = getLayoutClass(visible.length);
+        let h = `<div class="gallery-grid ${layout}">`;
+        visible.forEach((url, i) => {
+            const isLast = i === visible.length - 1 && hidden > 0;
+            h += `<div class="gallery-item" onclick="openGalleryLightbox('${galleryId}', ${i})">
+                <img src="${url}" alt="" loading="lazy">
+                ${isLast ? `<div class="gi-more"><span class="gi-more-count">+${hidden}</span><span class="gi-more-label">weitere Bilder</span></div>` : ZOOM_ICON}
+            </div>`;
+        });
+        h += '</div>';
+        return h;
+    }
+
+    function buildSliderHtml(galleryId, images) {
+        const sliderId = galleryId + '-slider';
+        let h = `<div class="gallery-slider" id="${sliderId}">`;
+        images.forEach((url, i) => {
+            h += `<div class="gallery-slide" onclick="openGalleryLightbox('${galleryId}', ${i})">
+                <img src="${url}" alt="" loading="lazy">
+                <span class="gallery-slide-counter">${i + 1} / ${images.length}</span>
+            </div>`;
+        });
+        h += '</div>';
+        if (images.length > 1) {
+            h += `<button class="gallery-slider-nav prev" onclick="slideGallery('${sliderId}', -1)">&#8249;</button>`;
+            h += `<button class="gallery-slider-nav next" onclick="slideGallery('${sliderId}', 1)">&#8250;</button>`;
+            h += `<div class="gallery-slider-dots" id="${sliderId}-dots">`;
+            images.forEach((_, i) => {
+                h += `<button class="gallery-slider-dot ${i === 0 ? 'active' : ''}" onclick="slideTo('${sliderId}', ${i})"></button>`;
+            });
+            h += '</div>';
+        }
+        return h;
+    }
+
+    function buildGridHtml(galleryId, images) {
+        const cols = images.length <= 4 ? 'cols-2' : '';
+        let h = `<div class="gallery-grid-classic ${cols}">`;
+        images.forEach((url, i) => {
+            h += `<div class="gallery-item" onclick="openGalleryLightbox('${galleryId}', ${i})">
+                <img src="${url}" alt="" loading="lazy">${ZOOM_ICON}
+            </div>`;
+        });
+        h += '</div>';
+        return h;
+    }
+
+    function buildMasonryHtml(galleryId, images) {
+        let h = '<div class="gallery-masonry">';
+        images.forEach((url, i) => {
+            h += `<div class="gallery-item" onclick="openGalleryLightbox('${galleryId}', ${i})">
+                <img src="${url}" alt="" loading="lazy">${ZOOM_ICON}
+            </div>`;
+        });
+        h += '</div>';
+        return h;
+    }
+
     function insertGallery() {
-        const cols = document.getElementById('gmCols').value;
         const caption = document.getElementById('gmCaption').value.trim();
         if (galleryImages.length === 0) return;
 
         const galleryId = 'gallery-' + Date.now();
-        const colClass = cols === '1' ? 'cols-1' : cols === '2' ? 'cols-2' : '';
+        const style = selectedStyle;
 
-        let galleryHtml = `<div class="article-gallery" data-gallery-id="${galleryId}" data-images='${JSON.stringify(galleryImages)}' data-cols="${cols}">`;
+        let galleryHtml = `<div class="article-gallery style-${style}" data-gallery-id="${galleryId}" data-images='${JSON.stringify(galleryImages)}' data-style="${style}">`;
         galleryHtml += `<div class="gallery-edit-bar">
-            <span class="ge-label">Galerie (${galleryImages.length} Bilder)</span>
+            <span class="ge-label">${style === 'slider' ? 'Slider' : style === 'grid' ? 'Raster' : style === 'masonry' ? 'Masonry' : 'Mosaik'} (${galleryImages.length} Bilder)</span>
             <button class="ge-btn" onclick="editExistingGallery('${galleryId}')">Bearbeiten</button>
             <button class="ge-btn danger" onclick="removeGallery('${galleryId}')">Entfernen</button>
         </div>`;
-        galleryHtml += `<div class="gallery-grid ${colClass}">`;
-        galleryImages.forEach((url, i) => {
-            galleryHtml += `<div class="gallery-item" onclick="openGalleryLightbox('${galleryId}', ${i})">
-                <img src="${url}" alt="Galeriebild ${i + 1}" loading="lazy">
-            </div>`;
-        });
-        galleryHtml += '</div>';
+
+        if (style === 'slider') galleryHtml += buildSliderHtml(galleryId, galleryImages);
+        else if (style === 'grid') galleryHtml += buildGridHtml(galleryId, galleryImages);
+        else if (style === 'masonry') galleryHtml += buildMasonryHtml(galleryId, galleryImages);
+        else galleryHtml += buildMosaicHtml(galleryId, galleryImages);
+
         if (caption) {
             galleryHtml += `<p class="gallery-caption">${caption}</p>`;
         }
         galleryHtml += '</div>';
+
+        // Init slider scroll listener after insert
+        if (style === 'slider') {
+            setTimeout(() => initSliderObserver(galleryId + '-slider'), 100);
+        }
 
         const body = document.querySelector('.article-body');
         if (insertTarget && body.contains(insertTarget)) {
@@ -1647,23 +2070,62 @@
         }
     }
 
+    // Slider navigation
+    function slideGallery(sliderId, dir) {
+        const slider = document.getElementById(sliderId);
+        if (!slider) return;
+        const slideWidth = slider.querySelector('.gallery-slide')?.offsetWidth || slider.offsetWidth;
+        slider.scrollBy({ left: dir * slideWidth, behavior: 'smooth' });
+    }
+
+    function slideTo(sliderId, index) {
+        const slider = document.getElementById(sliderId);
+        if (!slider) return;
+        const slides = slider.querySelectorAll('.gallery-slide');
+        if (slides[index]) slides[index].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+    }
+
+    function initSliderObserver(sliderId) {
+        const slider = document.getElementById(sliderId);
+        const dotsContainer = document.getElementById(sliderId + '-dots');
+        if (!slider || !dotsContainer) return;
+        const slides = slider.querySelectorAll('.gallery-slide');
+        const dots = dotsContainer.querySelectorAll('.gallery-slider-dot');
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const idx = Array.from(slides).indexOf(entry.target);
+                    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+                }
+            });
+        }, { root: slider, threshold: 0.5 });
+
+        slides.forEach(s => observer.observe(s));
+    }
+
     function editExistingGallery(galleryId) {
         const el = document.querySelector(`[data-gallery-id="${galleryId}"]`);
         if (!el) return;
         const images = JSON.parse(el.getAttribute('data-images') || '[]');
-        const cols = el.getAttribute('data-cols') || '3';
+        const style = el.getAttribute('data-style') || 'mosaic';
         const captionEl = el.querySelector('.gallery-caption');
 
         galleryImages = [...images];
+        selectedStyle = style;
         insertTarget = el;
         renderGalleryPreview();
-        document.getElementById('gmCols').value = cols;
         document.getElementById('gmCaption').value = captionEl ? captionEl.textContent : '';
+
+        // Set active style
+        document.querySelectorAll('.gm-style-option').forEach(o => {
+            o.classList.toggle('active', o.dataset.style === style);
+        });
+
         document.getElementById('galleryModal').classList.add('open');
         document.body.style.overflow = 'hidden';
         loadMediaPicker();
 
-        // Override insert to replace
         document.getElementById('gmInsertBtn').onclick = function() {
             el.remove();
             insertGallery();
@@ -1695,6 +2157,21 @@
 
     function showLightboxImage() {
         document.getElementById('galleryLightboxImg').src = lightboxImages[lightboxIndex] || '';
+        document.getElementById('glCounter').textContent = `${lightboxIndex + 1} / ${lightboxImages.length}`;
+
+        // Update thumbnails
+        const thumbs = document.getElementById('glThumbs');
+        thumbs.innerHTML = lightboxImages.map((url, i) =>
+            `<div class="gallery-lightbox-thumb ${i === lightboxIndex ? 'active' : ''}" onclick="lightboxIndex=${i};showLightboxImage()">
+                <img src="${url}" alt="">
+            </div>`
+        ).join('');
+
+        // Scroll active thumb into view
+        setTimeout(() => {
+            const active = thumbs.querySelector('.active');
+            if (active) active.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }, 50);
     }
 
     document.addEventListener('keydown', e => {
@@ -1717,6 +2194,7 @@
         dot.classList.remove('unsaved');
         status.textContent = 'Gespeichert!';
         setTimeout(() => { status.textContent = 'Bearbeitungsmodus'; }, 2000);
+        reinitGalleries();
     }
 
     function discardEdits() {
@@ -1727,8 +2205,61 @@
         location.reload();
     }
 
+    // Re-initialize all galleries (restore edit bars, slider observers)
+    function reinitGalleries() {
+        document.querySelectorAll('.article-gallery').forEach(gallery => {
+            const galleryId = gallery.getAttribute('data-gallery-id');
+            const images = JSON.parse(gallery.getAttribute('data-images') || '[]');
+            const style = gallery.getAttribute('data-style') || 'mosaic';
+            if (!galleryId || !images.length) return;
+
+            // Ensure edit bar exists and has correct handlers
+            let editBar = gallery.querySelector('.gallery-edit-bar');
+            if (!editBar) {
+                const label = style === 'slider' ? 'Slider' : style === 'grid' ? 'Raster' : style === 'masonry' ? 'Masonry' : 'Mosaik';
+                editBar = document.createElement('div');
+                editBar.className = 'gallery-edit-bar';
+                editBar.innerHTML = `
+                    <span class="ge-label">${label} (${images.length} Bilder)</span>
+                    <button class="ge-btn" onclick="editExistingGallery('${galleryId}')">Bearbeiten</button>
+                    <button class="ge-btn danger" onclick="removeGallery('${galleryId}')">Entfernen</button>`;
+                gallery.insertBefore(editBar, gallery.firstChild);
+            } else {
+                // Update onclick handlers (may be lost after innerHTML restore)
+                const btns = editBar.querySelectorAll('.ge-btn');
+                btns.forEach(btn => {
+                    if (btn.textContent.trim() === 'Bearbeiten') {
+                        btn.onclick = () => editExistingGallery(galleryId);
+                    } else if (btn.classList.contains('danger')) {
+                        btn.onclick = () => removeGallery(galleryId);
+                    }
+                });
+            }
+
+            // Re-bind gallery item clicks
+            gallery.querySelectorAll('.gallery-item').forEach((item, i) => {
+                item.onclick = () => openGalleryLightbox(galleryId, i);
+            });
+
+            // Re-bind slider nav if slider
+            if (style === 'slider') {
+                const sliderId = galleryId + '-slider';
+                const prevBtn = gallery.querySelector('.gallery-slider-nav.prev');
+                const nextBtn = gallery.querySelector('.gallery-slider-nav.next');
+                if (prevBtn) prevBtn.onclick = () => slideGallery(sliderId, -1);
+                if (nextBtn) nextBtn.onclick = () => slideGallery(sliderId, 1);
+
+                // Re-bind dots
+                gallery.querySelectorAll('.gallery-slider-dot').forEach((dot, i) => {
+                    dot.onclick = () => slideTo(sliderId, i);
+                });
+
+                initSliderObserver(sliderId);
+            }
+        });
+    }
+
     // Apply saved edits after article loads
-    const origLoadArticle = loadArticle;
     const observer = new MutationObserver(() => {
         const body = document.querySelector('.article-body');
         if (body) {
@@ -1737,6 +2268,7 @@
             const saved = localStorage.getItem(key);
             if (saved) {
                 body.innerHTML = saved;
+                reinitGalleries();
             }
         }
     });
