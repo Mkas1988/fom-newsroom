@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preload" href="fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-55-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-75-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/Neue-Haas-Grotesk-Display-Pro/Neue-Haas-Grotesk-Display-Pro-75-Bold.woff2" as="font" type="font/woff2" crossorigin>
     <title>Artikel – FOM Newsroom</title>
     <meta name="description" content="Pressemitteilung und Nachricht der FOM Hochschule für Oekonomie & Management.">
     <link rel="canonical" href="https://newsroom.fomhochschule.com/artikel.html">
@@ -2315,5 +2318,6 @@
     });
     observer.observe(document.getElementById('articleContainer'), { childList: true, subtree: true });
     </script>
+    <script>if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');</script>
 </body>
 </html>

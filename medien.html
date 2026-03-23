@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preload" href="fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-55-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-75-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/Neue-Haas-Grotesk-Display-Pro/Neue-Haas-Grotesk-Display-Pro-75-Bold.woff2" as="font" type="font/woff2" crossorigin>
     <title>Medien &amp; Downloads – FOM Newsroom</title>
     <meta name="description" content="Pressebilder, Logos und Medien der FOM Hochschule zum Download. Hochauflösende Bilder für Ihre Berichterstattung.">
     <link rel="canonical" href="https://newsroom.fomhochschule.com/medien.html">
@@ -608,5 +611,6 @@
 
         loadMedia();
     </script>
+    <script>if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');</script>
 </body>
 </html>

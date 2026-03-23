@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="dns-prefetch" href="https://www.mynewsdesk.com">
+    <link rel="preconnect" href="https://www.mynewsdesk.com" crossorigin>
+    <link rel="preload" href="fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-55-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-75-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/Neue-Haas-Grotesk-Display-Pro/Neue-Haas-Grotesk-Display-Pro-75-Bold.woff2" as="font" type="font/woff2" crossorigin>
     <title>FOM Newsroom – Das Medien-Portal der FOM Hochschule</title>
     <meta name="description" content="Aktuelle Pressemitteilungen, News und Medien der FOM Hochschule für Oekonomie & Management. Informationen zu Studium, Forschung und Kooperationen.">
     <link rel="canonical" href="https://newsroom.fomhochschule.com/">
@@ -1871,9 +1876,39 @@
 
         // Cache all items for client-side search
         let cachedAllItems = null;
+        const API_CACHE_KEY = 'fom_api_cache';
+        const API_CACHE_TTL = 5 * 60 * 1000; // 5 min
+
+        function getLocalCache() {
+            try {
+                const raw = localStorage.getItem(API_CACHE_KEY);
+                if (!raw) return null;
+                const cached = JSON.parse(raw);
+                if (Date.now() - cached.ts > API_CACHE_TTL) return null;
+                return cached.items;
+            } catch(e) { return null; }
+        }
+        function setLocalCache(items) {
+            try { localStorage.setItem(API_CACHE_KEY, JSON.stringify({ ts: Date.now(), items })); } catch(e) {}
+        }
 
         async function fetchAllItems() {
             if (cachedAllItems) return cachedAllItems;
+            // Try localStorage cache first for instant rendering
+            const localCached = getLocalCache();
+            if (localCached) {
+                cachedAllItems = localCached;
+                // Refresh in background
+                fetchFromAPI().then(items => { cachedAllItems = items; setLocalCache(items); });
+                return localCached;
+            }
+            const items = await fetchFromAPI();
+            cachedAllItems = items;
+            setLocalCache(items);
+            return items;
+        }
+
+        async function fetchFromAPI() {
             const [prRes, newsRes] = await Promise.all([
                 fetch(`${BASE_URL}/list/${API_KEY}?format=json&strict=true&limit=${LIMIT}&type_of_media=pressrelease`),
                 fetch(`${BASE_URL}/list/${API_KEY}?format=json&strict=true&limit=${LIMIT}&type_of_media=news`)
@@ -1885,7 +1920,6 @@
                 const db = b.published_at?.datetime || '';
                 return db.localeCompare(da);
             });
-            cachedAllItems = items;
             return items;
         }
 
@@ -2463,5 +2497,6 @@
             if (fab) fab.style.display = '';
         }
     </script>
+    <script>if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');</script>
 </body>
 </html>

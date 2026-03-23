@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preload" href="fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-55-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-75-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/Neue-Haas-Grotesk-Display-Pro/Neue-Haas-Grotesk-Display-Pro-75-Bold.woff2" as="font" type="font/woff2" crossorigin>
     <title>Kontakt – FOM Newsroom</title>
     <meta name="description" content="Pressekontakt der FOM Hochschule. Ansprechpartner für Presseanfragen, Interviewwünsche und Medienanfragen.">
     <link rel="canonical" href="https://newsroom.fomhochschule.com/kontakt.html">
@@ -1001,5 +1004,6 @@
             if (e.key === 'Escape') { closeExpertModal(); closePressModal(); }
         });
     </script>
+    <script>if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');</script>
 </body>
 </html>
