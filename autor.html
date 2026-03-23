@@ -389,7 +389,6 @@
     </style>
 </head>
 <body>
-    <script src="auth.js"></script>
 
     <header>
         <div class="header-inner">
@@ -557,11 +556,10 @@
                             }
                             <div class="author-hero-info">
                                 <h1>${author.name}</h1>
-                                ${author.pressroom_contact === 'true' ? '<span class="author-hero-badge">Pressekontakt</span>' : ''}
                                 ${role ? `<p class="author-hero-role">${role}</p>` : ''}
                                 <div class="author-hero-contact">
-                                    ${author.email ? `<a href="mailto:${author.email}">${author.email}</a>` : ''}
-                                    ${author.phone ? `<a href="tel:${author.phone}">${author.phone}</a>` : ''}
+                                    <a href="mailto:presse@fom.de">presse@fom.de</a>
+                                    <a href="tel:+4920181004722">0201/81004-722</a>
                                 </div>
                             </div>
                         </div>

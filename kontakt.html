@@ -163,18 +163,17 @@
         /* ── Page Hero ── */
         .page-hero {
             background: var(--fom-bg-alt);
-            border-bottom: 1px solid var(--fom-gray-light);
-            padding: 48px 32px 56px;
+            padding: 64px 32px 56px;
         }
 
         .page-hero-inner {
-            max-width: 800px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
         .page-hero h1 {
             font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
-            font-size: 40px;
+            font-size: 42px;
             font-weight: 700;
             color: var(--fom-black);
             line-height: 1.15;
@@ -184,9 +183,9 @@
 
         .page-hero p {
             font-size: 18px;
-            color: var(--fom-text-light);
-            line-height: 1.6;
-            max-width: 600px;
+            color: var(--fom-gray);
+            line-height: 1.7;
+            max-width: 680px;
         }
 
         /* ── Service Link ── */
@@ -390,6 +389,27 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 28px;
+        }
+
+        .kontakt-allgemein {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 16px;
+            color: var(--fom-text);
+        }
+
+        .kontakt-allgemein p {
+            margin-bottom: 6px;
+        }
+
+        .kontakt-allgemein a {
+            color: var(--fom-teal);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .kontakt-allgemein a:hover {
+            text-decoration: underline;
         }
 
         .kontakt-card {
@@ -645,7 +665,6 @@
     </style>
 </head>
 <body>
-    <script src="auth.js"></script>
 
     <!-- Header -->
     <header>
@@ -685,77 +704,9 @@
         <div class="page-hero-inner">
             <h1>Kontakt</h1>
             <p>F&uuml;r Presseanfragen, Intervieww&uuml;nsche und Medienanfragen stehen Ihnen unsere Ansprechpartner gerne zur Verf&uuml;gung.</p>
-            <a class="service-link" onclick="openExpertModal(); return false;" href="#">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                </svg>
-                <span>Wir vermitteln Expertinnen und Experten f&uuml;r Ihre Berichterstattung.<br><strong>Jetzt kostenlos anfragen &rarr;</strong></span>
-            </a>
         </div>
     </section>
 
-    <!-- Expert Request Modal -->
-    <div class="modal-backdrop" id="expertModal" onclick="if(event.target===this)closeExpertModal()">
-        <div class="modal">
-            <div id="expertFormContent">
-                <div class="modal-header">
-                    <h2>Experten-Anfrage</h2>
-                    <button class="modal-close" onclick="closeExpertModal()">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                    </button>
-                </div>
-                <form id="expertForm" onsubmit="submitExpertForm(event)">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Vorname *</label>
-                            <input type="text" name="vorname" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Nachname *</label>
-                            <input type="text" name="nachname" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Redaktion / Medium *</label>
-                        <input type="text" name="medium" required placeholder="z.B. Westdeutsche Allgemeine Zeitung">
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>E-Mail *</label>
-                            <input type="email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Telefon</label>
-                            <input type="tel" name="telefon">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Fachgebiet / Thema *</label>
-                        <select name="fachgebiet" required>
-                            <option value="">Bitte w&auml;hlen...</option>
-                            <option>Betriebswirtschaft &amp; Management</option>
-                            <option>Wirtschaftspsychologie</option>
-                            <option>Gesundheit &amp; Soziales</option>
-                            <option>Informatik &amp; Digitalisierung</option>
-                            <option>Ingenieurwesen &amp; Technik</option>
-                            <option>Recht &amp; Steuern</option>
-                            <option>Bildung &amp; Hochschule</option>
-                            <option>Sonstiges</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Ihre Anfrage *</label>
-                        <textarea name="anfrage" required placeholder="Beschreiben Sie kurz das Thema und den gew&uuml;nschten Interviewkontext..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Gew&uuml;nschter Zeitraum</label>
-                        <input type="text" name="zeitraum" placeholder="z.B. bis Ende der Woche, flexibel">
-                    </div>
-                    <button type="submit" class="form-submit">Anfrage senden &rarr;</button>
-                </form>
-            </div>
-        </div>
-    </div>
 
     <!-- Contact Cards -->
     <section class="kontakt-section">
@@ -765,6 +716,7 @@
                 <p>Lade Ansprechpartner...</p>
             </div>
         </div>
+        <!-- General contact card injected via JS -->
     </section>
 
     <!-- Press Request CTA -->
@@ -839,21 +791,7 @@
     </div>
 
     <!-- General Contact Info -->
-    <section class="kontakt-info">
-        <div class="kontakt-info-card">
-            <div class="kontakt-info-block">
-                <h3>Adresse</h3>
-                <p>FOM Hochschule f&uuml;r Oekonomie &amp; Management<br>
-                Leimkugelstra&szlig;e 6<br>
-                45141 Essen</p>
-            </div>
-            <div class="kontakt-info-block">
-                <h3>Allgemeiner Kontakt</h3>
-                <p>Telefon: <a href="tel:+49201810040">0201 81004-0</a><br>
-                Web: <a href="https://www.fom.de" target="_blank">www.fom.de</a></p>
-            </div>
-        </div>
-    </section>
+    <!-- Address section removed -->
 
     <!-- Footer -->
     <footer>
@@ -935,6 +873,16 @@
                     return;
                 }
 
+                const generalCard = `
+                    <div class="kontakt-card">
+                        <div class="kontakt-avatar-placeholder" style="font-size:28px;">&#9993;</div>
+                        <div class="kontakt-name">Kontakt</div>
+                        <div class="kontakt-role">Allgemeiner Kontakt</div>
+                        <div class="kontakt-links">
+                            <a href="mailto:presse@fom.de">presse@fom.de</a>
+                            <a href="tel:+4920181004722">0201/81004-722</a>
+                        </div>
+                    </div>`;
                 grid.innerHTML = contacts.map(c => {
                     const avatarUrl = c.image_thumbnail_large || c.image_thumbnail_medium || c.image_small || '';
                     const role = c.specialist || c.title || '';
@@ -945,14 +893,9 @@
                                 : `<div class="kontakt-avatar-placeholder">${(c.name || '?').charAt(0)}</div>`
                             }
                             <div class="kontakt-name">${c.name || ''}</div>
-                            ${c.pressroom_contact === 'true' ? '<span class="kontakt-badge">Pressekontakt</span>' : ''}
                             ${role ? `<div class="kontakt-role">${role}</div>` : ''}
-                            <div class="kontakt-links">
-                                ${c.email ? `<a href="mailto:${c.email}">${c.email}</a>` : ''}
-                                ${c.phone ? `<a href="tel:${c.phone}">${c.phone}</a>` : ''}
-                            </div>
                         </div>`;
-                }).join('');
+                }).join('') + generalCard;
             } catch (e) {
                 grid.innerHTML = '<p style="text-align:center;padding:60px;color:#ef4444">Fehler beim Laden der Kontakte.</p>';
                 console.error('Contact load failed:', e);

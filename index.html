@@ -92,16 +92,36 @@
 
         /* ── State: scrolled (compact) ── */
         header.scrolled .header-inner { height: 56px; }
+        header.scrolled .logo-img { height: 36px; }
         header.scrolled .header-subtitle { opacity: 0; height: 0; margin: 0; }
         header.scrolled .header-title { font-size: 20px; font-weight: 700; }
-        header.scrolled .logo-center { opacity: 0; pointer-events: none; }
 
         .header-left {
             display: flex;
-            flex-direction: column;
-            gap: 1px;
+            align-items: center;
             flex-shrink: 0;
             text-decoration: none;
+        }
+
+        .header-left:hover { opacity: .85; }
+
+        .logo-img {
+            height: 70px;
+            width: auto;
+            transition: height .3s ease;
+        }
+
+        .logo-center {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1px;
+            transition: opacity .3s ease;
         }
 
         .header-title {
@@ -117,28 +137,14 @@
         .header-subtitle {
             font-size: 11.5px;
             font-weight: 400;
-            color: rgba(255,255,255,.7);
+            color: rgba(255,255,255,.95);
             letter-spacing: 0.1px;
             transition: opacity .3s ease, height .3s ease;
             overflow: hidden;
             height: 16px;
         }
 
-        .header-left:hover .header-title { color: var(--fom-white); opacity: .85; }
-
-        .logo-center {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            text-decoration: none;
-            transition: opacity .3s ease;
-        }
-
-        .logo-img {
-            height: 60px;
-            width: auto;
-        }
+        .logo-center:hover .header-title { opacity: .85; }
 
         .header-right {
             display: flex;
@@ -358,7 +364,6 @@
 
         .search-bar-wrap:focus-within {
             box-shadow: 0 4px 24px rgba(0, 0, 0, .06);
-            border-color: var(--fom-gray);
         }
 
         .search-row {
@@ -409,7 +414,7 @@
             height: 56px;
             margin: 4px;
             border-radius: 12px;
-            background: var(--fom-black);
+            background: var(--fom-teal);
             border: none;
             cursor: pointer;
             display: flex;
@@ -419,7 +424,7 @@
             flex-shrink: 0;
         }
 
-        .search-submit:hover { background: var(--fom-gray-dark); }
+        .search-submit:hover { background: var(--fom-teal-dark); }
 
         .search-submit svg {
             width: 20px;
@@ -461,25 +466,26 @@
 
         .filter-chip {
             padding: 7px 16px;
-            border: 1.5px solid var(--fom-gray-light);
+            border: 1.5px solid var(--fom-teal);
             border-radius: 8px;
             background: white;
             font-size: 14px;
             font-weight: 500;
-            color: var(--fom-text);
+            color: var(--fom-teal-dark);
             cursor: pointer;
             font-family: inherit;
             transition: all .15s;
         }
 
         .filter-chip:hover {
-            border-color: var(--fom-gray);
+            background: var(--fom-teal-light);
+            border-color: var(--fom-teal-dark);
         }
 
         .filter-chip.active {
-            background: var(--fom-black);
+            background: var(--fom-teal);
             color: white;
-            border-color: var(--fom-black);
+            border-color: var(--fom-teal);
         }
 
         /* ── Hero Slider ── */
@@ -1506,8 +1512,8 @@
         @media (max-width: 768px) {
             .header-inner { padding: 0 20px; height: 64px; }
             header.scrolled .header-inner { height: 52px; }
-            .header-title { font-size: 20px; }
-            header.scrolled .header-title { font-size: 16px; }
+            .logo-img { height: 44px; }
+            header.scrolled .logo-img { height: 30px; }
             .logo-center { display: none; }
             nav { display: none; }
             .header-search-overlay { padding: 0 20px; }
@@ -1537,23 +1543,17 @@
     </style>
 </head>
 <body>
-    <script src="auth.js"></script>
-
     <!-- Header -->
     <header>
         <div class="header-inner">
             <a href="index.html" class="header-left">
+                <img class="logo-img" src="fom-logo-white.svg" alt="FOM Hochschule">
+            </a>
+            <a href="index.html" class="logo-center">
                 <span class="header-title">FOM Newsroom</span>
                 <span class="header-subtitle">Das Medien-Portal der FOM Hochschule</span>
             </a>
-            <a href="index.html" class="logo-center">
-                <img class="logo-img" src="fom-logo-white.svg" alt="FOM Hochschule">
-            </a>
             <div class="header-right">
-                <button class="header-icon-btn" onclick="openHeaderSearch()" title="Suche">
-                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
-                </button>
-                <div class="header-sep"></div>
                 <nav id="mainNav">
                     <a href="#" class="active">News</a>
                     <a href="medien.html">Mediencenter</a>
@@ -1619,10 +1619,6 @@
                     <span class="filter-label">Thema</span>
                     <div class="filter-chips" id="tagFilters">
                         <button class="filter-chip active" onclick="setTagFilter('all', this)">Alle Themen</button>
-                        <button class="filter-chip" onclick="setTagFilter('Studium', this)">Studium</button>
-                        <button class="filter-chip" onclick="setTagFilter('Forschung', this)">Forschung</button>
-                        <button class="filter-chip" onclick="setTagFilter('Kooperation', this)">Kooperation</button>
-                        <button class="filter-chip" onclick="setTagFilter('Auszeichnung', this)">Auszeichnung</button>
                     </div>
                 </div>
                 <div class="filter-group">
@@ -1632,6 +1628,7 @@
                         <button class="filter-chip" onclick="setDateFilter('7', this)">Letzte 7 Tage</button>
                         <button class="filter-chip" onclick="setDateFilter('30', this)">Letzte 30 Tage</button>
                         <button class="filter-chip" onclick="setDateFilter('365', this)">Letztes Jahr</button>
+                        <button class="filter-chip" onclick="setDateFilter('older', this)">Älter</button>
                     </div>
                 </div>
             </div>
@@ -1654,8 +1651,8 @@
     </main>
 
 
-    <!-- Admin FAB -->
-    <button class="admin-fab" onclick="openAdmin()" title="Header-Meldungen verwalten">
+    <!-- Admin FAB (only visible when logged in via /admin) -->
+    <button class="admin-fab" id="adminFab" onclick="openAdmin()" title="Header-Meldungen verwalten" style="display:none">
         <svg viewBox="0 0 24 24"><path d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.53a7.76 7.76 0 0 0 .07-1 7.76 7.76 0 0 0-.07-.97l2.11-1.63a.5.5 0 0 0 .12-.64l-2-3.46a.5.5 0 0 0-.61-.22l-2.49 1a7.15 7.15 0 0 0-1.65-.96l-.38-2.65A.49.49 0 0 0 14 2h-4a.49.49 0 0 0-.49.42l-.38 2.65a7.15 7.15 0 0 0-1.65.96l-2.49-1a.5.5 0 0 0-.61.22l-2 3.46a.5.5 0 0 0 .12.64L4.57 11a7.76 7.76 0 0 0-.07.97 7.76 7.76 0 0 0 .07 1l-2.11 1.63a.5.5 0 0 0-.12.64l2 3.46a.5.5 0 0 0 .61.22l2.49-1c.51.38 1.06.7 1.65.96l.38 2.65c.05.24.26.42.49.42h4c.24 0 .44-.18.49-.42l.38-2.65a7.15 7.15 0 0 0 1.65-.96l2.49 1a.5.5 0 0 0 .61-.22l2-3.46a.5.5 0 0 0-.12-.64l-2.11-1.63Z"/></svg>
     </button>
 
@@ -1696,17 +1693,17 @@
             </div>
             <div class="footer-links">
                 <h4>FOM Hochschule</h4>
+                <a href="https://www.fom.de">Startseite</a>
                 <a href="https://www.fom.de/studiengaenge.html">Studieng&auml;nge</a>
-                <a href="https://www.fom.de/hochschulzentren.html">Standorte</a>
-                <a href="https://www.fom.de/forschung.html">Forschung &amp; Lehre</a>
-                <a href="https://www.fom.de">fom.de</a>
+                <a href="https://www.fom.de/studiengaenge.html">Campus-Studium+</a>
+                <a href="https://www.fom.de/studiengaenge.html">Digitales Live-Studium</a>
+                <a href="https://www.fom.de/forschung.html">Forschung</a>
             </div>
             <div class="footer-links">
-                <h4>Kontakt</h4>
-                <a href="#">Leimkugelstra&szlig;e 6</a>
-                <a href="#">45141 Essen</a>
-                <a href="tel:+49201810040">0201 81004-0</a>
-                <a href="https://www.fom.de">www.fom.de</a>
+                <h4>Pressekontakt</h4>
+                <span>Anschrift: Leimkugelstra&szlig;e 6, 45141 Essen</span>
+                <a href="tel:+4920181004722">Telefon: 0201/81004-722</a>
+                <a href="mailto:presse@fom.de">presse@fom.de</a>
             </div>
         </div>
         <div class="footer-accreditation">
@@ -1856,6 +1853,32 @@
             return items;
         }
 
+        async function buildTagFilters() {
+            const items = await fetchAllItems();
+            const tagCounts = {};
+            items.forEach(item => {
+                (item.tags || []).forEach(t => {
+                    const name = t.name || t;
+                    if (name) tagCounts[name] = (tagCounts[name] || 0) + 1;
+                });
+            });
+            const container = document.getElementById('tagFilters');
+            // Keep "Alle Themen" button, remove the rest
+            const allBtn = container.querySelector('.filter-chip');
+            container.innerHTML = '';
+            container.appendChild(allBtn);
+            // Sort by count descending, add only tags that have articles
+            Object.entries(tagCounts)
+                .sort((a, b) => b[1] - a[1])
+                .forEach(([tag]) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'filter-chip';
+                    btn.textContent = tag;
+                    btn.onclick = function() { setTagFilter(tag, this); };
+                    container.appendChild(btn);
+                });
+        }
+
         async function fetchItems(type, offset = 0, query = '') {
             // Load all items once, then filter client-side
             const all = await fetchAllItems();
@@ -1897,7 +1920,7 @@
             count.textContent = totalCount > 0 ? `${totalCount} Ergebnisse` : '';
 
             const startIdx = append ? allItems.length - items.length : 0;
-            const html = items.map((item, i) => createCard(item, !append && i === 0 && startIdx === 0)).join('');
+            const html = items.map((item, i) => createCard(item, false)).join('');
 
             if (append) {
                 grid.insertAdjacentHTML('beforeend', html);
@@ -2116,13 +2139,29 @@
             }
 
             if (currentDateFilter !== 'all') {
-                const days = parseInt(currentDateFilter);
-                const cutoff = new Date();
-                cutoff.setDate(cutoff.getDate() - days);
-                filtered = filtered.filter(item => {
-                    if (!item.published_at || !item.published_at.datetime) return false;
-                    return new Date(item.published_at.datetime) >= cutoff;
-                });
+                if (currentDateFilter === 'older') {
+                    const lastYearStart = new Date(new Date().getFullYear() - 1, 0, 1);
+                    filtered = filtered.filter(item => {
+                        if (!item.published_at || !item.published_at.datetime) return false;
+                        return new Date(item.published_at.datetime) < lastYearStart;
+                    });
+                } else if (currentDateFilter === '365') {
+                    const lastYearStart = new Date(new Date().getFullYear() - 1, 0, 1);
+                    const lastYearEnd = new Date(new Date().getFullYear() - 1, 11, 31, 23, 59, 59);
+                    filtered = filtered.filter(item => {
+                        if (!item.published_at || !item.published_at.datetime) return false;
+                        const d = new Date(item.published_at.datetime);
+                        return d >= lastYearStart && d <= lastYearEnd;
+                    });
+                } else {
+                    const days = parseInt(currentDateFilter);
+                    const cutoff = new Date();
+                    cutoff.setDate(cutoff.getDate() - days);
+                    filtered = filtered.filter(item => {
+                        if (!item.published_at || !item.published_at.datetime) return false;
+                        return new Date(item.published_at.datetime) >= cutoff;
+                    });
+                }
             }
 
             totalCount = filtered.length;
@@ -2378,7 +2417,15 @@
             }
 
             loadContent('artikel');
+            buildTagFilters();
         })();
+    </script>
+    <script>
+        // Show admin features only if logged in via /admin
+        if (sessionStorage.getItem('fom_newsroom_admin') === 'true') {
+            var fab = document.getElementById('adminFab');
+            if (fab) fab.style.display = '';
+        }
     </script>
 </body>
 </html>

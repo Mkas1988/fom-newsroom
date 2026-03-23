@@ -207,37 +207,38 @@
             display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
         }
         .media-card {
-            position: relative; border-radius: var(--radius);
-            overflow: hidden; background: white; cursor: pointer; aspect-ratio: 4 / 3;
+            border-radius: var(--radius);
+            overflow: hidden; background: white; cursor: pointer;
+            border: 1px solid var(--fom-gray-light);
+            display: flex; flex-direction: column;
+        }
+        .media-card-img-wrap {
+            position: relative; aspect-ratio: 4 / 3; overflow: hidden;
         }
         .media-card img {
             width: 100%; height: 100%; object-fit: cover; display: block;
             transition: transform .4s;
         }
         .media-card:hover img { transform: scale(1.06); }
-        .media-card-overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,.7) 0%, rgba(0,0,0,0) 50%);
-            opacity: 0; transition: opacity .3s;
-            display: flex; flex-direction: column; justify-content: flex-end; padding: 20px;
+        .media-card-info {
+            padding: 12px 14px;
+            display: flex; flex-direction: column; gap: 4px;
         }
-        .media-card:hover .media-card-overlay { opacity: 1; }
-        .media-card-title { font-size: 14px; font-weight: 700; color: white; margin-bottom: 4px; line-height: 1.3; }
+        .media-card-title { font-size: 14px; font-weight: 700; color: var(--fom-text); line-height: 1.3; }
         .media-card-caption {
-            font-size: 12px; color: rgba(255,255,255,.7); line-height: 1.4;
+            font-size: 12px; color: var(--fom-text-light); line-height: 1.4;
             display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
         }
         .media-card-dl {
-            position: absolute; top: 12px; right: 12px; width: 36px; height: 36px;
-            border-radius: 8px; background: rgba(0,0,0,.5); backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,.2); color: white;
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; transition: opacity .3s, background .2s;
-            cursor: pointer; text-decoration: none;
+            display: inline-flex; align-items: center; gap: 6px;
+            margin-top: 8px; padding: 6px 14px;
+            border-radius: 6px; background: var(--fom-teal); color: white;
+            border: none; font-size: 13px; font-weight: 600; font-family: inherit;
+            cursor: pointer; text-decoration: none; transition: background .2s;
+            align-self: flex-start;
         }
-        .media-card:hover .media-card-dl { opacity: 1; }
-        .media-card-dl:hover { background: var(--fom-teal); border-color: var(--fom-teal); }
-        .media-card-dl svg { width: 16px; height: 16px; stroke: white; fill: none; stroke-width: 2.5; stroke-linecap: round; }
+        .media-card-dl:hover { background: var(--fom-teal-dark); }
+        .media-card-dl svg { width: 14px; height: 14px; stroke: white; fill: none; stroke-width: 2.5; stroke-linecap: round; }
 
         /* Lightbox */
         .lightbox {
@@ -324,7 +325,6 @@
     </style>
 </head>
 <body>
-    <script src="auth.js"></script>
 
     <header>
         <div class="header-inner">
@@ -478,12 +478,14 @@
             const caption = (item.summary || '').replace(/'/g, "\\'");
             return `
                 <div class="media-card" onclick="openLightbox('${full.replace(/'/g, "\\'")}', '${title}', '${caption}')">
-                    <img src="${thumb}" alt="${item.header || ''}" loading="lazy">
-                    <div class="media-card-overlay">
-                        <div class="media-card-title">${item.header || ''}</div>
-                        ${item.summary ? `<div class="media-card-caption">${item.summary}</div>` : ''}
+                    <div class="media-card-img-wrap">
+                        <img src="${thumb}" alt="${item.header || ''}" loading="lazy">
                     </div>
-                    <a class="media-card-dl" href="${full}" download="${item.header || ''}" onclick="event.stopPropagation()" title="Download">${DL_ICON}</a>
+                    <div class="media-card-info">
+                        ${item.header ? `<div class="media-card-title">${item.header}</div>` : ''}
+                        ${item.summary ? `<div class="media-card-caption">${item.summary}</div>` : ''}
+                        <a class="media-card-dl" href="${full}" download="${item.header || ''}" onclick="event.stopPropagation()" title="Download">${DL_ICON} Download</a>
+                    </div>
                 </div>`;
         }
 
