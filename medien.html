@@ -73,7 +73,7 @@
         header.scrolled .logo-center { opacity: 0; pointer-events: none; }
 
         .header-left {
-            display: flex; flex-direction: column; gap: 1px;
+            display: flex; align-items: center; gap: 12px;
             flex-shrink: 0; text-decoration: none;
         }
         .header-title {
@@ -87,6 +87,13 @@
             overflow: hidden; height: 16px;
         }
         .header-left:hover .header-title { color: white; opacity: .85; }
+
+        .header-title-mobile {
+            display: none;
+            font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
+            font-size: 18px; font-weight: 700; color: white;
+            line-height: 1.1; letter-spacing: -0.3px;
+        }
 
         .logo-center {
             position: absolute; left: 50%; top: 50%;
@@ -321,6 +328,7 @@
             .header-title { font-size: 20px; }
             header.scrolled .header-title { font-size: 16px; }
             .logo-center { display: none; }
+            .header-title-mobile { display: block; }
             nav { display: none; }
             .page-hero { padding: 40px 20px 36px; }
             .page-hero h1 { font-size: 28px; }
@@ -338,11 +346,11 @@
     <header>
         <div class="header-inner">
             <a href="index.html" class="header-left">
-                <span class="header-title">FOM Newsroom</span>
-                <span class="header-subtitle">Das Medien-Portal der FOM Hochschule</span>
+                <img class="logo-img" src="fom-logo-white.svg" alt="FOM Hochschule">
+                <span class="header-title-mobile">FOM Newsroom</span>
             </a>
             <a href="index.html" class="logo-center">
-                <img class="logo-img" src="fom-logo-white.svg" alt="FOM Hochschule">
+                <span class="header-title">FOM Newsroom</span>
             </a>
             <div class="header-right">
                 <nav id="mainNav">

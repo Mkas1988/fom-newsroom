@@ -115,6 +115,13 @@
 
         .header-left:hover { opacity: .85; }
 
+        .header-title-mobile {
+            display: none;
+            font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
+            font-size: 18px; font-weight: 700; color: white;
+            line-height: 1.1; letter-spacing: -0.3px;
+        }
+
         .logo-img {
             height: 70px;
             width: auto;
@@ -1540,21 +1547,27 @@
             .logo-img { height: 44px; }
             header.scrolled .logo-img { height: 30px; }
             .logo-center { display: none; }
+            .header-title-mobile { display: block; }
             nav { display: none; }
             .header-search-overlay { padding: 0 20px; }
             .search-filter { padding: 0 16px; }
-            .search-input { padding: 16px 20px; font-size: 15px; }
-            .search-submit { width: 48px; height: 48px; }
-            .filter-panel { padding: 0 20px 20px; }
-            .filter-group { flex-direction: column; gap: 8px; }
-            .filter-label { min-width: auto; padding-top: 0; }
-            .hero-slider { padding: 12px 16px 0; }
+            .search-input { padding: 14px 16px; font-size: 15px; }
+            .search-submit { width: 44px; height: 44px; }
+            .search-toggle-btn { padding: 8px 14px; font-size: 13px; }
+            .filter-panel { padding: 0 16px 16px; }
+            .filter-group { flex-direction: column; gap: 6px; }
+            .filter-label { min-width: auto; padding-top: 0; font-size: 13px; }
+            .filter-chips { gap: 6px; }
+            .filter-chip { padding: 6px 14px; font-size: 13px; }
+            .hero-slider { padding: 8px 16px 0; }
             .slider-viewport { aspect-ratio: 4 / 5; border-radius: 12px; }
-            .slide-content { padding: 28px 24px; }
-            .slide-title { font-size: 22px; }
-            .slide-excerpt { font-size: 14px; -webkit-line-clamp: 2; }
-            .slider-pause { bottom: 28px; right: 24px; width: 36px; height: 36px; }
-            .slider-pause svg { width: 14px; height: 14px; }
+            .slide-content { padding: 20px 20px; }
+            .slide-title { font-size: 20px; }
+            .slide-excerpt { font-size: 13px; -webkit-line-clamp: 2; }
+            .slider-pause { bottom: 20px; right: 20px; width: 32px; height: 32px; }
+            .slider-pause svg { width: 12px; height: 12px; }
+            .search-bar-wrap { border-radius: 12px; }
+            .search-filter { padding: 0 12px; margin-top: 16px; }
             .news-grid { grid-template-columns: 1fr; gap: 20px; }
             .featured { grid-template-columns: 1fr; }
             .featured .card-image { min-height: 220px; }
@@ -1574,6 +1587,7 @@
         <div class="header-inner">
             <a href="index.html" class="header-left">
                 <img class="logo-img" src="fom-logo-white.svg" alt="FOM Hochschule">
+                <span class="header-title-mobile">FOM Newsroom</span>
             </a>
             <a href="index.html" class="logo-center">
                 <span class="header-title">FOM Newsroom</span>
