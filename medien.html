@@ -553,15 +553,16 @@
                 grouped[cat].push(item);
             });
 
-            // Sort persons: Rektor & Kanzler first, then Prorektoren, then Dekane
+            // Sort persons: Beschorner, Hermeier, Prorektoren, Dekane, rest
             function personSortKey(item) {
                 const h = (item.header || '').toLowerCase();
                 const s = (item.summary || '').toLowerCase();
                 const text = h + ' ' + s;
-                if (/rektor(?!.*prorektor)/i.test(text) || /kanzler/i.test(text)) return 0;
-                if (/prorektor/i.test(text)) return 1;
-                if (/dekan/i.test(text)) return 2;
-                return 3;
+                if (/beschorner/i.test(text)) return 0;
+                if (/hermeier/i.test(text)) return 1;
+                if (/prorektor/i.test(text)) return 2;
+                if (/dekan/i.test(text)) return 3;
+                return 4;
             }
             Object.keys(grouped).forEach(cat => {
                 if (/person/i.test(cat)) {
