@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fom-newsroom-v1';
+const CACHE_NAME = 'fom-newsroom-v2';
 const STATIC_ASSETS = [
     '/',
     '/index.html',
@@ -61,7 +61,23 @@ self.addEventListener('fetch', event => {
         return;
     }
 
-    // Static assets: cache-first
+    // HTML pages: network-first (always get fresh content, cache as fallback)
+    if (event.request.method === 'GET' && (url.pathname.endsWith('.html') || url.pathname === '/' || !url.pathname.includes('.'))) {
+        event.respondWith(
+            fetch(event.request)
+                .then(response => {
+                    if (response.ok && url.origin === self.location.origin) {
+                        const clone = response.clone();
+                        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+                    }
+                    return response;
+                })
+                .catch(() => caches.match(event.request))
+        );
+        return;
+    }
+
+    // Static assets (fonts, images, JS): cache-first
     if (event.request.method === 'GET') {
         event.respondWith(
             caches.match(event.request).then(cached => {
