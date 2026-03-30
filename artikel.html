@@ -1449,13 +1449,6 @@
         }
 
         // Extract article ID from slug like "507171-fom-hochschule-begruesst-erstsemester"
-        function parseSlug(slug) {
-            if (!slug) return { id: null, type: null };
-            const match = slug.match(/^(\d+)-/);
-            if (match) return { id: match[1], type: null };
-            return { id: null, type: null };
-        }
-
         function getParams() {
             const params = new URLSearchParams(window.location.search);
             const path = window.location.pathname.replace(/^\//, '').replace(/\/$/, '');
@@ -1467,15 +1460,11 @@
 
             // Slug via query param (from 404.html redirect): ?slug=...
             if (params.get('slug')) {
-                const parsed = parseSlug(params.get('slug'));
-                if (parsed.id) return { id: parsed.id, type: null, slug: params.get('slug') };
                 return { id: null, type: null, slug: params.get('slug') };
             }
 
-            // Slug mode via path: /507171-fom-hochschule-begruesst-erstsemester
+            // Slug mode via path: /symposium-der-fom-...
             if (path && path !== 'artikel.html' && !path.includes('.')) {
-                const parsed = parseSlug(path);
-                if (parsed.id) return { id: parsed.id, type: null, slug: path };
                 return { id: null, type: null, slug: path };
             }
 
@@ -1555,30 +1544,35 @@
                     const res = await fetch(`${BASE_URL}/view/${API_KEY}?format=json&type_of_media=${type}&item_id=${id}`);
                     const data = await res.json();
                     item = data.item || null;
-                } else if (id && !type) {
-                    // ID from slug but type unknown — try both types
-                    for (const mediaType of ['pressrelease', 'news']) {
-                        try {
-                            const res = await fetch(`${BASE_URL}/view/${API_KEY}?format=json&type_of_media=${mediaType}&item_id=${id}`);
-                            const data = await res.json();
-                            if (data.item) { item = data.item; break; }
-                        } catch (e) { /* try next type */ }
-                    }
                 } else if (slug) {
-                    // Slug mode: fetch recent articles from list API and match by slug
-                    for (const mediaType of ['pressrelease', 'news']) {
-                        try {
-                            const res = await fetch(`${BASE_URL}/list/${API_KEY}?format=json&type_of_media=${mediaType}&limit=100&strict=true`);
+                    // Slug mode: look up ID and type from slug-map.json
+                    try {
+                        const mapRes = await fetch('/slug-map.json');
+                        const slugMap = await mapRes.json();
+                        const entry = slugMap[slug];
+                        if (entry) {
+                            const res = await fetch(`${BASE_URL}/view/${API_KEY}?format=json&type_of_media=${entry.type}&item_id=${entry.id}`);
                             const data = await res.json();
-                            const listItems = Array.isArray(data.items) ? data.items : [];
-                            const match = listItems.find(i => i.header && toSlug(i.header) === slug);
-                            if (match) {
-                                const fullRes = await fetch(`${BASE_URL}/view/${API_KEY}?format=json&type_of_media=${mediaType}&item_id=${match.id}`);
-                                const fullData = await fullRes.json();
-                                item = fullData.item || null;
-                                break;
-                            }
-                        } catch (e) { /* try next type */ }
+                            item = data.item || null;
+                        }
+                    } catch (e) { /* slug-map not available */ }
+
+                    // Fallback: search via list API if slug-map didn't match
+                    if (!item) {
+                        for (const mediaType of ['pressrelease', 'news']) {
+                            try {
+                                const res = await fetch(`${BASE_URL}/list/${API_KEY}?format=json&type_of_media=${mediaType}&limit=100&strict=true`);
+                                const data = await res.json();
+                                const listItems = Array.isArray(data.items) ? data.items : [];
+                                const match = listItems.find(i => i.header && toSlug(i.header) === slug);
+                                if (match) {
+                                    const fullRes = await fetch(`${BASE_URL}/view/${API_KEY}?format=json&type_of_media=${mediaType}&item_id=${match.id}`);
+                                    const fullData = await fullRes.json();
+                                    item = fullData.item || null;
+                                    break;
+                                }
+                            } catch (e) { /* try next type */ }
+                        }
                     }
                 }
 
@@ -1606,7 +1600,7 @@
                     metaDesc.content = desc.substring(0, 160);
                 }
                 const canonical = document.querySelector('link[rel="canonical"]');
-                const articleSlug = `${item.id}-${toSlug(item.header)}`;
+                const articleSlug = `${toSlug(item.header)}`;
                 const cleanUrl = `${window.location.origin}/${articleSlug}`;
                 if (canonical) canonical.href = cleanUrl;
                 // Update URL bar to clean slug
@@ -1768,7 +1762,7 @@
                                     const riImage = ri.image_medium || ri.image_small || ri.image || '';
                                     const riType = ri.type_of_media || 'pressrelease';
                                     return `
-                                    <a href="/${ri.id}-${toSlug(ri.header)}" class="related-card">
+                                    <a href="/${toSlug(ri.header)}" class="related-card">
                                         ${riImage
                                             ? `<img class="related-card-image" src="${riImage}" alt="" loading="lazy">`
                                             : ''

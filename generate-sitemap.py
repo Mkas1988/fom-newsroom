@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Generate sitemap.xml from MyNewsdesk API articles + static pages.
-Uses clean slug URLs for articles.
+Generate sitemap.xml and slug-map.json from MyNewsdesk API articles + static pages.
+slug-map.json maps article slugs to their IDs and types for client-side routing.
 """
 
 import json
@@ -16,7 +16,8 @@ BASE_URL = "https://www.mynewsdesk.com/services/pressroom"
 SITE_URL = "https://newsroom.fomhochschule.com"
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-OUTPUT_FILE = os.path.join(SCRIPT_DIR, "sitemap.xml")
+SITEMAP_FILE = os.path.join(SCRIPT_DIR, "sitemap.xml")
+SLUGMAP_FILE = os.path.join(SCRIPT_DIR, "slug-map.json")
 
 try:
     import certifi
@@ -68,8 +69,8 @@ def fetch_articles(media_type, limit=100):
     return all_items
 
 
-def generate_sitemap():
-    """Generate sitemap.xml with static pages and all articles."""
+def generate():
+    """Generate sitemap.xml and slug-map.json."""
     # Static pages
     static_pages = [
         {"loc": f"{SITE_URL}/", "changefreq": "daily", "priority": "1.0"},
@@ -83,10 +84,18 @@ def generate_sitemap():
     print("Fetching news...")
     news = fetch_articles("news")
 
-    all_articles = pressreleases + news
+    all_articles = []
+    for item in pressreleases:
+        item["_media_type"] = "pressrelease"
+        all_articles.append(item)
+    for item in news:
+        item["_media_type"] = "news"
+        all_articles.append(item)
+
     print(f"\nTotal articles: {len(all_articles)}")
 
-    # Build sitemap XML
+    # Build slug map and sitemap
+    slug_map = {}
     xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
     xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
 
@@ -102,20 +111,21 @@ def generate_sitemap():
     seen_slugs = set()
     for item in all_articles:
         header = item.get("header", "")
-        if not header:
+        item_id = item.get("id", "")
+        if not header or not item_id:
             continue
 
-        item_id = item.get("id", "")
-        if not item_id:
-            continue
-        slug = f"{item_id}-{to_slug(header)}"
+        slug = to_slug(header)
         if slug in seen_slugs:
             continue
         seen_slugs.add(slug)
 
+        # Slug map entry
+        slug_map[slug] = {"id": str(item_id), "type": item["_media_type"]}
+
+        # Sitemap entry
         loc = f"{SITE_URL}/{slug}"
 
-        # Parse last modified date
         updated = item.get("updated_at", {})
         lastmod = ""
         if isinstance(updated, dict) and updated.get("datetime"):
@@ -133,14 +143,20 @@ def generate_sitemap():
 
     xml += "</urlset>\n"
 
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+    # Write sitemap
+    with open(SITEMAP_FILE, "w", encoding="utf-8") as f:
         f.write(xml)
 
-    print(f"\nSitemap written to {OUTPUT_FILE}")
+    # Write slug map
+    with open(SLUGMAP_FILE, "w", encoding="utf-8") as f:
+        json.dump(slug_map, f, ensure_ascii=False, separators=(",", ":"))
+
+    print(f"\nSitemap written to {SITEMAP_FILE}")
+    print(f"Slug map written to {SLUGMAP_FILE}")
     print(f"  Static pages: {len(static_pages)}")
     print(f"  Article pages: {len(seen_slugs)}")
     print(f"  Total URLs: {len(static_pages) + len(seen_slugs)}")
 
 
 if __name__ == "__main__":
-    generate_sitemap()
+    generate()

@@ -674,7 +674,7 @@
                     const img = a.image_medium || a.image_small || a.image || '';
                     const typeLabel = TYPE_LABELS[a.type_of_media] || a.type_of_media;
                     return `
-                        <a href="/${a.id}-${toSlug(a.header)}" class="author-article-item">
+                        <a href="/${toSlug(a.header)}" class="author-article-item">
                             ${img ? `<img class="author-article-thumb" src="${img}" alt="" loading="lazy">` : ''}
                             <div class="author-article-body">
                                 <div class="author-article-meta">

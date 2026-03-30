@@ -1871,7 +1871,7 @@
             const imageUrl = item.image_medium || item.image_small || item.image || '';
             const tags = (item.tags || []).slice(0, 3);
 
-            const articleUrl = `/${item.id}-${toSlug(item.header)}`;
+            const articleUrl = `/${toSlug(item.header)}`;
             return `
                 <article class="card ${featured ? 'featured' : ''}" onclick="window.location.href='${articleUrl}'" style="cursor:pointer;">
                     ${imageUrl ? `<div class="card-image-wrap"><img class="card-image" src="${imageUrl}" alt="" loading="lazy"></div>` : ''}
@@ -2105,7 +2105,7 @@
 
                 return `
                     <div class="slide ${i === 0 ? 'active' : ''}" data-index="${i}">
-                        <a href="/${item.id}-${toSlug(item.header)}">
+                        <a href="/${toSlug(item.header)}">
                             <img class="slide-image" src="${imageUrl}" alt="" loading="${i === 0 ? 'eager' : 'lazy'}">
                             <div class="slide-overlay"></div>
                             <div class="slide-content">
