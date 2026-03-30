@@ -1565,23 +1565,13 @@
                         } catch (e) { /* try next type */ }
                     }
                 } else if (slug) {
-                    // Slug mode: search by slug words
-                    const query = slug.replace(/-/g, ' ').substring(0, 80);
+                    // Slug mode: fetch recent articles from list API and match by slug
                     for (const mediaType of ['pressrelease', 'news']) {
                         try {
-                            const res = await fetch(`${BASE_URL}/search/${API_KEY}?format=json&query=${encodeURIComponent(query)}&type_of_media=${mediaType}&limit=20`);
+                            const res = await fetch(`${BASE_URL}/list/${API_KEY}?format=json&type_of_media=${mediaType}&limit=100&strict=true`);
                             const data = await res.json();
-                            // Normalize search result items — API may return different structures
-                            let searchItems = [];
-                            if (data.search_result && data.search_result.items) {
-                                const raw = data.search_result.items;
-                                if (Array.isArray(raw)) searchItems = raw;
-                                else if (raw.item) searchItems = Array.isArray(raw.item) ? raw.item : [raw.item];
-                            } else if (Array.isArray(data.items)) {
-                                searchItems = data.items;
-                            }
-                            // Find best match by comparing slugs
-                            const match = searchItems.find(i => i.header && toSlug(i.header) === slug);
+                            const listItems = Array.isArray(data.items) ? data.items : [];
+                            const match = listItems.find(i => i.header && toSlug(i.header) === slug);
                             if (match) {
                                 const fullRes = await fetch(`${BASE_URL}/view/${API_KEY}?format=json&type_of_media=${mediaType}&item_id=${match.id}`);
                                 const fullData = await fullRes.json();
