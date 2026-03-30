@@ -1,4 +1,5 @@
-const CACHE_NAME = 'fom-newsroom-v3';
+const CACHE_NAME = 'fom-newsroom-v4';
+const KNOWN_PAGES = ['', 'index.html', 'medien.html', 'kontakt.html', 'artikel.html', 'autor.html', 'admin.html', '404.html'];
 const STATIC_ASSETS = [
     '/',
     '/index.html',
@@ -59,6 +60,24 @@ self.addEventListener('fetch', event => {
                 .catch(() => caches.match(event.request))
         );
         return;
+    }
+
+    // Clean article URLs: route unknown paths to artikel.html
+    if (event.request.mode === 'navigate' && url.origin === self.location.origin) {
+        const path = url.pathname.replace(/^\//, '').replace(/\/$/, '');
+        if (path && !path.includes('.') && KNOWN_PAGES.indexOf(path) === -1) {
+            // This is a clean article URL — serve artikel.html
+            event.respondWith(
+                caches.match('/artikel.html')
+                    .then(cached => cached || fetch('/artikel.html'))
+                    .then(response => {
+                        const clone = response.clone();
+                        caches.open(CACHE_NAME).then(cache => cache.put('/artikel.html', clone));
+                        return response;
+                    })
+            );
+            return;
+        }
     }
 
     // HTML pages: network-first (always get fresh content, cache as fallback)
