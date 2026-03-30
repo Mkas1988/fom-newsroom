@@ -245,6 +245,9 @@
         .media-card.is-logo img {
             object-fit: contain; padding: 16px; background: #f5f5f5;
         }
+        .media-card.is-person img {
+            object-position: top;
+        }
         .media-card:hover img { transform: scale(1.06); }
         .media-card-info {
             padding: 12px 14px;
@@ -520,7 +523,8 @@
             const full = item.image_large || item.image || thumb;
             const title = (item.header || '').replace(/'/g, "\\'");
             const caption = (item.summary || '').replace(/'/g, "\\'");
-            const logoClass = isLogoItem(item) ? ' is-logo' : '';
+            const cat = getItemCategory(item);
+            const logoClass = isLogoItem(item) ? ' is-logo' : (/person/i.test(cat) ? ' is-person' : '');
             return `
                 <div class="media-card${logoClass}" onclick="openLightbox('${full.replace(/'/g, "\\'")}', '${title}', '${caption}')">
                     <div class="media-card-img-wrap">
@@ -558,10 +562,11 @@
                 const h = (item.header || '').toLowerCase();
                 const s = (item.summary || '').toLowerCase();
                 const text = h + ' ' + s;
-                if (/beschorner/i.test(text)) return 0;
-                if (/hermeier/i.test(text)) return 1;
+                if (/beschorner/i.test(h)) return 0;
+                if (/hermeier/i.test(h)) return 1;
+                // Dekane by name (Koch is Dekan AND Prorektor — sort as Dekan)
+                if (/dekan/i.test(s) && !/rektor der fom/i.test(s) && !/kanzler/i.test(s)) return 3;
                 if (/prorektor/i.test(text)) return 2;
-                if (/dekan/i.test(text)) return 3;
                 return 4;
             }
             Object.keys(grouped).forEach(cat => {
