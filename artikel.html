@@ -110,10 +110,21 @@
         .logo-center {
             position: absolute; left: 50%; top: 50%;
             transform: translate(-50%, -50%); text-decoration: none;
+            display: flex; align-items: center;
             transition: opacity .3s ease;
         }
+        .logo-center:hover { opacity: .85; }
+        .logo-center-img { height: 220px; width: auto; transition: height .3s ease, opacity .3s ease; }
+        .logo-center-compact {
+            height: 120px; width: auto; position: absolute; left: 50%; top: 50%;
+            transform: translate(-50%, -50%); opacity: 0;
+            transition: height .3s ease, opacity .3s ease;
+        }
+        header.scrolled .logo-center-img { opacity: 0; height: 0; }
+        header.scrolled .logo-center-compact { opacity: 1; }
 
-        .logo-img { height: 90px; width: auto; }
+        .logo-img { height: 70px; width: auto; transition: height .3s ease; }
+        header.scrolled .logo-img { height: 36px; }
 
         .header-right { display: flex; align-items: center; gap: 4px; }
 
@@ -1268,7 +1279,8 @@
                 <span class="header-title-mobile">FOM Newsroom</span>
             </a>
             <a href="/" class="logo-center">
-                <span class="header-title">FOM Newsroom</span>
+                <img class="logo-center-img" src="FOM_NewsRoom_Logo_white.png" alt="FOM Newsroom">
+                <img class="logo-center-compact" src="FOM_NewsRoom_Logo_white_compact.png" alt="FOM Newsroom">
             </a>
             <div class="header-right">
                 <nav id="mainNav">
@@ -1436,6 +1448,14 @@
                 .substring(0, 115).replace(/-$/, '');
         }
 
+        // Extract article ID from slug like "507171-fom-hochschule-begruesst-erstsemester"
+        function parseSlug(slug) {
+            if (!slug) return { id: null, type: null };
+            const match = slug.match(/^(\d+)-/);
+            if (match) return { id: match[1], type: null };
+            return { id: null, type: null };
+        }
+
         function getParams() {
             const params = new URLSearchParams(window.location.search);
             const path = window.location.pathname.replace(/^\//, '').replace(/\/$/, '');
@@ -1447,11 +1467,15 @@
 
             // Slug via query param (from 404.html redirect): ?slug=...
             if (params.get('slug')) {
+                const parsed = parseSlug(params.get('slug'));
+                if (parsed.id) return { id: parsed.id, type: null, slug: params.get('slug') };
                 return { id: null, type: null, slug: params.get('slug') };
             }
 
-            // Slug mode via path: /fom-hochschule-begruesst-erstsemester
+            // Slug mode via path: /507171-fom-hochschule-begruesst-erstsemester
             if (path && path !== 'artikel.html' && !path.includes('.')) {
+                const parsed = parseSlug(path);
+                if (parsed.id) return { id: parsed.id, type: null, slug: path };
                 return { id: null, type: null, slug: path };
             }
 
@@ -1526,28 +1550,45 @@
             try {
                 let item = null;
 
-                if (id) {
-                    // Classic mode: load by ID
+                if (id && type) {
+                    // Classic mode: load by ID + known type
                     const res = await fetch(`${BASE_URL}/view/${API_KEY}?format=json&type_of_media=${type}&item_id=${id}`);
                     const data = await res.json();
-                    item = data.item;
+                    item = data.item || null;
+                } else if (id && !type) {
+                    // ID from slug but type unknown — try both types
+                    for (const mediaType of ['pressrelease', 'news']) {
+                        try {
+                            const res = await fetch(`${BASE_URL}/view/${API_KEY}?format=json&type_of_media=${mediaType}&item_id=${id}`);
+                            const data = await res.json();
+                            if (data.item) { item = data.item; break; }
+                        } catch (e) { /* try next type */ }
+                    }
                 } else if (slug) {
                     // Slug mode: search by slug words
-                    const query = slug.replace(/-/g, ' ');
-                    // Search both pressreleases and news
+                    const query = slug.replace(/-/g, ' ').substring(0, 80);
                     for (const mediaType of ['pressrelease', 'news']) {
-                        const res = await fetch(`${BASE_URL}/search/${API_KEY}?format=json&query=${encodeURIComponent(query)}&type_of_media=${mediaType}&limit=10`);
-                        const data = await res.json();
-                        const items = data.search_result?.items || data.items || [];
-                        // Find best match by comparing slugs
-                        const match = items.find(i => toSlug(i.header) === slug);
-                        if (match) {
-                            // Load full article via view endpoint
-                            const fullRes = await fetch(`${BASE_URL}/view/${API_KEY}?format=json&type_of_media=${mediaType}&item_id=${match.id}`);
-                            const fullData = await fullRes.json();
-                            item = fullData.item;
-                            break;
-                        }
+                        try {
+                            const res = await fetch(`${BASE_URL}/search/${API_KEY}?format=json&query=${encodeURIComponent(query)}&type_of_media=${mediaType}&limit=20`);
+                            const data = await res.json();
+                            // Normalize search result items — API may return different structures
+                            let searchItems = [];
+                            if (data.search_result && data.search_result.items) {
+                                const raw = data.search_result.items;
+                                if (Array.isArray(raw)) searchItems = raw;
+                                else if (raw.item) searchItems = Array.isArray(raw.item) ? raw.item : [raw.item];
+                            } else if (Array.isArray(data.items)) {
+                                searchItems = data.items;
+                            }
+                            // Find best match by comparing slugs
+                            const match = searchItems.find(i => i.header && toSlug(i.header) === slug);
+                            if (match) {
+                                const fullRes = await fetch(`${BASE_URL}/view/${API_KEY}?format=json&type_of_media=${mediaType}&item_id=${match.id}`);
+                                const fullData = await fullRes.json();
+                                item = fullData.item || null;
+                                break;
+                            }
+                        } catch (e) { /* try next type */ }
                     }
                 }
 
@@ -1575,11 +1616,11 @@
                     metaDesc.content = desc.substring(0, 160);
                 }
                 const canonical = document.querySelector('link[rel="canonical"]');
-                const articleSlug = toSlug(item.header);
+                const articleSlug = `${item.id}-${toSlug(item.header)}`;
                 const cleanUrl = `${window.location.origin}/${articleSlug}`;
                 if (canonical) canonical.href = cleanUrl;
-                // Update URL bar to clean slug if loaded via ?id= params
-                if (id && window.history.replaceState) {
+                // Update URL bar to clean slug
+                if (window.history.replaceState) {
                     window.history.replaceState(null, '', `/${articleSlug}`);
                 }
                 const typeLabel = TYPE_LABELS[item.type_of_media] || item.type_of_media;
@@ -1737,7 +1778,7 @@
                                     const riImage = ri.image_medium || ri.image_small || ri.image || '';
                                     const riType = ri.type_of_media || 'pressrelease';
                                     return `
-                                    <a href="/${toSlug(ri.header)}" class="related-card">
+                                    <a href="/${ri.id}-${toSlug(ri.header)}" class="related-card">
                                         ${riImage
                                             ? `<img class="related-card-image" src="${riImage}" alt="" loading="lazy">`
                                             : ''

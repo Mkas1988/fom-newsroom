@@ -110,10 +110,21 @@
         .logo-center {
             position: absolute; left: 50%; top: 50%;
             transform: translate(-50%, -50%); text-decoration: none;
+            display: flex; align-items: center;
             transition: opacity .3s ease;
         }
+        .logo-center:hover { opacity: .85; }
+        .logo-center-img { height: 220px; width: auto; transition: height .3s ease, opacity .3s ease; }
+        .logo-center-compact {
+            height: 120px; width: auto; position: absolute; left: 50%; top: 50%;
+            transform: translate(-50%, -50%); opacity: 0;
+            transition: height .3s ease, opacity .3s ease;
+        }
+        header.scrolled .logo-center-img { opacity: 0; height: 0; }
+        header.scrolled .logo-center-compact { opacity: 1; }
 
-        .logo-img { height: 90px; width: auto; }
+        .logo-img { height: 70px; width: auto; transition: height .3s ease; }
+        header.scrolled .logo-img { height: 36px; }
 
         .header-right { display: flex; align-items: center; gap: 4px; }
 
@@ -692,7 +703,8 @@
                 <span class="header-title-mobile">FOM Newsroom</span>
             </a>
             <a href="/" class="logo-center">
-                <span class="header-title">FOM Newsroom</span>
+                <img class="logo-center-img" src="FOM_NewsRoom_Logo_white.png" alt="FOM Newsroom">
+                <img class="logo-center-compact" src="FOM_NewsRoom_Logo_white_compact.png" alt="FOM Newsroom">
             </a>
             <div class="header-right">
                 <nav id="mainNav">

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fom-newsroom-v2';
+const CACHE_NAME = 'fom-newsroom-v3';
 const STATIC_ASSETS = [
     '/',
     '/index.html',

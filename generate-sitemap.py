@@ -105,7 +105,10 @@ def generate_sitemap():
         if not header:
             continue
 
-        slug = to_slug(header)
+        item_id = item.get("id", "")
+        if not item_id:
+            continue
+        slug = f"{item_id}-{to_slug(header)}"
         if slug in seen_slugs:
             continue
         seen_slugs.add(slug)
