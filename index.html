@@ -2097,7 +2097,11 @@
             const slidesHtml = items.map((item, i) => {
                 const typeLabel = TYPE_LABELS[item.type_of_media] || item.type_of_media;
                 const excerpt = item.summary || stripHtml(item.body || '').substring(0, 180);
-                const imageUrl = item.image_large || item.image_medium || item.image || '';
+                // Use full-size image and upscale via Cloudinary params for crisp slider
+                let imageUrl = item.image || item.image_medium || '';
+                if (imageUrl.includes('mnd-assets.mynewsdesk.com')) {
+                    imageUrl = imageUrl.replace(/w_\d+/, 'w_2400').replace(/q_auto:\w+/, 'q_auto:best');
+                }
 
                 return `
                     <div class="slide ${i === 0 ? 'active' : ''}" data-index="${i}">

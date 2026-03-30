@@ -202,6 +202,17 @@
     </div>
 
     <script>
+        // Route clean article URLs to artikel.html
+        (function() {
+            const path = window.location.pathname.replace(/^\//, '').replace(/\/$/, '');
+            const knownPages = ['', 'index.html', 'medien.html', 'kontakt.html', 'artikel.html', 'autor.html', 'admin.html', '404.html'];
+            if (path && !path.includes('.') && !knownPages.includes(path)) {
+                // Looks like an article slug — redirect to artikel.html which handles slug routing
+                window.location.replace('/artikel.html?slug=' + encodeURIComponent(path));
+                return;
+            }
+        })();
+
         function toSlug(title) {
             return title.toLowerCase()
                 .replace(/\u00e4/g,'ae').replace(/\u00f6/g,'oe').replace(/\u00fc/g,'ue').replace(/\u00df/g,'ss')

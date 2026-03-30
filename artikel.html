@@ -1445,7 +1445,12 @@
                 return { id: params.get('id'), type: params.get('type') || 'pressrelease', slug: null };
             }
 
-            // Slug mode: /fom-hochschule-begruesst-erstsemester
+            // Slug via query param (from 404.html redirect): ?slug=...
+            if (params.get('slug')) {
+                return { id: null, type: null, slug: params.get('slug') };
+            }
+
+            // Slug mode via path: /fom-hochschule-begruesst-erstsemester
             if (path && path !== 'artikel.html' && !path.includes('.')) {
                 return { id: null, type: null, slug: path };
             }
