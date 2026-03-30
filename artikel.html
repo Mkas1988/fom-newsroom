@@ -774,6 +774,7 @@
             .related-grid { grid-template-columns: 1fr; }
             .related-title { font-size: 22px; }
             .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+            .footer-logo img { margin-left: 0; height: 80px; }
             .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
             .article-author { padding: 0 20px; }
         }
@@ -1262,16 +1263,16 @@
     <!-- Header -->
     <header>
         <div class="header-inner">
-            <a href="index.html" class="header-left">
+            <a href="/" class="header-left">
                 <img class="logo-img" src="fom-logo-white.svg" alt="FOM Hochschule">
                 <span class="header-title-mobile">FOM Newsroom</span>
             </a>
-            <a href="index.html" class="logo-center">
+            <a href="/" class="logo-center">
                 <span class="header-title">FOM Newsroom</span>
             </a>
             <div class="header-right">
                 <nav id="mainNav">
-                    <a href="index.html">News</a>
+                    <a href="/">News</a>
                     <a href="medien.html">Mediencenter</a>
                     <a href="kontakt.html">Kontakt</a>
                 </nav>
@@ -1286,7 +1287,7 @@
 
     <div class="menu-backdrop" id="menuBackdrop" onclick="toggleMobileMenu()"></div>
     <div class="mobile-menu-overlay" id="mobileMenu">
-        <a href="index.html">News <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
+        <a href="/">News <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
         <a href="medien.html">Mediencenter <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
         <a href="kontakt.html">Kontakt <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
         <a href="https://www.fom.de" target="_blank">fom.de <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
@@ -1334,16 +1335,16 @@
             </div>
             <div class="footer-links">
                 <strong class="footer-heading">Newsroom</strong>
-                <a href="index.html">News</a>
+                <a href="/">News</a>
                 <a href="medien.html">Mediencenter</a>
                 <a href="kontakt.html">Kontakt</a>
             </div>
             <div class="footer-links">
                 <strong class="footer-heading">FOM Hochschule</strong>
                 <a href="https://www.fom.de">Startseite</a>
-                <a href="https://www.fom.de/studiengaenge.html">Studieng&auml;nge</a>
-                <a href="https://www.fom.de/campus-studium.html">Campus-Studium+</a>
-                <a href="https://www.fom.de/digitales-live-studium.html">Digitales Live-Studium</a>
+                <a href="https://www.fom.de/studiengangsfinder.html">Studieng&auml;nge</a>
+                <a href="https://www.fom.de/campus.html">Campus-Studium+</a>
+                <a href="https://www.fom.de/digital.html">Digitales Live-Studium</a>
                 <a href="https://www.fom.de/forschung.html">Forschung</a>
             </div>
             <div class="footer-links">
@@ -1367,7 +1368,7 @@
         </div>
         <div class="footer-bottom">
             <span>&copy; 2026 FOM Hochschule f&uuml;r Oekonomie &amp; Management</span>
-            <span><a href="https://www.fom.de/die-fom/impressum.html">Impressum</a> &nbsp; <a href="https://www.fom.de/die-fom/datenschutz.html">Datenschutz</a></span>
+            <span><a href="https://www.fom.de/impressum.html">Impressum</a> &nbsp; <a href="https://www.fom.de/datenschutz.html">Datenschutz</a></span>
         </div>
     </footer>
 
@@ -1428,12 +1429,28 @@
             });
         }
 
+        function toSlug(title) {
+            return title.toLowerCase()
+                .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
+                .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+                .substring(0, 115).replace(/-$/, '');
+        }
+
         function getParams() {
             const params = new URLSearchParams(window.location.search);
-            return {
-                id: params.get('id'),
-                type: params.get('type') || 'pressrelease'
-            };
+            const path = window.location.pathname.replace(/^\//, '').replace(/\/$/, '');
+
+            // Classic mode: ?id=...&type=...
+            if (params.get('id')) {
+                return { id: params.get('id'), type: params.get('type') || 'pressrelease', slug: null };
+            }
+
+            // Slug mode: /fom-hochschule-begruesst-erstsemester
+            if (path && path !== 'artikel.html' && !path.includes('.')) {
+                return { id: null, type: null, slug: path };
+            }
+
+            return { id: null, type: null, slug: null };
         }
 
         // Helper: normalize tags from view endpoint (can be string or object)
@@ -1489,30 +1506,52 @@
         }
 
         async function loadArticle() {
-            const { id, type } = getParams();
+            const { id, type, slug } = getParams();
             const container = document.getElementById('articleContainer');
 
-            if (!id) {
+            if (!id && !slug) {
                 container.innerHTML = `
                     <div class="error-msg">
                         <h2>Kein Artikel angegeben</h2>
-                        <p><a href="index.html">&larr; Zur&uuml;ck zum Newsroom</a></p>
+                        <p><a href="/">&larr; Zur&uuml;ck zum Newsroom</a></p>
                     </div>`;
                 return;
             }
 
             try {
-                // Use view endpoint for full article details incl. contact_people with photos
-                const res = await fetch(`${BASE_URL}/view/${API_KEY}?format=json&type_of_media=${type}&item_id=${id}`);
-                const data = await res.json();
-                const item = data.item;
+                let item = null;
+
+                if (id) {
+                    // Classic mode: load by ID
+                    const res = await fetch(`${BASE_URL}/view/${API_KEY}?format=json&type_of_media=${type}&item_id=${id}`);
+                    const data = await res.json();
+                    item = data.item;
+                } else if (slug) {
+                    // Slug mode: search by slug words
+                    const query = slug.replace(/-/g, ' ');
+                    // Search both pressreleases and news
+                    for (const mediaType of ['pressrelease', 'news']) {
+                        const res = await fetch(`${BASE_URL}/search/${API_KEY}?format=json&query=${encodeURIComponent(query)}&type_of_media=${mediaType}&limit=10`);
+                        const data = await res.json();
+                        const items = data.search_result?.items || data.items || [];
+                        // Find best match by comparing slugs
+                        const match = items.find(i => toSlug(i.header) === slug);
+                        if (match) {
+                            // Load full article via view endpoint
+                            const fullRes = await fetch(`${BASE_URL}/view/${API_KEY}?format=json&type_of_media=${mediaType}&item_id=${match.id}`);
+                            const fullData = await fullRes.json();
+                            item = fullData.item;
+                            break;
+                        }
+                    }
+                }
 
                 if (!item) {
                     container.innerHTML = `
                         <div class="error-msg">
                             <h2>Artikel nicht gefunden</h2>
                             <p>Der angeforderte Beitrag konnte nicht geladen werden.</p>
-                            <p><a href="index.html">&larr; Zur&uuml;ck zum Newsroom</a></p>
+                            <p><a href="/">&larr; Zur&uuml;ck zum Newsroom</a></p>
                         </div>`;
                     return;
                 }
@@ -1520,9 +1559,24 @@
                 document.title = `${item.header} – FOM Newsroom`;
                 // Dynamic meta description and canonical
                 const metaDesc = document.querySelector('meta[name="description"]');
-                if (metaDesc) metaDesc.content = (item.summary || item.header).substring(0, 160);
+                if (metaDesc) {
+                    let desc = '';
+                    if (item.summary && item.summary !== item.header) {
+                        desc = item.summary;
+                    } else if (item.body) {
+                        desc = item.body.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+                    }
+                    if (!desc) desc = item.header;
+                    metaDesc.content = desc.substring(0, 160);
+                }
                 const canonical = document.querySelector('link[rel="canonical"]');
-                if (canonical) canonical.href = window.location.href;
+                const articleSlug = toSlug(item.header);
+                const cleanUrl = `${window.location.origin}/${articleSlug}`;
+                if (canonical) canonical.href = cleanUrl;
+                // Update URL bar to clean slug if loaded via ?id= params
+                if (id && window.history.replaceState) {
+                    window.history.replaceState(null, '', `/${articleSlug}`);
+                }
                 const typeLabel = TYPE_LABELS[item.type_of_media] || item.type_of_media;
                 const tags = normalizeTags(item.tags);
                 const allContacts = normalizeContacts(item.contact_people);
@@ -1548,7 +1602,7 @@
                             <div class="article-meta">
                                 <span class="article-date">${formatDate(publishedAt)}</span>
                             </div>
-                            ${tags.length ? `<div class="hero-tags">${tags.map(t => `<a href="index.html?search=${encodeURIComponent(t)}" class="hero-tag">${t}</a>`).join('')}</div>` : ''}
+                            ${tags.length ? `<div class="hero-tags">${tags.map(t => `<a href="/?search=${encodeURIComponent(t)}" class="hero-tag">${t}</a>`).join('')}</div>` : ''}
                             <h1>${item.header}</h1>
                             ${item.summary ? `<p class="article-summary">${item.summary}</p>` : ''}
                             <div class="hero-share">
@@ -1576,9 +1630,11 @@
 
                 // Body
                 if (item.body) {
+                    // Normalize sub-headings: h3-h6 → h2 for proper hierarchy under h1
+                    const normalizedBody = item.body.replace(/<(\/?)h[3-6](\s|>)/gi, '<$1h2$2');
                     html += `
                         <div class="article-content">
-                            <div class="article-body">${item.body}</div>`;
+                            <div class="article-body">${normalizedBody}</div>`;
 
                     html += `</div>`;
                 }
@@ -1611,7 +1667,7 @@
                 // Back link
                 html += `
                     <div class="back-link">
-                        <a href="index.html">&larr; Zur&uuml;ck zum Newsroom</a>
+                        <a href="/">&larr; Zur&uuml;ck zum Newsroom</a>
                     </div>`;
 
                 container.innerHTML = html;
@@ -1624,7 +1680,7 @@
                     <div class="error-msg">
                         <h2>Fehler beim Laden</h2>
                         <p>${err.message}</p>
-                        <p><a href="index.html">&larr; Zur&uuml;ck zum Newsroom</a></p>
+                        <p><a href="/">&larr; Zur&uuml;ck zum Newsroom</a></p>
                     </div>`;
             }
         }
@@ -1676,7 +1732,7 @@
                                     const riImage = ri.image_medium || ri.image_small || ri.image || '';
                                     const riType = ri.type_of_media || 'pressrelease';
                                     return `
-                                    <a href="artikel.html?id=${ri.id}&type=${riType}" class="related-card">
+                                    <a href="/${toSlug(ri.header)}" class="related-card">
                                         ${riImage
                                             ? `<img class="related-card-image" src="${riImage}" alt="" loading="lazy">`
                                             : ''
@@ -1712,7 +1768,7 @@
     <div class="gallery-modal-overlay" id="galleryModal" onclick="if(event.target===this)closeGalleryModal()">
         <div class="gallery-modal">
             <div class="gallery-modal-header">
-                <h3>Bildgalerie einf&uuml;gen</h3>
+                <p style="font-family:'Neue-Haas-Grotesk-Display-Pro',Helvetica,Arial,sans-serif;font-size:18px;font-weight:700;margin:0;">Bildgalerie einf&uuml;gen</p>
                 <button class="gallery-modal-close" onclick="closeGalleryModal()">&times;</button>
             </div>
             <div class="gallery-modal-body">

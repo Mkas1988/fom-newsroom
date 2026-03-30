@@ -399,6 +399,7 @@
             .author-article-title { font-size: 15px; }
             .back-link { padding: 0 20px 32px; }
             .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+            .footer-logo img { margin-left: 0; height: 80px; }
             .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
         }
     </style>
@@ -408,16 +409,16 @@
 
     <header>
         <div class="header-inner">
-            <a href="index.html" class="header-left">
+            <a href="/" class="header-left">
                 <img class="logo-img" src="fom-logo-white.svg" alt="FOM Hochschule">
                 <span class="header-title-mobile">FOM Newsroom</span>
             </a>
-            <a href="index.html" class="logo-center">
+            <a href="/" class="logo-center">
                 <span class="header-title">FOM Newsroom</span>
             </a>
             <div class="header-right">
                 <nav id="mainNav">
-                    <a href="index.html">News</a>
+                    <a href="/">News</a>
                     <a href="medien.html">Mediencenter</a>
                     <a href="kontakt.html">Kontakt</a>
                 </nav>
@@ -432,7 +433,7 @@
 
     <div class="menu-backdrop" id="menuBackdrop" onclick="toggleMobileMenu()"></div>
     <div class="mobile-menu-overlay" id="mobileMenu">
-        <a href="index.html">News <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
+        <a href="/">News <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
         <a href="medien.html">Mediencenter <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
         <a href="kontakt.html">Kontakt <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
         <a href="https://www.fom.de" target="_blank">fom.de <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
@@ -455,16 +456,16 @@
             </div>
             <div class="footer-links">
                 <strong class="footer-heading">Newsroom</strong>
-                <a href="index.html">News</a>
+                <a href="/">News</a>
                 <a href="medien.html">Mediencenter</a>
                 <a href="kontakt.html">Kontakt</a>
             </div>
             <div class="footer-links">
                 <strong class="footer-heading">FOM Hochschule</strong>
                 <a href="https://www.fom.de">Startseite</a>
-                <a href="https://www.fom.de/studiengaenge.html">Studieng&auml;nge</a>
-                <a href="https://www.fom.de/campus-studium.html">Campus-Studium+</a>
-                <a href="https://www.fom.de/digitales-live-studium.html">Digitales Live-Studium</a>
+                <a href="https://www.fom.de/studiengangsfinder.html">Studieng&auml;nge</a>
+                <a href="https://www.fom.de/campus.html">Campus-Studium+</a>
+                <a href="https://www.fom.de/digital.html">Digitales Live-Studium</a>
                 <a href="https://www.fom.de/forschung.html">Forschung</a>
             </div>
             <div class="footer-links">
@@ -488,7 +489,7 @@
         </div>
         <div class="footer-bottom">
             <span>&copy; 2026 FOM Hochschule f&uuml;r Oekonomie &amp; Management</span>
-            <span><a href="https://www.fom.de/die-fom/impressum.html">Impressum</a> &nbsp; <a href="https://www.fom.de/die-fom/datenschutz.html">Datenschutz</a></span>
+            <span><a href="https://www.fom.de/impressum.html">Impressum</a> &nbsp; <a href="https://www.fom.de/datenschutz.html">Datenschutz</a></span>
         </div>
     </footer>
 
@@ -523,6 +524,13 @@
             blog_post: 'Blog'
         };
 
+        function toSlug(title) {
+            return title.toLowerCase()
+                .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
+                .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+                .substring(0, 115).replace(/-$/, '');
+        }
+
         function formatDate(d) {
             if (!d) return '';
             const str = typeof d === 'string' ? d : d.datetime || '';
@@ -547,7 +555,7 @@
             const container = document.getElementById('pageContent');
 
             if (!authorId) {
-                container.innerHTML = '<div class="loading"><p>Kein Autor angegeben. <a href="index.html">Zur&uuml;ck</a></p></div>';
+                container.innerHTML = '<div class="loading"><p>Kein Autor angegeben. <a href="/">Zur&uuml;ck</a></p></div>';
                 return;
             }
 
@@ -560,7 +568,7 @@
                 const author = allContacts.find(c => String(c.id) === String(authorId));
 
                 if (!author) {
-                    container.innerHTML = '<div class="loading"><p>Autor nicht gefunden. <a href="index.html">Zur&uuml;ck</a></p></div>';
+                    container.innerHTML = '<div class="loading"><p>Autor nicht gefunden. <a href="/">Zur&uuml;ck</a></p></div>';
                     return;
                 }
 
@@ -593,7 +601,7 @@
                         </div>
                     </section>
                     <div class="back-link">
-                        <a href="index.html">&larr; Zur&uuml;ck zum Newsroom</a>
+                        <a href="/">&larr; Zur&uuml;ck zum Newsroom</a>
                     </div>`;
 
                 container.innerHTML = html;
@@ -654,7 +662,7 @@
                     const img = a.image_medium || a.image_small || a.image || '';
                     const typeLabel = TYPE_LABELS[a.type_of_media] || a.type_of_media;
                     return `
-                        <a href="artikel.html?id=${a.id}&type=${a.type_of_media}" class="author-article-item">
+                        <a href="/${toSlug(a.header)}" class="author-article-item">
                             ${img ? `<img class="author-article-thumb" src="${img}" alt="" loading="lazy">` : ''}
                             <div class="author-article-body">
                                 <div class="author-article-meta">
@@ -667,7 +675,7 @@
                 }).join('');
 
             } catch (err) {
-                container.innerHTML = `<div class="loading"><p>Fehler: ${err.message}. <a href="index.html">Zur&uuml;ck</a></p></div>`;
+                container.innerHTML = `<div class="loading"><p>Fehler: ${err.message}. <a href="/">Zur&uuml;ck</a></p></div>`;
             }
         }
 

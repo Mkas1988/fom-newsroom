@@ -103,8 +103,6 @@
         /* ── State: scrolled (compact) ── */
         header.scrolled .header-inner { height: 56px; }
         header.scrolled .logo-img { height: 36px; }
-        header.scrolled .header-subtitle { opacity: 0; height: 0; margin: 0; }
-        header.scrolled .header-title { font-size: 20px; font-weight: 700; }
 
         .header-left {
             display: flex;
@@ -135,33 +133,31 @@
             transform: translate(-50%, -50%);
             text-decoration: none;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 1px;
             transition: opacity .3s ease;
         }
 
-        .header-title {
-            font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--fom-white);
-            line-height: 1.1;
-            letter-spacing: -0.3px;
-            transition: font-size .3s ease;
+        .logo-center-img {
+            height: 220px;
+            width: auto;
+            transition: height .3s ease, opacity .3s ease;
         }
 
-        .header-subtitle {
-            font-size: 11.5px;
-            font-weight: 400;
-            color: rgba(255,255,255,.95);
-            letter-spacing: 0.1px;
-            transition: opacity .3s ease, height .3s ease;
-            overflow: hidden;
-            height: 16px;
+        .logo-center-compact {
+            height: 120px;
+            width: auto;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: height .3s ease, opacity .3s ease;
         }
 
-        .logo-center:hover .header-title { opacity: .85; }
+        header.scrolled .logo-center-img { opacity: 0; height: 0; }
+        header.scrolled .logo-center-compact { opacity: 1; }
+
+        .logo-center:hover { opacity: .85; }
 
         .header-right {
             display: flex;
@@ -1461,7 +1457,7 @@
             margin-bottom: 18px;
         }
 
-        .footer-links a {
+        .footer-links a, .footer-links span {
             display: block;
             color: rgba(255,255,255,.75);
             text-decoration: none;
@@ -1574,6 +1570,7 @@
             .featured .card-body { padding: 28px; }
             .featured .card-title { font-size: 22px; }
             .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+            .footer-logo img { margin-left: 0; height: 80px; }
             .content { padding: 0 20px; }
             .section-title { font-size: 26px; }
             .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
@@ -1585,18 +1582,17 @@
     <!-- Header -->
     <header>
         <div class="header-inner">
-            <a href="index.html" class="header-left">
+            <a href="/" class="header-left">
                 <img class="logo-img" src="fom-logo-white.svg" alt="FOM Hochschule">
                 <span class="header-title-mobile">FOM Newsroom</span>
             </a>
-            <a href="index.html" class="logo-center">
-                <span class="header-title">FOM Newsroom</span>
-                <span class="header-subtitle">Das Medien-Portal der FOM Hochschule</span>
+            <a href="/" class="logo-center">
+                <img class="logo-center-img" src="FOM_NewsRoom_Logo_white.png" alt="FOM Newsroom">
+                <img class="logo-center-compact" src="FOM_NewsRoom_Logo_white_compact.png" alt="FOM Newsroom">
             </a>
             <div class="header-right">
                 <nav id="mainNav">
                     <a href="#" class="active">News</a>
-                    <a href="events.html">Events</a>
                     <a href="medien.html">Mediencenter</a>
                     <a href="kontakt.html">Kontakt</a>
                 </nav>
@@ -1622,8 +1618,7 @@
     <!-- Menu Backdrop + Slide-in Panel -->
     <div class="menu-backdrop" id="menuBackdrop" onclick="toggleMobileMenu()"></div>
     <div class="mobile-menu-overlay" id="mobileMenu">
-        <a href="index.html">News <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
-        <a href="events.html">Events <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
+        <a href="/">News <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
         <a href="medien.html">Mediencenter <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
         <a href="kontakt.html">Kontakt <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
         <a href="https://www.fom.de" target="_blank">fom.de <svg class="menu-chevron" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></a>
@@ -1681,7 +1676,7 @@
     <main class="content" id="news">
         <h1 class="sr-only">FOM Newsroom – Aktuelle Nachrichten der FOM Hochschule</h1>
         <div class="section-header">
-            <h2 class="section-title">News</h2>
+            <p class="section-title">News</p>
             <span class="section-count" id="resultCount"></span>
         </div>
         <div class="news-grid" id="newsGrid">
@@ -1703,7 +1698,7 @@
     <div class="admin-overlay" id="adminOverlay" onclick="if(event.target===this)closeAdmin()">
         <div class="admin-panel">
             <div class="admin-header">
-                <h2>Header verwalten</h2>
+                <p style="font-family:'Neue-Haas-Grotesk-Display-Pro',Helvetica,Arial,sans-serif;font-size:22px;font-weight:700;margin:0;">Header verwalten</p>
                 <button class="admin-close" onclick="closeAdmin()">&times;</button>
             </div>
             <div class="admin-tabs">
@@ -1730,17 +1725,16 @@
             </div>
             <div class="footer-links">
                 <strong class="footer-heading">Newsroom</strong>
-                <a href="index.html">News</a>
-                <a href="events.html">Events</a>
+                <a href="/">News</a>
                 <a href="medien.html">Mediencenter</a>
                 <a href="kontakt.html">Kontakt</a>
             </div>
             <div class="footer-links">
                 <strong class="footer-heading">FOM Hochschule</strong>
                 <a href="https://www.fom.de">Startseite</a>
-                <a href="https://www.fom.de/studiengaenge.html">Studieng&auml;nge</a>
-                <a href="https://www.fom.de/campus-studium.html">Campus-Studium+</a>
-                <a href="https://www.fom.de/digitales-live-studium.html">Digitales Live-Studium</a>
+                <a href="https://www.fom.de/studiengangsfinder.html">Studieng&auml;nge</a>
+                <a href="https://www.fom.de/campus.html">Campus-Studium+</a>
+                <a href="https://www.fom.de/digital.html">Digitales Live-Studium</a>
                 <a href="https://www.fom.de/forschung.html">Forschung</a>
             </div>
             <div class="footer-links">
@@ -1772,7 +1766,7 @@
         </div>
         <div class="footer-bottom">
             <span>&copy; 2026 FOM Hochschule f&uuml;r Oekonomie &amp; Management</span>
-            <span><a href="https://www.fom.de/die-fom/impressum.html">Impressum</a> &nbsp; <a href="https://www.fom.de/die-fom/datenschutz.html">Datenschutz</a></span>
+            <span><a href="https://www.fom.de/impressum.html">Impressum</a> &nbsp; <a href="https://www.fom.de/datenschutz.html">Datenschutz</a></span>
         </div>
     </footer>
 
@@ -1858,6 +1852,13 @@
             });
         }
 
+        function toSlug(title) {
+            return title.toLowerCase()
+                .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
+                .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+                .substring(0, 115).replace(/-$/, '');
+        }
+
         function stripHtml(html) {
             const tmp = document.createElement('div');
             tmp.innerHTML = html;
@@ -1870,7 +1871,7 @@
             const imageUrl = item.image_medium || item.image_small || item.image || '';
             const tags = (item.tags || []).slice(0, 3);
 
-            const articleUrl = `artikel.html?id=${item.id}&type=${item.type_of_media}`;
+            const articleUrl = `/${toSlug(item.header)}`;
             return `
                 <article class="card ${featured ? 'featured' : ''}" onclick="window.location.href='${articleUrl}'" style="cursor:pointer;">
                     ${imageUrl ? `<div class="card-image-wrap"><img class="card-image" src="${imageUrl}" alt="" loading="lazy"></div>` : ''}
@@ -2100,7 +2101,7 @@
 
                 return `
                     <div class="slide ${i === 0 ? 'active' : ''}" data-index="${i}">
-                        <a href="artikel.html?id=${item.id}&type=${item.type_of_media}">
+                        <a href="/${toSlug(item.header)}">
                             <img class="slide-image" src="${imageUrl}" alt="" loading="${i === 0 ? 'eager' : 'lazy'}">
                             <div class="slide-overlay"></div>
                             <div class="slide-content">
@@ -2108,7 +2109,7 @@
                                     <span class="slide-tag">${typeLabel}</span>
                                     <span class="slide-date">${formatSliderDate(item.published_at)}</span>
                                 </div>
-                                <h2 class="slide-title">${item.header}</h2>
+                                <p class="slide-title">${item.header}</p>
                                 <p class="slide-excerpt">${excerpt}</p>
                             </div>
                         </a>

@@ -7,28 +7,67 @@
     <meta name="description" content="Die angeforderte Seite konnte nicht gefunden werden.">
     <meta name="robots" content="noindex">
     <link rel="icon" href="fom-logo.png">
+    <link rel="preload" href="fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-55-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/Neue-Haas-Grotesk-Display-Pro/Neue-Haas-Grotesk-Display-Pro-75-Bold.woff2" as="font" type="font/woff2" crossorigin>
     <style>
         @font-face { font-family: 'Neue-Haas-Grotesk-Display-Pro'; src: url('fonts/Neue-Haas-Grotesk-Display-Pro/Neue-Haas-Grotesk-Display-Pro-75-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
         @font-face { font-family: 'Neue-Haas-Grotesk-Text-Pro'; src: url('fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-55-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+        @font-face { font-family: 'Neue-Haas-Grotesk-Text-Pro'; src: url('fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-75-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+
+        :root {
+            --fom-teal: #00C6B2;
+            --fom-teal-dark: #009F8F;
+            --fom-black: #121212;
+            --fom-gray: #6D6D6D;
+            --fom-gray-light: #E5E5E5;
+            --fom-white: #ffffff;
+        }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Neue-Haas-Grotesk-Text-Pro', Helvetica, Arial, sans-serif;
             background: #f5f5f5;
-            color: #121212;
+            color: var(--fom-black);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header-404 {
+            background: var(--fom-teal);
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header-404 a { text-decoration: none; display: flex; align-items: center; gap: 12px; }
+        .header-404 img { height: 44px; width: auto; }
+        .header-404 nav { display: flex; gap: 24px; }
+        .header-404 nav a {
+            color: rgba(255,255,255,.85);
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: color .2s;
+        }
+        .header-404 nav a:hover { color: white; }
+
+        /* Main */
+        .error-main {
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
             text-align: center;
-            padding: 40px 24px;
+            padding: 60px 24px 40px;
         }
         .error-code {
             font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
             font-size: 120px;
             font-weight: 700;
-            color: #00B5A5;
+            color: var(--fom-teal);
             line-height: 1;
             margin-bottom: 16px;
         }
@@ -38,9 +77,9 @@
             font-weight: 700;
             margin-bottom: 12px;
         }
-        p {
+        .error-text {
             font-size: 16px;
-            color: #6D6D6D;
+            color: var(--fom-gray);
             max-width: 480px;
             line-height: 1.6;
             margin-bottom: 32px;
@@ -50,7 +89,7 @@
             align-items: center;
             gap: 8px;
             padding: 14px 28px;
-            background: #00B5A5;
+            background: var(--fom-teal);
             color: white;
             text-decoration: none;
             border-radius: 8px;
@@ -58,24 +97,150 @@
             font-size: 15px;
             transition: background .2s;
         }
-        .back-link:hover { background: #009F8F; }
-        .footer-note {
-            position: absolute;
-            bottom: 24px;
-            font-size: 13px;
-            color: #6D6D6D;
+        .back-link:hover { background: var(--fom-teal-dark); }
+
+        /* Suggestions */
+        .suggestions {
+            max-width: 900px;
+            width: 100%;
+            margin: 48px auto 0;
+            text-align: left;
         }
-        .footer-note a { color: #00B5A5; text-decoration: none; }
-        .footer-note a:hover { text-decoration: underline; }
+        .suggestions-title {
+            font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .suggestions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .suggestion-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            text-decoration: none;
+            color: var(--fom-black);
+            box-shadow: 0 1px 3px rgba(0,0,0,.08);
+            transition: box-shadow .2s, transform .2s;
+        }
+        .suggestion-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,.12);
+            transform: translateY(-2px);
+        }
+        .suggestion-card img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+        }
+        .suggestion-card-body {
+            padding: 16px;
+        }
+        .suggestion-card-meta {
+            font-size: 12px;
+            color: var(--fom-gray);
+            margin-bottom: 8px;
+        }
+        .suggestion-card-title {
+            font-family: 'Neue-Haas-Grotesk-Display-Pro', Helvetica, Arial, sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        /* Footer */
+        .footer-404 {
+            background: #0b2623;
+            padding: 24px 32px;
+            text-align: center;
+            font-size: 13px;
+            color: rgba(255,255,255,.6);
+            margin-top: auto;
+        }
+        .footer-404 a { color: var(--fom-teal); text-decoration: none; }
+        .footer-404 a:hover { text-decoration: underline; }
+
+        @media (max-width: 768px) {
+            .header-404 nav { display: none; }
+            .error-code { font-size: 80px; }
+            h1 { font-size: 22px; }
+            .suggestions-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
-    <div class="error-code">404</div>
-    <h1>Seite nicht gefunden</h1>
-    <p>Die angeforderte Seite existiert nicht oder wurde verschoben. Kehren Sie zum Newsroom zur&uuml;ck, um aktuelle Nachrichten und Pressemitteilungen zu finden.</p>
-    <a href="/" class="back-link">&larr; Zur&uuml;ck zum Newsroom</a>
-    <div class="footer-note">
-        <a href="https://newsroom.fomhochschule.com">FOM Newsroom</a> &middot; <a href="https://www.fom.de">fom.de</a>
+    <div class="header-404">
+        <a href="/">
+            <img src="fom-logo-white.svg" alt="FOM Hochschule">
+        </a>
+        <nav>
+            <a href="/">News</a>
+            <a href="medien.html">Mediencenter</a>
+            <a href="kontakt.html">Kontakt</a>
+        </nav>
     </div>
+
+    <div class="error-main">
+        <div class="error-code">404</div>
+        <h1>Seite nicht gefunden</h1>
+        <p class="error-text">Die angeforderte Seite existiert nicht oder wurde verschoben. Kehren Sie zum Newsroom zur&uuml;ck, um aktuelle Nachrichten und Pressemitteilungen zu finden.</p>
+        <a href="/" class="back-link">&larr; Zur&uuml;ck zum Newsroom</a>
+
+        <div class="suggestions" id="suggestions" style="display:none;">
+            <p class="suggestions-title">Aktuelle Nachrichten</p>
+            <div class="suggestions-grid" id="suggestionsGrid"></div>
+        </div>
+    </div>
+
+    <div class="footer-404">
+        &copy; 2026 FOM Hochschule f&uuml;r Oekonomie &amp; Management &middot;
+        <a href="https://www.fom.de/impressum.html">Impressum</a> &middot;
+        <a href="https://www.fom.de/datenschutz.html">Datenschutz</a>
+    </div>
+
+    <script>
+        function toSlug(title) {
+            return title.toLowerCase()
+                .replace(/\u00e4/g,'ae').replace(/\u00f6/g,'oe').replace(/\u00fc/g,'ue').replace(/\u00df/g,'ss')
+                .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+                .substring(0, 115).replace(/-$/, '');
+        }
+
+        (async function() {
+            try {
+                const res = await fetch('https://www.mynewsdesk.com/services/pressroom/list/2J8377Ow95pCNFI_DPzZTQ?format=json&type_of_media=pressrelease&limit=3&strict=true');
+                const data = await res.json();
+                const items = data.items || [];
+                if (!items.length) return;
+
+                const grid = document.getElementById('suggestionsGrid');
+                grid.innerHTML = items.map(item => {
+                    const img = item.image_medium || item.image_small || '';
+                    const published = item.published_at;
+                    let dateStr = '';
+                    if (published) {
+                        const dt = typeof published === 'string' ? published : published.datetime || '';
+                        if (dt) {
+                            dateStr = new Date(dt).toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' });
+                        }
+                    }
+                    return `
+                        <a href="/${toSlug(item.header)}" class="suggestion-card">
+                            ${img ? `<img src="${img}" alt="" loading="lazy">` : ''}
+                            <div class="suggestion-card-body">
+                                <div class="suggestion-card-meta">${dateStr}</div>
+                                <div class="suggestion-card-title">${item.header}</div>
+                            </div>
+                        </a>
+                    `;
+                }).join('');
+
+                document.getElementById('suggestions').style.display = '';
+            } catch (e) { /* silently fail */ }
+        })();
+    </script>
 </body>
 </html>
