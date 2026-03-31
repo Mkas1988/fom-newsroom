@@ -36,5 +36,5 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local_path: './*'
-          remote_path: '/'
+          remote_path: '/public/'
           sftp_only: true
