@@ -313,7 +313,7 @@ def render_article_content(item, slug, all_articles, tag_index):
         tags_html = f'<div class="hero-tags">{tag_links}</div>'
 
     share_html = render_share_buttons(share_url, share_title)
-    share_html = share_html.replace("{{READING_TIME}}", str(reading_minutes))
+    share_html = share_html.replace("{READING_TIME}", str(reading_minutes))
 
     article_html += f'''
                     <section class="article-hero">
