@@ -49,7 +49,7 @@
             }
         </style>
         <div id="authBox">
-            <img src="fom-logo.png" alt="FOM">
+            <img src="/fom-logo.png" alt="FOM">
             <h2>FOM Newsroom</h2>
             <p>Bitte geben Sie das Passwort ein, um fortzufahren.</p>
             <form onsubmit="return checkAuth()">
