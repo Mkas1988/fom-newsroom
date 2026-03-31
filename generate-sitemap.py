@@ -124,7 +124,7 @@ def generate():
         slug_map[slug] = {"id": str(item_id), "type": item["_media_type"]}
 
         # Sitemap entry
-        loc = f"{SITE_URL}/{slug}"
+        loc = f"{SITE_URL}/{slug}/"
 
         updated = item.get("updated_at", {})
         lastmod = ""

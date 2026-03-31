@@ -1605,11 +1605,11 @@
                 }
                 const canonical = document.querySelector('link[rel="canonical"]');
                 const articleSlug = `${toSlug(item.header)}`;
-                const cleanUrl = `${window.location.origin}/${articleSlug}`;
+                const cleanUrl = `${window.location.origin}/${articleSlug}/`;
                 if (canonical) canonical.href = cleanUrl;
                 // Update URL bar to clean slug
                 if (window.history.replaceState) {
-                    window.history.replaceState(null, '', `/${articleSlug}`);
+                    window.history.replaceState(null, '', `/${articleSlug}/`);
                 }
                 const typeLabel = TYPE_LABELS[item.type_of_media] || item.type_of_media;
                 const tags = normalizeTags(item.tags);
@@ -1766,7 +1766,7 @@
                                     const riImage = ri.image_medium || ri.image_small || ri.image || '';
                                     const riType = ri.type_of_media || 'pressrelease';
                                     return `
-                                    <a href="/${toSlug(ri.header)}" class="related-card">
+                                    <a href="/${toSlug(ri.header)}/" class="related-card">
                                         ${riImage
                                             ? `<img class="related-card-image" src="${riImage}" alt="" loading="lazy">`
                                             : ''

@@ -5,28 +5,29 @@ RewriteBase /
 RewriteCond %{HTTPS} off
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# 301 Redirect: /artikel.html?slug=xxx -> /xxx
+# 301 Redirect: /artikel.html?slug=xxx -> /xxx/
 RewriteCond %{QUERY_STRING} ^slug=([^&]+)
-RewriteRule ^artikel\.html$ /%1? [R=301,L]
+RewriteRule ^artikel\.html$ /%1/? [R=301,L]
 
-# 301 Redirects: /artikel.html?id=xxx&type=yyy -> /slug
+# 301 Redirects: /artikel.html?id=xxx&type=yyy -> /slug/
 # (auto-generated rules are in _article_redirects.htaccess, paste them here after build)
 # Include generated ID->slug redirects below this line:
 
-# Remove trailing slash (except root and real directories)
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.+)/$ /$1 [L,R=301]
+# Add trailing slash to article directories (canonical URL format)
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_URI} !/$
+RewriteRule ^(.+)$ /$1/ [R=301,L]
 
 # If the request is for an existing file, serve it
 RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^ - [L]
 
 # If a directory exists with an index.html (SSG article pages), serve it
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
-RewriteRule ^(.+)$ /$1/index.html [L]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
 
 # Fallback for not-yet-generated articles -> artikel.html (client-side rendering)
+RewriteRule ^[a-z0-9][a-z0-9-]*/$ /artikel.html [L,QSA]
 RewriteRule ^[a-z0-9][a-z0-9-]*$ /artikel.html [L,QSA]
 
 # True 404 for everything else

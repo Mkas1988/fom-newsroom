@@ -297,7 +297,7 @@ def render_article_content(item, slug, all_articles, tag_index):
     word_count = len(plain_text.split()) if plain_text else 0
     reading_minutes = max(1, round(word_count / 200))
 
-    canonical_url = f"{SITE_URL}/{slug}"
+    canonical_url = f"{SITE_URL}/{slug}/"
     share_url = urllib.request.quote(canonical_url, safe="")
     share_title = urllib.request.quote(item.get("header", ""), safe="")
 
@@ -440,7 +440,7 @@ def render_related_articles(current_item, current_slug, all_articles, tag_index)
 
         img_html = f'<img class="related-card-image" src="{escape(ri_image)}" alt="" loading="lazy">' if ri_image else ""
         cards += f'''
-                                    <a href="/{ri_slug}" class="related-card">
+                                    <a href="/{ri_slug}/" class="related-card">
                                         {img_html}
                                         <div class="related-card-body">
                                             <div class="related-card-type">{escape(TYPE_LABELS.get(ri_type, ri_type))}</div>
@@ -468,8 +468,8 @@ def render_json_ld(item, slug):
         "@context": "https://schema.org",
         "@type": "NewsArticle",
         "headline": item.get("header", ""),
-        "url": f"{SITE_URL}/{slug}",
-        "mainEntityOfPage": {"@type": "WebPage", "@id": f"{SITE_URL}/{slug}"},
+        "url": f"{SITE_URL}/{slug}/",
+        "mainEntityOfPage": {"@type": "WebPage", "@id": f"{SITE_URL}/{slug}/"},
         "publisher": {
             "@type": "Organization",
             "name": "FOM Hochschule",
@@ -504,7 +504,7 @@ def render_page(item, slug, head_template, foot_template, all_articles, tag_inde
     title = f"{item.get('header', 'Artikel')} \u2013 FOM Newsroom"
     summary = item.get("summary") or strip_html(item.get("body", "")) or item.get("header", "")
     description = summary[:160]
-    canonical = f"{SITE_URL}/{slug}"
+    canonical = f"{SITE_URL}/{slug}/"
     image_url = item.get("image") or item.get("image_medium") or ""
 
     # Fill head template
@@ -538,7 +538,7 @@ def generate_redirect_rules(all_articles):
                 f"RewriteCond %{{QUERY_STRING}} ^id={re.escape(item_id)}"
                 f" [OR]\n"
                 f"RewriteCond %{{QUERY_STRING}} id={re.escape(item_id)}&\n"
-                f"RewriteRule ^artikel\\.html$ /{slug}? [R=301,L]\n"
+                f"RewriteRule ^artikel\\.html$ /{slug}/? [R=301,L]\n"
             )
     return "\n".join(rules)
 

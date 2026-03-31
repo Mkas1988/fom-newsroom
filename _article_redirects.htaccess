@@ -3,100 +3,100 @@
 
 RewriteCond %{QUERY_STRING} ^id=3436722 [OR]
 RewriteCond %{QUERY_STRING} id=3436722&
-RewriteRule ^artikel\.html$ /fom-hochschule-ehrt-engagierte-lehrende? [R=301,L]
+RewriteRule ^artikel\.html$ /fom-hochschule-ehrt-engagierte-lehrende/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=3436738 [OR]
 RewriteCond %{QUERY_STRING} id=3436738&
-RewriteRule ^artikel\.html$ /neuer-tiefstand-bei-unternehmensuebergaben? [R=301,L]
+RewriteRule ^artikel\.html$ /neuer-tiefstand-bei-unternehmensuebergaben/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=3415050 [OR]
 RewriteCond %{QUERY_STRING} id=3415050&
-RewriteRule ^artikel\.html$ /deutsche-post-ag-und-fom-hochschule-bilden-nachwuchskraefte-aus? [R=301,L]
+RewriteRule ^artikel\.html$ /deutsche-post-ag-und-fom-hochschule-bilden-nachwuchskraefte-aus/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=507771 [OR]
 RewriteCond %{QUERY_STRING} id=507771&
-RewriteRule ^artikel\.html$ /fom-edition-wird-in-den-scopus-index-aufgenommen? [R=301,L]
+RewriteRule ^artikel\.html$ /fom-edition-wird-in-den-scopus-index-aufgenommen/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=507774 [OR]
 RewriteCond %{QUERY_STRING} id=507774&
-RewriteRule ^artikel\.html$ /studium-ohne-abitur-fom-ist-beliebteste-private-hochschule-im-che-rankin? [R=301,L]
+RewriteRule ^artikel\.html$ /studium-ohne-abitur-fom-ist-beliebteste-private-hochschule-im-che-rankin/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=507775 [OR]
 RewriteCond %{QUERY_STRING} id=507775&
-RewriteRule ^artikel\.html$ /fom-dekan-prof-dr-david-matusiewicz-ist-co-host-big-bang-ki-festival-2026? [R=301,L]
+RewriteRule ^artikel\.html$ /fom-dekan-prof-dr-david-matusiewicz-ist-co-host-big-bang-ki-festival-2026/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=507777 [OR]
 RewriteCond %{QUERY_STRING} id=507777&
-RewriteRule ^artikel\.html$ /symposium-der-fom-und-ludwig-erhard-stiftung-beleuchtet-reformperspektiven-fuer-deutschland? [R=301,L]
+RewriteRule ^artikel\.html$ /symposium-der-fom-und-ludwig-erhard-stiftung-beleuchtet-reformperspektiven-fuer-deutschland/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=506965 [OR]
 RewriteCond %{QUERY_STRING} id=506965&
-RewriteRule ^artikel\.html$ /fom-hochschule-begruesst-erstsemester? [R=301,L]
+RewriteRule ^artikel\.html$ /fom-hochschule-begruesst-erstsemester/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=507175 [OR]
 RewriteCond %{QUERY_STRING} id=507175&
-RewriteRule ^artikel\.html$ /11-transfertagung-ehealth-society-wie-viel-ki-vertraegt-der-mensch? [R=301,L]
+RewriteRule ^artikel\.html$ /11-transfertagung-ehealth-society-wie-viel-ki-vertraegt-der-mensch/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=506946 [OR]
 RewriteCond %{QUERY_STRING} id=506946&
-RewriteRule ^artikel\.html$ /die-fom-ist-eine-der-beliebtesten-hochschulen-deutschlands? [R=301,L]
+RewriteRule ^artikel\.html$ /die-fom-ist-eine-der-beliebtesten-hochschulen-deutschlands/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=507160 [OR]
 RewriteCond %{QUERY_STRING} id=507160&
-RewriteRule ^artikel\.html$ /gute-vorsaetze-fuer-2026-gen-z-will-weniger-am-smartphone-sein? [R=301,L]
+RewriteRule ^artikel\.html$ /gute-vorsaetze-fuer-2026-gen-z-will-weniger-am-smartphone-sein/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=507169 [OR]
 RewriteCond %{QUERY_STRING} id=507169&
-RewriteRule ^artikel\.html$ /15-jahre-mint-netzwerk-essen? [R=301,L]
+RewriteRule ^artikel\.html$ /15-jahre-mint-netzwerk-essen/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=507163 [OR]
 RewriteCond %{QUERY_STRING} id=507163&
-RewriteRule ^artikel\.html$ /fom-und-stadt-schwelm-bilden-nachwuchskraefte-fuer-die-kommunale-sozialarbeit-aus? [R=301,L]
+RewriteRule ^artikel\.html$ /fom-und-stadt-schwelm-bilden-nachwuchskraefte-fuer-die-kommunale-sozialarbeit-aus/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=507166 [OR]
 RewriteCond %{QUERY_STRING} id=507166&
-RewriteRule ^artikel\.html$ /deutsche-geben-rund-500-euro-fuer-weihnachtsgeschenke-aus? [R=301,L]
+RewriteRule ^artikel\.html$ /deutsche-geben-rund-500-euro-fuer-weihnachtsgeschenke-aus/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=506949 [OR]
 RewriteCond %{QUERY_STRING} id=506949&
-RewriteRule ^artikel\.html$ /fom-hochschule-und-tu-sofia-bieten-berufsbegleitendes-promotionsprogramm-an? [R=301,L]
+RewriteRule ^artikel\.html$ /fom-hochschule-und-tu-sofia-bieten-berufsbegleitendes-promotionsprogramm-an/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=507167 [OR]
 RewriteCond %{QUERY_STRING} id=507167&
-RewriteRule ^artikel\.html$ /dax-konzerne-verstaerken-ki-fokus-aber-digital-leadership-bricht-ein? [R=301,L]
+RewriteRule ^artikel\.html$ /dax-konzerne-verstaerken-ki-fokus-aber-digital-leadership-bricht-ein/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=506968 [OR]
 RewriteCond %{QUERY_STRING} id=506968&
-RewriteRule ^artikel\.html$ /fom-absolventin-erhaelt-hochschulpreis-der-landeshauptstadt-muenchen? [R=301,L]
+RewriteRule ^artikel\.html$ /fom-absolventin-erhaelt-hochschulpreis-der-landeshauptstadt-muenchen/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=507153 [OR]
 RewriteCond %{QUERY_STRING} id=507153&
-RewriteRule ^artikel\.html$ /fom-hochschule-qualifiziert-aerztinnen-und-aerzte-fuer-fuehrungsaufgaben? [R=301,L]
+RewriteRule ^artikel\.html$ /fom-hochschule-qualifiziert-aerztinnen-und-aerzte-fuer-fuehrungsaufgaben/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=506960 [OR]
 RewriteCond %{QUERY_STRING} id=506960&
-RewriteRule ^artikel\.html$ /zwischen-hoffnung-und-sorge-so-blickt-deutschland-auf-ki? [R=301,L]
+RewriteRule ^artikel\.html$ /zwischen-hoffnung-und-sorge-so-blickt-deutschland-auf-ki/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=507154 [OR]
 RewriteCond %{QUERY_STRING} id=507154&
-RewriteRule ^artikel\.html$ /neuer-fom-master-vermittelt-wie-industrie-ki-sinnvoll-nutzen-kann? [R=301,L]
+RewriteRule ^artikel\.html$ /neuer-fom-master-vermittelt-wie-industrie-ki-sinnvoll-nutzen-kann/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=506972 [OR]
 RewriteCond %{QUERY_STRING} id=506972&
-RewriteRule ^artikel\.html$ /duales-studium-fom-hochschule-und-deutsche-bank-starten-kooperation? [R=301,L]
+RewriteRule ^artikel\.html$ /duales-studium-fom-hochschule-und-deutsche-bank-starten-kooperation/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=507158 [OR]
 RewriteCond %{QUERY_STRING} id=507158&
-RewriteRule ^artikel\.html$ /zehn-jahre-erfolgreiche-bildungspartnerschaft? [R=301,L]
+RewriteRule ^artikel\.html$ /zehn-jahre-erfolgreiche-bildungspartnerschaft/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=506935 [OR]
 RewriteCond %{QUERY_STRING} id=506935&
-RewriteRule ^artikel\.html$ /fom-hochschule-fuer-digitale-lehre-ausgezeichnet? [R=301,L]
+RewriteRule ^artikel\.html$ /fom-hochschule-fuer-digitale-lehre-ausgezeichnet/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=506937 [OR]
 RewriteCond %{QUERY_STRING} id=506937&
-RewriteRule ^artikel\.html$ /fom-hochschule-freut-sich-ueber-den-100-000sten-absolventen? [R=301,L]
+RewriteRule ^artikel\.html$ /fom-hochschule-freut-sich-ueber-den-100-000sten-absolventen/? [R=301,L]
 
 RewriteCond %{QUERY_STRING} ^id=507171 [OR]
 RewriteCond %{QUERY_STRING} id=507171&
-RewriteRule ^artikel\.html$ /zehn-jahre-partnerschaft-mit-international-college-of-management? [R=301,L]
+RewriteRule ^artikel\.html$ /zehn-jahre-partnerschaft-mit-international-college-of-management/? [R=301,L]
