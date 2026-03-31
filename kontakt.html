@@ -524,7 +524,7 @@
         .press-request-section {
             max-width: 1000px;
             margin: 0 auto;
-            padding: 0 32px 48px;
+            padding: 48px 32px 48px;
         }
 
         .press-request-card {
@@ -733,7 +733,7 @@
     <section class="page-hero">
         <div class="page-hero-inner">
             <h1>Pressestelle</h1>
-            <p>Die Pressestelle der FOM Hochschule ist die zentrale Anlaufstelle f&uuml;r Journalistinnen und Journalisten. Sie beantwortet Medienanfragen, vermittelt passende Interviewpartner, koordiniert Dreh- und Fototermine und informiert &uuml;ber aktuelle Entwicklungen in Studium, Lehre und Forschung.</p>
+            <p>Die Pressestelle der FOM Hochschule ist die zentrale Anlaufstelle f&uuml;r Journalistinnen und Journalisten.<br>Sie beantwortet Medienanfragen, vermittelt passende Interviewpartner, koordiniert Dreh- und Fototermine und informiert &uuml;ber aktuelle Entwicklungen in Studium, Lehre und Forschung.</p>
         </div>
     </section>
 
@@ -751,12 +751,38 @@
     <!-- Contact Cards -->
     <section class="kontakt-section">
         <div class="kontakt-grid" id="kontaktGrid">
-            <div class="loading">
-                <div class="spinner"></div>
-                <p>Lade Ansprechpartner...</p>
+            <div class="kontakt-card">
+                <img class="kontakt-avatar" src="https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,h_500,q_auto:good,w_500/bt82cwz12vzeehnhnjvdg1" alt="Christian Gierke">
+                <div class="kontakt-name">Dipl.-Soz. Wiss. Christian Gierke</div>
+                <div class="kontakt-role">Pressesprecher der FOM Hochschule</div>
+            </div>
+            <div class="kontakt-card">
+                <img class="kontakt-avatar" src="https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,h_500,q_auto:good,w_500/7rw3ux7p2nlg3yi4i6vuv8" alt="Nils Jewko">
+                <div class="kontakt-name">Nils Jewko M.A.</div>
+                <div class="kontakt-role">Pressereferent Hochschulkommunikation</div>
+            </div>
+            <div class="kontakt-card">
+                <img class="kontakt-avatar" src="https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,h_500,q_auto:good,w_500/iqqku2zjnl8rpuaet218qx" alt="David Knapp">
+                <div class="kontakt-name">David Knapp M.A.</div>
+                <div class="kontakt-role">Pressereferent Hochschulkommunikation</div>
+            </div>
+            <div class="kontakt-card">
+                <img class="kontakt-avatar" src="https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,h_500,q_auto:good,w_500/ik30zhzsj1sp9a5c40simn" alt="Sissy Niemann">
+                <div class="kontakt-name">Sissy Niemann M.A.</div>
+                <div class="kontakt-role">Pressereferentin Hochschulkommunikation</div>
+            </div>
+            <div class="kontakt-card">
+                <img class="kontakt-avatar" src="https://mnd-assets.mynewsdesk.com/image/upload/c_fill,dpr_auto,f_auto,g_auto,h_500,q_auto:good,w_500/ezkewe1f9z0noj5zsptddw" alt="Yasmin Lindner">
+                <div class="kontakt-name">Yasmin Lindner M.A.</div>
+                <div class="kontakt-role">Pressereferentin Forschungskommunikation</div>
+            </div>
+            <div class="kontakt-card">
+                <div class="kontakt-avatar-placeholder" style="font-size:28px;">&#9742;</div>
+                <div class="kontakt-links">
+                    <a href="tel:+4920181004722">0201/81004-722</a>
+                </div>
             </div>
         </div>
-        <!-- General contact card injected via JS -->
     </section>
 
     <!-- Press Request Modal -->
@@ -781,8 +807,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Redaktion / Medium *</label>
-                        <input type="text" name="medium" required>
+                        <label>Redaktion / Medium</label>
+                        <input type="text" name="medium">
                     </div>
                     <div class="form-row">
                         <div class="form-group">
@@ -808,10 +834,6 @@
                     <div class="form-group">
                         <label>Ihre Anfrage *</label>
                         <textarea name="anfrage" required placeholder="Beschreiben Sie Ihr Anliegen..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Deadline</label>
-                        <input type="text" name="deadline" placeholder="z.B. bis morgen 14 Uhr, flexibel">
                     </div>
                     <button type="submit" class="form-submit">Anfrage absenden &rarr;</button>
                 </form>
@@ -895,49 +917,7 @@
         const API_KEY = '2J8377Ow95pCNFI_DPzZTQ';
         const BASE_URL = 'https://www.mynewsdesk.com/services/pressroom';
 
-        async function loadContacts() {
-            const grid = document.getElementById('kontaktGrid');
-            try {
-                const res = await fetch(`${BASE_URL}/list/${API_KEY}?format=json&type_of_media=contact_person&limit=20`);
-                const data = await res.json();
-                const raw = data.items?.item || data.items || [];
-                const contacts = Array.isArray(raw) ? raw : [raw];
-
-                if (!contacts.length) {
-                    grid.innerHTML = '<p style="text-align:center;padding:60px;color:var(--fom-gray)">Keine Ansprechpartner verf&uuml;gbar.</p>';
-                    return;
-                }
-
-                const generalCard = `
-                    <div class="kontakt-card">
-                        <div class="kontakt-avatar-placeholder" style="font-size:28px;">&#9993;</div>
-                        <div class="kontakt-name">Kontakt</div>
-                        <div class="kontakt-role">Allgemeiner Kontakt</div>
-                        <div class="kontakt-links">
-                            <a href="mailto:presse@fom.de">presse@fom.de</a>
-                            <a href="tel:+4920181004722">0201/81004-722</a>
-                        </div>
-                    </div>`;
-                grid.innerHTML = contacts.map(c => {
-                    const avatarUrl = c.image_thumbnail_large || c.image_thumbnail_medium || c.image_small || '';
-                    const role = c.specialist || c.title || '';
-                    return `
-                        <div class="kontakt-card">
-                            ${avatarUrl
-                                ? `<img class="kontakt-avatar" src="${avatarUrl}" alt="${c.name}">`
-                                : `<div class="kontakt-avatar-placeholder">${(c.name || '?').charAt(0)}</div>`
-                            }
-                            <div class="kontakt-name">${c.name || ''}</div>
-                            ${role ? `<div class="kontakt-role">${role}</div>` : ''}
-                        </div>`;
-                }).join('') + generalCard;
-            } catch (e) {
-                grid.innerHTML = '<p style="text-align:center;padding:60px;color:#ef4444">Fehler beim Laden der Kontakte.</p>';
-                console.error('Contact load failed:', e);
-            }
-        }
-
-        loadContacts();
+        // Contacts are now static HTML – no API call needed
 
         // ── Expert Modal ──
         function openExpertModal() {
@@ -1003,8 +983,7 @@
                 `Redaktion/Medium: ${data.get('medium')}\n` +
                 `E-Mail: ${data.get('email')}\n` +
                 `Telefon: ${data.get('telefon') || '-'}\n` +
-                `Art: ${data.get('art')}\n` +
-                `Deadline: ${data.get('deadline') || '-'}\n\n` +
+                `Art: ${data.get('art')}\n\n` +
                 `Anfrage:\n${data.get('anfrage')}`
             );
             window.location.href = `mailto:presse@fom.de?subject=${subject}&body=${body}`;
