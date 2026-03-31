@@ -25,12 +25,20 @@ jobs:
         run: python generate-articles.py
 
       - name: Deploy via SFTP
+        env:
+          SFTP_HOST: ${{ secrets.FTP_SERVER }}
+          SFTP_USER: ${{ secrets.FTP_USERNAME }}
+          SFTP_PASS: ${{ secrets.FTP_PASSWORD }}
         run: |
-          sudo apt-get install -y -qq lftp
+          sudo apt-get install -y -qq lftp sshpass
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "$SFTP_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
           lftp -e "
             set sftp:auto-confirm yes;
+            set sftp:connect-program 'ssh -o StrictHostKeyChecking=no';
             set net:max-retries 3;
             set net:timeout 30;
+            open -u $SFTP_USER,$SFTP_PASS sftp://$SFTP_HOST;
             mirror -R --delete --verbose \
               --exclude ^\.git/ \
               --exclude ^\.github/ \
@@ -40,4 +48,4 @@ jobs:
               --exclude ^_article_redirects\.htaccess$ \
               ./ /;
             quit
-          " -u "${{ secrets.FTP_USERNAME }}","${{ secrets.FTP_PASSWORD }}" sftp://${{ secrets.FTP_SERVER }}:22
+          "
