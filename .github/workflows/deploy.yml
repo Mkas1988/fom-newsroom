@@ -24,27 +24,17 @@ jobs:
       - name: Generate static article pages
         run: python generate-articles.py
 
-      - name: Deploy via SFTP
-        env:
-          SFTP_HOST: ${{ secrets.FTP_SERVER }}
-          SFTP_USER: ${{ secrets.FTP_USERNAME }}
-          SFTP_PASS: ${{ secrets.FTP_PASSWORD }}
+      - name: Remove build-only files
         run: |
-          sudo apt-get install -y -qq lftp
-          cat > ~/.lftprc << 'LFTPRC'
-          set sftp:auto-confirm yes
-          set sftp:connect-program "ssh -o StrictHostKeyChecking=no"
-          set net:max-retries 3
-          set net:timeout 30
-          LFTPRC
-          lftp -u "${SFTP_USER},${SFTP_PASS}" "sftp://${SFTP_HOST}" -e "
-            mirror -R --delete --verbose \
-              --exclude ^\.git/ \
-              --exclude ^\.github/ \
-              --exclude ^\.gitignore$ \
-              --exclude ^generate-sitemap\.py$ \
-              --exclude ^generate-articles\.py$ \
-              --exclude ^_article_redirects\.htaccess$ \
-              ./ /;
-            quit
-          "
+          rm -rf .git .github .gitignore generate-sitemap.py generate-articles.py _article_redirects.htaccess
+
+      - name: Deploy via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          port: 22
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local_path: './*'
+          remote_path: '/'
+          sftp_only: true
