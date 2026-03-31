@@ -7,16 +7,6 @@
     <meta name="description" content="Die angeforderte Seite konnte nicht gefunden werden.">
     <meta name="robots" content="noindex">
     <link rel="icon" href="fom-logo.png">
-    <script>
-        // Route clean article URLs to artikel.html BEFORE page renders
-        (function() {
-            var path = window.location.pathname.replace(/^\//, '').replace(/\/$/, '');
-            var knownPages = ['', 'index.html', 'medien.html', 'kontakt.html', 'artikel.html', 'autor.html', 'admin.html', '404.html'];
-            if (path && path.indexOf('.') === -1 && knownPages.indexOf(path) === -1) {
-                window.location.replace('/artikel.html?slug=' + encodeURIComponent(path));
-            }
-        })();
-    </script>
     <link rel="preload" href="fonts/Neue-Haas-Grotesk-Text-Pro/Neue-Haas-Grotesk-Text-Pro-55-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="fonts/Neue-Haas-Grotesk-Display-Pro/Neue-Haas-Grotesk-Display-Pro-75-Bold.woff2" as="font" type="font/woff2" crossorigin>
     <style>

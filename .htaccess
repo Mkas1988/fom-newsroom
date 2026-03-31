@@ -5,18 +5,29 @@ RewriteBase /
 RewriteCond %{HTTPS} off
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# Remove trailing slash (except root)
+# 301 Redirect: /artikel.html?slug=xxx -> /xxx
+RewriteCond %{QUERY_STRING} ^slug=([^&]+)
+RewriteRule ^artikel\.html$ /%1? [R=301,L]
+
+# 301 Redirects: /artikel.html?id=xxx&type=yyy -> /slug
+# (auto-generated rules are in _article_redirects.htaccess, paste them here after build)
+# Include generated ID->slug redirects below this line:
+
+# Remove trailing slash (except root and real directories)
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.+)/$ /$1 [L,R=301]
 
-# If the request is for an existing file or directory, serve it
-RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d
+# If the request is for an existing file, serve it
+RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^ - [L]
 
-# Route clean article URLs (e.g. /507171-article-slug) to artikel.html
-# This is an internal rewrite — returns HTTP 200, not 404
-RewriteRule ^(.+)$ /artikel.html [L,QSA]
+# If a directory exists with an index.html (SSG article pages), serve it
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
+RewriteRule ^(.+)$ /$1/index.html [L]
 
-# Fallback: if mod_rewrite doesn't work, serve artikel.html as custom 404 page (HTTP 200 via PHP)
-ErrorDocument 404 /artikel.html
+# Fallback for not-yet-generated articles -> artikel.html (client-side rendering)
+RewriteRule ^[a-z0-9][a-z0-9-]*$ /artikel.html [L,QSA]
+
+# True 404 for everything else
+ErrorDocument 404 /404.html

@@ -21,6 +21,9 @@ jobs:
       - name: Generate sitemap
         run: python generate-sitemap.py
 
+      - name: Generate static article pages
+        run: python generate-articles.py
+
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
