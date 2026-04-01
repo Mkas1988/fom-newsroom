@@ -17,7 +17,7 @@ from datetime import datetime
 
 API_KEY = "2J8377Ow95pCNFI_DPzZTQ"
 BASE_URL = "https://www.mynewsdesk.com/services/pressroom"
-SITE_URL = "https://newsroom.fomhochschule.com"
+SITE_URL = "https://newsroom.fom.de"
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ARTIKEL_HTML = os.path.join(SCRIPT_DIR, "artikel.html")
